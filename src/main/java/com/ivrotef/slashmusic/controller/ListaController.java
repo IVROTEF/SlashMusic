@@ -48,7 +48,7 @@ public class ListaController {
   @RequestMapping(value = "/eliminar", method = RequestMethod.GET)
   public String eliminar(){
     try {
-      listaService.actualizar(listas);
+      listaService.actualizar(listas, user);
     } catch (Exception e) {}
     return "redirect:/listas/ver";
   }

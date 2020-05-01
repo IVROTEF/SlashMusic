@@ -97,8 +97,15 @@ public class ListaService {
     /* Actualiza las listas del usuario a las listas recibidas
     * Borra todas las listas y guarda las que el usuario no elimino
     */
-    public void actualizar (ArrayList<Lista> listas) {
-      repository.deleteAll();
+    public void actualizar (ArrayList<Lista> listas, String correo_usuario) {
+      // Selecciona las listas antiguas del usuario
+      Query query = entityManager.createQuery("FROM Lista l WHERE l.listaID.usuario =: correo", Lista.class);
+      query.setParameter("correo", correo_usuario);
+      // Las listas anteriores del usuario
+      ArrayList<Lista> listasAnteriores = (ArrayList<Lista>) query.getResultList();
+      // Borramos las listas anteriores del usuario
+      repository.deleteAll(listasAnteriores);
+      // Guardamos las nuevas listas
       repository.saveAll(listas);
     }
 }
