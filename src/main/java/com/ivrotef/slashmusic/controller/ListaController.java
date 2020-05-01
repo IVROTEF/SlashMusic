@@ -33,6 +33,8 @@ public class ListaController {
   public ModelAndView editar(){
     ModelAndView modelAndView = new ModelAndView ("EditarLista");
     modelAndView.addObject("listas", listas);
+    // el url para eliminar las listas descartadas
+    modelAndView.addObject("aceptar", "/listas/eliminar");
     return modelAndView;
   }
 
