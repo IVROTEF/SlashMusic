@@ -15,7 +15,7 @@
 
 <body>
 	<!-- Barra de navegacion  -->
-	<nav class="navbar navbar-expand-sm bg-dark navbar-dark" th:fragment= "navbar-header">
+	<nav class="navbar navbar-expand-sm bg-dark navbar-dark" th:fragment= "navbar">
       <div class="container">
 	  	<form class="form-inline" action="/action_page.php">
 	    	<input class="form-control mr-sm-2" type="text" placeholder="Ingresa tu busqueda" width= 100>
@@ -48,6 +48,38 @@
 		</ul>
 	</div>
 	</nav>
+
+  <!-- Popup para confirmar alguna accion
+     ${aceptar} el url al cual se redirige despues de presionar el boton de Aceptar
+  -->
+<div class="container" th:fragment = "confirmar-popup">
+  <!-- Modal -->
+  <div class="modal fade" id="confirmar">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title-center"> Confirmación</h4>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+          <h1  class= "text-center"></h1>¿Deseas continuar?
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <a class="btn btn-secondary" data-dismiss="modal" > Cancelar </a>
+          <a class="btn btn-success" th:href = "${aceptar}"> Aceptar</a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div>
+
 
 
 </body>
