@@ -20,6 +20,9 @@ public class Administrador {
   @Column(name = "correo")
   private String correo;
 
+  public Administrador(){
+  }
+
   public Administrador (String correo) {
     this.correo = correo;
   }

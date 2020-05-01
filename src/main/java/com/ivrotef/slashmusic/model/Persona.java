@@ -29,6 +29,9 @@ public class Persona {
   @OneToMany(mappedBy="autor")
   private List<Cancion> canciones;
 
+  public Persona (){
+  }
+
   public Persona (String correo, String password, String nombre) {
     this.correo = correo;
     this.password = password;

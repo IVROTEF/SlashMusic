@@ -34,6 +34,8 @@ public class Artista {
   )
   private List<Cancion> cancionesCreadas;
 
+  public Artista (){
+  }
 
   public Artista (String nombre) {
     this.nombre = nombre;

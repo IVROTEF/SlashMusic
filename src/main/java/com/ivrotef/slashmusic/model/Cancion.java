@@ -60,6 +60,9 @@ public class Cancion {
   @ManyToMany(mappedBy = "cancionesCreadas")
   private List<Artista> autores;
 
+  public Cancion (){
+  }
+
   public Cancion (String nombre, Blob archivo) {
     this.nombre = nombre;
     this.archivo = archivo;

@@ -30,6 +30,9 @@ public class Comentario implements Serializable {
   @Column(name = "comentario")
   private String comentario;
 
+  public Comentario (){
+  }
+
   public Comentario (Usuario usuario, Cancion cancion, String comentario) {
     this.usuario = usuario;
     this.cancion = cancion;

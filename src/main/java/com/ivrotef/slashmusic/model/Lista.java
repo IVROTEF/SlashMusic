@@ -38,6 +38,9 @@ public class Lista {
   /* Lista de canciones que contiene */
   private List<Cancion> canciones;
 
+  public Lista(){
+  }
+
   public Lista (ListaID listaID) {
     this.listaID = listaID;
     canciones = new ArrayList<Cancion>();
@@ -55,7 +58,7 @@ public class Lista {
     return this.canciones;
   }
 
-  public void setCanciones (ArrayList<Cancion> canciones ) {
+  public void setCanciones (List<Cancion> canciones ) {
     this.canciones = canciones;
   }
 
@@ -65,6 +68,20 @@ public class Lista {
 
   public void eliminarCancion (Cancion c) {
     this.canciones.remove(c);
+  }
+
+  @Override
+  public boolean equals(Object obj){
+    if (obj == this) { return true; }
+    if (obj == null || obj.getClass() != this.getClass()) {
+      return false;
+    }
+    Lista lista = (Lista) obj;
+    if (lista.getListaID().getUsuario().equals(this.listaID.getUsuario())
+        && lista.getListaID().getNombreLista().equals(this.listaID.getNombreLista())) {
+          return true;
+    }
+    return false;
   }
 
 }

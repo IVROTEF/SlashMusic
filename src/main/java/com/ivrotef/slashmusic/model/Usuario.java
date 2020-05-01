@@ -107,6 +107,9 @@ public class Usuario {
   )
   private List<Cancion> cancionesCompartidas;
 
+  public Usuario (){
+  }
+
   public Usuario(String correo) {
     this.correo = correo;
   }
