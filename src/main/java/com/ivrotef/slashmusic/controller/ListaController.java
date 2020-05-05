@@ -1,7 +1,10 @@
 package com.ivrotef.slashmusic.controller;
 
 import com.ivrotef.slashmusic.model.Lista;
+import com.ivrotef.slashmusic.model.Persona;
+import com.ivrotef.slashmusic.config.PersonaWrapper;
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,12 +22,12 @@ public class ListaController {
 
   ArrayList<Lista> listas;
 
-  String user = "m@ciencias.unam.mx";
 
   @RequestMapping(value = "/ver", method = RequestMethod.GET)
-  public ModelAndView verListas() {
+  public ModelAndView verListas(@AuthenticationPrincipal PersonaWrapper persona) {
     ModelAndView modelAndView = new ModelAndView ("VerListas");
-    check();
+    Persona actual = persona.getPersona();
+    check(actual);
     modelAndView.addObject("listas", listas);
     return modelAndView;
   }
@@ -39,16 +42,18 @@ public class ListaController {
   }
 
   @RequestMapping(value = "/editar/{nombreLista}" )
-  public String editarLista(@PathVariable("nombreLista") String nombreLista){
-    Lista descartado = listaService.obtenerListaNombre(user, nombreLista);
+  public String editarLista(@PathVariable("nombreLista") String nombreLista, @AuthenticationPrincipal PersonaWrapper persona){
+    Persona actual = persona.getPersona();
+    Lista descartado = listaService.obtenerListaNombre(actual.getCorreo(), nombreLista);
     listas.remove(descartado);
     return "redirect:/listas/editar";
   }
 
   @RequestMapping(value = "/eliminar", method = RequestMethod.GET)
-  public String eliminar(){
+  public String eliminar(@AuthenticationPrincipal PersonaWrapper persona){
+    Persona actual = persona.getPersona();
     try {
-      listaService.actualizar(listas, user);
+      listaService.actualizar(listas, actual.getCorreo());
     } catch (Exception e) {}
     return "redirect:/listas/ver";
   }
@@ -56,9 +61,9 @@ public class ListaController {
 
   /* Asigna la variable listas de la base de datos o la crea
     si aún no tiene listas el usuario */
-  private void check () {
+  private void check (Persona persona) {
     // Revisa si existen listas del usuario
-    listas = listaService.obtenerListasCorreo(user);
+    listas = listaService.obtenerListasCorreo(persona.getCorreo());
     // El usuario apenas se registro
     if (listas == null) {
       // Inicializamos la lista

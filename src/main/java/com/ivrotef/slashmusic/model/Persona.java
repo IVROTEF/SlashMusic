@@ -1,8 +1,13 @@
 package com.ivrotef.slashmusic.model;
 
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
+import javax.persistence.Transient;
+import javax.persistence.CascadeType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -26,8 +31,19 @@ public class Persona {
   @Column(name="nombre")
   private String nombre;
 
+  @Transient
+  private String passwordConfirm;
+
   @OneToMany(mappedBy="autor")
   private List<Cancion> canciones;
+
+  @OneToOne(mappedBy = "persona")
+  @NotFound(action=NotFoundAction.IGNORE)
+  private Usuario usuario;
+
+  @OneToOne(mappedBy = "persona")
+  @NotFound(action=NotFoundAction.IGNORE)
+  private Administrador administrador;
 
   public Persona (){
   }
@@ -68,6 +84,30 @@ public class Persona {
 
   public void setCanciones (List<Cancion> c){
     this.canciones = c;
+  }
+
+  public Usuario getUsuario () {
+    return this.usuario;
+  }
+
+  public void setUsuario (Usuario usuario) {
+    this.usuario = usuario;
+  }
+
+  public Administrador getAdministrador () {
+    return this.administrador;
+  }
+
+  public void setAdministrador (Administrador administrador) {
+    this.administrador = administrador;
+  }
+
+  public String getPasswordConfirm () {
+    return this.passwordConfirm;
+  }
+
+  public void setPasswordConfirm (String passwordConfirm) {
+    this.passwordConfirm = passwordConfirm;
   }
 
 }

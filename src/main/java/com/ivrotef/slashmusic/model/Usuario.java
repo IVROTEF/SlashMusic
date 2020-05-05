@@ -1,5 +1,11 @@
 package com.ivrotef.slashmusic.model;
 
+import com.ivrotef.slashmusic.model.Persona;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
+import javax.persistence.OneToOne;
+import javax.persistence.CascadeType;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.JoinTable;
@@ -20,6 +26,11 @@ public class Usuario {
   @Id
   @Column(name = "correo")
   private String correo;
+
+  @OneToOne(cascade = CascadeType.ALL)
+  @PrimaryKeyJoinColumn
+  @NotFound(action=NotFoundAction.IGNORE)
+  private Persona persona;
 
   /* Lista de usuarios favoritos del usuario actual */
   @ManyToMany
@@ -60,10 +71,6 @@ public class Usuario {
     inverseJoinColumns = { @JoinColumn(name = "artista")}
   )
   private List<Artista> artistasFavoritos;
-
-
-
-
 
 /*
   // Lista de canciones que el usuario ha comentado
@@ -112,6 +119,14 @@ public class Usuario {
 
   public Usuario(String correo) {
     this.correo = correo;
+  }
+
+  public Persona getPersona () {
+    return this.persona;
+  }
+
+  public void setPersona (Persona persona) {
+    this.persona = persona;
   }
 
   public String getCorreo () {

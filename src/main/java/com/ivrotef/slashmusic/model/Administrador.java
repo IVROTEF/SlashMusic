@@ -1,5 +1,12 @@
 package com.ivrotef.slashmusic.model;
 
+import com.ivrotef.slashmusic.model.Persona;
+
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
+import javax.persistence.OneToOne;
+import javax.persistence.CascadeType;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.ManyToMany;
@@ -20,11 +27,24 @@ public class Administrador {
   @Column(name = "correo")
   private String correo;
 
+  @OneToOne(cascade = CascadeType.ALL)
+  @PrimaryKeyJoinColumn
+  @NotFound(action=NotFoundAction.IGNORE)
+  private Persona persona;
+
   public Administrador(){
   }
 
   public Administrador (String correo) {
     this.correo = correo;
+  }
+
+  public void setPersona (Persona persona) {
+    this.persona = persona;
+  }
+
+  public Persona getPersona () {
+    return this.persona;
   }
 
   public String getCorreo () {
