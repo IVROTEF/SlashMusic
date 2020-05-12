@@ -110,10 +110,12 @@ public class ListaController {
       if (lista.getListaID().getNombreLista().equals(nombreLista)){
         if (!lista.contiene(nueva)) {
           lista.agregarCancion(nueva);
-          listaService.actualizar(listas, actual.getCorreo());
+          try {
+            listaService.actualizar(listas, actual.getCorreo());
+          } catch (Exception e) {}
         }
+        break;
       }
-      break;
     }
     return "redirect:/listas/ver/" + nombreLista;
   }
