@@ -6,6 +6,7 @@ import com.ivrotef.slashmusic.model.ListaID;
 import java.util.List;
 import java.util.ArrayList;
 
+import javax.persistence.FetchType;
 import javax.persistence.EmbeddedId;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -28,12 +29,12 @@ public class Lista {
   @EmbeddedId
   private ListaID listaID;
 
-  @ManyToMany
+  @ManyToMany(fetch = FetchType.EAGER)
   @JoinTable(
     name = "Contener",
-    joinColumns = {@JoinColumn(name = "usuario"),
-                   @JoinColumn(name = "nombre_lista")},
-    inverseJoinColumns = @JoinColumn(name = "cancion")
+    joinColumns = {@JoinColumn(name = "usuario", referencedColumnName="usuario"),
+                   @JoinColumn(name = "nombre_lista", referencedColumnName="nombre_lista")},
+    inverseJoinColumns = @JoinColumn(name = "cancion", referencedColumnName="nombre")
   )
   /* Lista de canciones que contiene */
   private List<Cancion> canciones;
@@ -84,4 +85,7 @@ public class Lista {
     return false;
   }
 
+  public boolean contiene (Cancion cancion) {
+    return canciones.contains(cancion);
+  }
 }

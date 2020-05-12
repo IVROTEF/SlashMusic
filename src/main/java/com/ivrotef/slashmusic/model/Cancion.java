@@ -1,5 +1,6 @@
 package com.ivrotef.slashmusic.model;
 
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.ManyToMany;
@@ -30,7 +31,7 @@ public class Cancion {
   private Persona autor;
 
   /* Lista de listas de reproducción donde aparece esta cancion */
-  @ManyToMany(mappedBy = "canciones")
+  @ManyToMany(mappedBy = "canciones",fetch = FetchType.EAGER)
   private List<Lista> listas;
 
 /*
@@ -91,6 +92,59 @@ public class Cancion {
 
   public void setComentarios (List<Comentario> comentarios) {
     this.comentarios = comentarios;
+  }
+
+  public void agregarLista (Lista lista) {
+    this.listas.add(lista);
+  }
+
+  public Persona getAutor () {
+    return this.autor;
+  }
+
+  public void setAutor (Persona autor) {
+    this.autor = autor;
+  }
+
+  public List<Lista> getListas() {
+    return this.listas;
+  }
+
+  public void setListas(List<Lista> listas) {
+    this.listas = listas;
+  }
+
+
+  public List<Usuario> getSeguidores () {
+    return this.seguidores;
+  }
+
+  public void setSeguidores (List<Usuario> seguidores) {
+    this.seguidores = seguidores;
+  }
+
+  public List<Usuario> getPropietarios () {
+    return this.propietarios;
+  }
+
+  public void setPropietarios (List<Usuario> propietarios) {
+    this.propietarios = propietarios;
+  }
+
+  public List<Usuario> getDistribuidores () {
+    return this.distribuidores;
+  }
+
+  public void setDistribuidores (List<Usuario> distribuidores){
+    this.distribuidores = distribuidores;
+  }
+
+  public List<Artista> getAutores () {
+    return this.autores;
+  }
+
+  public void setAutores (List<Artista> autores) {
+    this.autores = autores;
   }
 
 }

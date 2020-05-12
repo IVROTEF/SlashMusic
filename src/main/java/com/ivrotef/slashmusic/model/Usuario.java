@@ -1,5 +1,11 @@
 package com.ivrotef.slashmusic.model;
 
+import com.ivrotef.slashmusic.model.Persona;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
+import javax.persistence.OneToOne;
+import javax.persistence.CascadeType;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.JoinTable;
@@ -21,12 +27,17 @@ public class Usuario {
   @Column(name = "correo")
   private String correo;
 
+  @OneToOne(cascade = CascadeType.ALL)
+  @PrimaryKeyJoinColumn
+  @NotFound(action=NotFoundAction.IGNORE)
+  private Persona persona;
+
   /* Lista de usuarios favoritos del usuario actual */
   @ManyToMany
   @JoinTable(
     name = "Agregar_Usuario_Favorito",
-    joinColumns = { @JoinColumn(name = "usuario_uno") },
-    inverseJoinColumns = {@JoinColumn(name = "usuario_dos")}
+    joinColumns = { @JoinColumn(name = "usuario_uno", referencedColumnName="correo") },
+    inverseJoinColumns = {@JoinColumn(name = "usuario_dos", referencedColumnName="correo")}
   )
   private List<Usuario> usuariosFavoritos;
 
@@ -42,8 +53,8 @@ public class Usuario {
   @ManyToMany
   @JoinTable(
     name = "Agregar_Amigo",
-    joinColumns = { @JoinColumn(name = "usuario_uno") },
-    inverseJoinColumns = { @JoinColumn(name = "usuario_dos")}
+    joinColumns = { @JoinColumn(name = "usuario_uno", referencedColumnName="correo") },
+    inverseJoinColumns = { @JoinColumn(name = "usuario_dos", referencedColumnName="correo")}
   )
   private List<Usuario> amigos;
 
@@ -56,14 +67,10 @@ public class Usuario {
   @ManyToMany
   @JoinTable(
     name = "Agregar_Artista_Fav",
-    joinColumns = { @JoinColumn(name = "usuario")},
-    inverseJoinColumns = { @JoinColumn(name = "artista")}
+    joinColumns = { @JoinColumn(name = "usuario", referencedColumnName="correo")},
+    inverseJoinColumns = { @JoinColumn(name = "artista", referencedColumnName="nombre")}
   )
   private List<Artista> artistasFavoritos;
-
-
-
-
 
 /*
   // Lista de canciones que el usuario ha comentado
@@ -71,10 +78,10 @@ public class Usuario {
   @JoinTable(
     name = "Comentar",
     joinColumns = { @JoinColumns({
-                      @JoinColumn(name = "usuario"),
+                      @JoinColumn(name = "usuario", referencedColumnName="correo"),
                       @JoinColumn(name = "comentario")
                     }) },
-    inverseJoinColumns = { @JoinColumn(name = "cancion")}
+    inverseJoinColumns = { @JoinColumn(name = "cancion", referencedColumnName="nombre")}
   )
   private List<Cancion> comentariosCanciones;
 
@@ -84,8 +91,8 @@ public class Usuario {
   @ManyToMany
   @JoinTable(
     name = "Agregar_Favorito",
-    joinColumns = { @JoinColumn(name = "usuario")},
-    inverseJoinColumns = { @JoinColumn(name = "cancion")}
+    joinColumns = { @JoinColumn(name = "usuario", referencedColumnName="correo")},
+    inverseJoinColumns = { @JoinColumn(name = "cancion", referencedColumnName="nombre")}
   )
   private List<Cancion> cancionesFavoritas;
 
@@ -93,8 +100,8 @@ public class Usuario {
   @ManyToMany
   @JoinTable(
     name = "Pertenece_Usuario",
-    joinColumns = { @JoinColumn(name = "usuario")},
-    inverseJoinColumns = { @JoinColumn(name = "cancion")}
+    joinColumns = { @JoinColumn(name = "usuario", referencedColumnName="correo")},
+    inverseJoinColumns = { @JoinColumn(name = "cancion", referencedColumnName="nombre")}
   )
   private List<Cancion> cancionesPropias;
 
@@ -102,8 +109,8 @@ public class Usuario {
   @ManyToMany
   @JoinTable(
     name = "Compartir",
-    joinColumns = { @JoinColumn(name = "usuario")},
-    inverseJoinColumns = { @JoinColumn(name = "cancion")}
+    joinColumns = { @JoinColumn(name = "usuario", referencedColumnName="correo")},
+    inverseJoinColumns = { @JoinColumn(name = "cancion", referencedColumnName="nombre")}
   )
   private List<Cancion> cancionesCompartidas;
 
@@ -112,6 +119,14 @@ public class Usuario {
 
   public Usuario(String correo) {
     this.correo = correo;
+  }
+
+  public Persona getPersona () {
+    return this.persona;
+  }
+
+  public void setPersona (Persona persona) {
+    this.persona = persona;
   }
 
   public String getCorreo () {

@@ -18,6 +18,23 @@
 <body>
 	<!-- Barra de navegacion  -->
   <div th:insert="fragments/common :: navbar"></div>
+  <p th:text="Bienvenido + ${currentUsername}"> </p>
+
+  <div class="card-group">
+
+    <tr th:each="cancion : ${canciones}">
+
+    <div class="card" style="width: 18rem;">
+      <img class="card-img-top" src="..." alt="Imagen" >
+        <div class="card-body">
+          <h5 class="card-title" th:text="${cancion.nombre}"></h5>
+          <a class="btn btn-primary" th:href="@{'/listas/ver/lista_test_0/agregar/' + ${cancion.nombre}}">Agregar a lista_test_1</a>
+        </div>
+    </div>
+
+    </tr>
+
+  </div>
 
 
 </body>

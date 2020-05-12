@@ -29,8 +29,8 @@ public class Artista {
   @ManyToMany
   @JoinTable(
     name = "Pertenece_Artista",
-    joinColumns = { @JoinColumn(name = "artista")},
-    inverseJoinColumns = { @JoinColumn(name = "cancion")}
+    joinColumns = { @JoinColumn(name = "artista", referencedColumnName="nombre")},
+    inverseJoinColumns = { @JoinColumn(name = "cancion", referencedColumnName="nombre")}
   )
   private List<Cancion> cancionesCreadas;
 

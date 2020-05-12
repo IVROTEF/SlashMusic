@@ -16,6 +16,7 @@ import java.sql.SQLIntegrityConstraintViolationException;
 import com.ivrotef.slashmusic.controller.ListaRepository;
 import com.ivrotef.slashmusic.model.Lista;
 import com.ivrotef.slashmusic.model.ListaID;
+import com.ivrotef.slashmusic.model.Cancion;
 
 @Service
 public class ListaService {
@@ -52,6 +53,17 @@ public class ListaService {
       return listas;
     }
 
+/*
+    public ArrayList<Cancion> obtenerCanciones (String nombreLista) {
+      Query query = entityManager.createQuery("FROM Contener c WHERE c.nombre_lista =: nombreLista", Cancion.class);
+      query.setParameter("correo", correo_usuario);
+      ArrayList<Lista> listas = (ArrayList<Lista>) query.getResultList();
+      if (listas.size() == 0) {
+        return null;
+      }
+      return listas;
+    }
+*/
     /* Obtiene la lista del usuario identificado por el correo */
     public Lista obtenerListaNombre (String correo_usuario, String nombreLista){
       Query query = entityManager.createQuery("FROM Lista l WHERE l.listaID.usuario =: correo AND l.listaID.nombreLista =: lista", Lista.class);
@@ -88,7 +100,9 @@ public class ListaService {
         t = l.get();
         t.setListaID(lista.getListaID());
         t.setCanciones(lista.getCanciones());
-        t = repository.save(t);
+        try {
+          t = repository.save(t);
+        } catch (Exception e) { e.printStackTrace(); }
       }
       return t;
     }
