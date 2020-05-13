@@ -55,7 +55,7 @@ public class ListaController {
 
   @RequestMapping(value = "/editar", method = RequestMethod.GET)
   public ModelAndView editar(){
-    ModelAndView modelAndView = new ModelAndView ("EditarLista");
+    ModelAndView modelAndView = new ModelAndView ("EditarListas");
     modelAndView.addObject("listas", listas);
     // el url para eliminar las listas descartadas
     modelAndView.addObject("aceptar", "/listas/eliminar");
@@ -126,14 +126,52 @@ public class ListaController {
                              @AuthenticationPrincipal PersonaWrapper persona) {
     for (Lista lista : listas) {
       if (lista.getListaID().getNombreLista().equals(nombreLista)) {
+        listaService.eliminar(lista);
         lista.getListaID().setNombreLista(nuevoNombre);
-        try {
-          listaService.actualizar(lista);
-        } catch (Exception e) {}
+        listaService.guardar(lista);
         break;
       }
     }
     return "redirect:/listas/ver/" + nuevoNombre;
+  }
+
+  @RequestMapping(value="/ver/{nombreLista}/editar", method = RequestMethod.GET)
+  public ModelAndView editarListaCanciones(@PathVariable("nombreLista") String nombreLista,
+                             @AuthenticationPrincipal PersonaWrapper persona) {
+    Persona actual = persona.getPersona();
+    ModelAndView modelAndView = new ModelAndView("EditarLista");
+    for (Lista lista : listas) {
+      if (lista.getListaID().getNombreLista().equals(nombreLista)) {
+        modelAndView.addObject("lista_actual", lista);
+        break;
+      }
+    }
+    modelAndView.addObject("aceptar", "/listas/ver/" + nombreLista + "/eliminar" );
+    return modelAndView;
+  }
+
+
+  @RequestMapping(value="/ver/{nombreLista}/editar/{nombreCancion}", method = RequestMethod.GET)
+  public String editarCancion(@PathVariable("nombreLista") String nombreLista,
+                             @PathVariable("nombreCancion") String nombreCancion,
+                             @AuthenticationPrincipal PersonaWrapper persona) {
+    Persona actual = persona.getPersona();
+    Cancion descartado = cancionService.obtenerCancion(nombreCancion);
+    for (Lista lista : listas) {
+      if (lista.getListaID().getNombreLista().equals(nombreLista)) {
+        lista.eliminarCancion(descartado);
+        break;
+      }
+    }
+    return "redirect:/listas/ver/" + nombreLista +"/editar";
+  }
+
+  @RequestMapping(value="/ver/{nombreLista}/eliminar")
+  public String eliminarLista(@PathVariable("nombreLista") String nombreLista,
+                              @AuthenticationPrincipal PersonaWrapper persona) {
+    Persona actual = persona.getPersona();
+    listaService.actualizar(listas, actual.getCorreo());
+    return "redirect:/listas/ver/" + nombreLista;
   }
 
   /* Asigna la variable listas de la base de datos o la crea

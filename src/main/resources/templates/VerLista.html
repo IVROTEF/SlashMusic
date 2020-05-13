@@ -21,7 +21,8 @@
 
 
   	<div class = "container pt-5">
-  	    <a class="btn btn-info" role="button" data-toggle="modal" data-target="#guardarLista"> Editar </a>
+        <h1 th:utext="${lista_actual.listaID.nombreLista}"> Nombre </h1>
+  	    <a class="btn btn-info" role="button" data-toggle="modal" data-target="#guardarLista"> Cambiar nombre </a>
   	</div>
 
     <!---'/listas/ver/' + ${lista_actual.listaID.nombreLista} + '/editar' -->
@@ -41,6 +42,9 @@
   	</table>
   	</div>
 
+    <div class="container">
+    <a class="btn btn-danger" role="button" th:href="@{'/listas/ver/' + ${lista_actual.listaID.nombreLista}} + '/editar'"> Editar lista </a>
+    </div>
 
     <div class="modal fade" tabindex="-1" role="dialog" id="guardarLista">
       <div class="modal-dialog" role="document">
@@ -50,7 +54,7 @@
           </div>
           <div class="modal-body">
             <label for="message-text" class="col-form-label">Nombre:</label>
-            <input class="form-group" type="text" id="nombre" th:attr="value=${lista_actual.listaID.nombreLista}"></input>
+            <input class="form-group" type="text" id="nombre" th:attr="value=${lista_actual.listaID.nombreLista}" ></input>
           </div>
           <div class="modal-footer">
             <a type="button" class="btn btn-success" id="guardar" onclick="crear()">Guardar</a>
@@ -63,7 +67,10 @@
     <script th:inline="javascript">
       function crear(){
         var nombre = document.getElementById("nombre").value;
-        document.getElementById("guardar").href = "/listas/ver/" + '${lista_actual.listaID.nombreLista}' + "/cambiar_nombre/" + nombre.toString();
+        /*<![CDATA[*/
+        var anterior = /*[[${lista_actual.listaID.nombreLista}]]*/ null;
+        /*]]>*/
+        document.getElementById("guardar").href = "/listas/ver/" + anterior + "/cambiar_nombre/" + nombre.toString();
       }
     </script>
 

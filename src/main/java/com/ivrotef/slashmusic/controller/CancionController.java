@@ -15,19 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.ArrayList;
 
 @Controller
-@RequestMapping(value = "/")
 public class CancionController {
 
-  @Autowired
-  CancionService cancionService;
-
-  @RequestMapping(value = "/", method = RequestMethod.GET)
-  public ModelAndView verInicio(@AuthenticationPrincipal PersonaWrapper persona) {
-    ModelAndView modelAndView = new ModelAndView("index");
-    String correo = persona.getPersona().getCorreo();
-    modelAndView.addObject("currentUsername", correo);
-    modelAndView.addObject("canciones", cancionService.getCanciones());
-    return modelAndView;
-  }
 
 }

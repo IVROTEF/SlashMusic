@@ -64,7 +64,7 @@ public class ListaService {
       return listas;
     }
 */
-    /* Obtiene la lista del usuario identificado por el correo */
+    /* Obtiene la lista del usuario identificado por el correo y por el nombre de lista */
     public Lista obtenerListaNombre (String correo_usuario, String nombreLista){
       Query query = entityManager.createQuery("FROM Lista l WHERE l.listaID.usuario =: correo AND l.listaID.nombreLista =: lista", Lista.class);
       query.setParameter("correo", correo_usuario);

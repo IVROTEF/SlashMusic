@@ -147,4 +147,14 @@ public class Cancion {
     this.autores = autores;
   }
 
+  @Override
+  public boolean equals (Object o) {
+    Cancion c = (Cancion) o;
+    if (!c.getNombre().equals(this.nombre)){
+      return false;
+    }
+    
+    return true;
+  }
+
 }
