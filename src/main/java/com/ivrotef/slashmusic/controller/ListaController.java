@@ -124,14 +124,14 @@ public class ListaController {
   public String editarNombre(@PathVariable("nombreLista") String nombreLista,
                              @PathVariable("nuevoNombre") String nuevoNombre,
                              @AuthenticationPrincipal PersonaWrapper persona) {
+    Persona actual = persona.getPersona();
     for (Lista lista : listas) {
       if (lista.getListaID().getNombreLista().equals(nombreLista)) {
-        listaService.eliminar(lista);
         lista.getListaID().setNombreLista(nuevoNombre);
-        listaService.guardar(lista);
         break;
       }
     }
+    listaService.actualizar(listas, actual.getCorreo());
     return "redirect:/listas/ver/" + nuevoNombre;
   }
 
