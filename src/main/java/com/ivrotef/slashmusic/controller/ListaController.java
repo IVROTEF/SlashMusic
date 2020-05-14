@@ -35,7 +35,9 @@ public class ListaController {
     ModelAndView modelAndView = new ModelAndView ("VerListas");
     Persona actual = persona.getPersona();
     check(actual);
+    boolean hayListas = (listas.size() == 0) ? false : true;
     modelAndView.addObject("listas", listas);
+    modelAndView.addObject("hayListas", hayListas);
     return modelAndView;
   }
 
@@ -88,14 +90,17 @@ public class ListaController {
     Persona actual = persona.getPersona();
     check(actual);
     ModelAndView modelAndView = new ModelAndView("VerLista");
+    boolean hayCanciones = false;
     for (Lista lista : listas) {
       if (lista.getListaID().getNombreLista().equals(nombreLista)) {
         lista = listaService.obtenerListaId(new ListaID(actual.getCorreo(), nombreLista));
+        hayCanciones = (lista.getCanciones().size() == 0) ? false : true;
         modelAndView.addObject("lista_actual", lista);
         modelAndView.addObject("canciones", lista.getCanciones());
         break;
       }
     }
+    modelAndView.addObject("hayCanciones", hayCanciones);
     return modelAndView;
   }
 
@@ -106,6 +111,9 @@ public class ListaController {
     Persona actual = persona.getPersona();
     check(actual);
     Cancion nueva = cancionService.obtenerCancion(cancion);
+    if (listas.size() == 0) {
+
+    }
     for (Lista lista : listas) {
       if (lista.getListaID().getNombreLista().equals(nombreLista)){
         if (!lista.contiene(nueva)) {

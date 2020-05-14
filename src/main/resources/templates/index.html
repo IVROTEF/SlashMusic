@@ -43,11 +43,16 @@
         <div class="modal-body">
           <h6 class="modal-cancion" id="seleccionada"> Cancion </h6>
           <div class="form-group">
-            <select class="form-control" id="agregarListas">
-              <div th:each="lista : ${listas}">
-              <option th:value="${lista.listaID.nombreLista}" th:text="${lista.listaID.nombreLista}"></option>
-              </div>
-            </select>
+            <div th:if="${hayListas}">
+              <select class="form-control" id="agregarListas">
+                <div th:each="lista : ${listas}">
+                <option th:value="${lista.listaID.nombreLista}" th:text="${lista.listaID.nombreLista}"></option>
+                </div>
+              </select>
+            </div>
+            <div th:unless="${hayListas}" >
+              <a type="button" class="btn btn-secondary" href ="listas/ver/"> Crear una lista </a>
+            </div>
           </div>
 
         </div>

@@ -1,9 +1,12 @@
 package com.ivrotef.slashmusic.controller;
 
 import com.ivrotef.slashmusic.model.Persona;
+import com.ivrotef.slashmusic.model.Lista;
 import com.ivrotef.slashmusic.config.PersonaWrapper;
 import com.ivrotef.slashmusic.controller.ListaService;
 import com.ivrotef.slashmusic.controller.CancionService;
+
+import java.util.ArrayList;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,9 +40,15 @@ public class LogInController {
       Persona actual = persona.getPersona();
       ModelAndView modelAndView = new ModelAndView("index");
       String correo = persona.getPersona().getCorreo();
+      ArrayList<Lista> listas = listaService.obtenerListasCorreo(actual.getCorreo());
+      boolean hayListas = false;
+      if (listas != null){
+        hayListas = (listas.size() == 0) ? false : true;
+      }
       modelAndView.addObject("currentUsername", correo);
       modelAndView.addObject("canciones", cancionService.getCanciones());
-      modelAndView.addObject("listas", listaService.obtenerListasCorreo(actual.getCorreo()));
+      modelAndView.addObject("listas", listas);
+      modelAndView.addObject("hayListas", hayListas);
       return modelAndView;
     }
 }

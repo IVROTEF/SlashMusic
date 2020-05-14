@@ -28,22 +28,29 @@
     <!---'/listas/ver/' + ${lista_actual.listaID.nombreLista} + '/editar' -->
 
   	<div class = "container pt-3">
-  	<table class="table table-bordered">
-  	  <thead class ="thead-dark">
-  	    <tr>
-  	      <th scope="col">Canciones</th>
-  	    </tr>
-  	  </thead>
-  	  <tbody>
-  			<tr th:each="cancion : ${canciones}">
-  		    <td th:utext="${cancion.nombre}"></td>
-  		  </tr>
-  		</tbody>
-  	</table>
+      <div th:if="${hayCanciones}">
+      <table class="table table-bordered">
+    	  <thead class ="thead-dark">
+    	    <tr>
+    	      <th scope="col">Canciones</th>
+    	    </tr>
+    	  </thead>
+    	  <tbody>
+    			<tr th:each="cancion : ${canciones}">
+    		    <td th:utext="${cancion.nombre}"></td>
+    		  </tr>
+    		</tbody>
+    	</table>
+      </div>
+      <div th:unless="${hayCanciones}">
+        <h1 style="text-align:center"> Aun no tienes canciones agregadas </h1>
+      </div>
   	</div>
 
-    <div class="container">
-    <a class="btn btn-danger" role="button" th:href="@{'/listas/ver/' + ${lista_actual.listaID.nombreLista}} + '/editar'"> Editar lista </a>
+    <div th:if="${hayCanciones}">
+      <div class="container">
+      <a class="btn btn-danger" role="button" th:href="@{'/listas/ver/' + ${lista_actual.listaID.nombreLista}} + '/editar'"> Editar lista </a>
+      </div>
     </div>
 
     <div class="modal fade" tabindex="-1" role="dialog" id="guardarLista">

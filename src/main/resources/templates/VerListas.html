@@ -22,25 +22,32 @@
 
   	<div class = "container pt-5">
         <h1> Mis listas </h1>
-  	    <a href="/listas/editar" class="btn btn-info" role="button"> Editar </a>
+        <div th:if="${hayListas}">
+          <a href="/listas/editar" class="btn btn-info" role="button"> Editar </a>
+        </div>
   	</div>
 
   	<div class = "container pt-3">
-  	<table class="table table-hover">
-  	  <thead class ="thead-dark">
-  	    <tr>
-  	      <th scope="col">Mis listas</th>
-  	    </tr>
-  	  </thead>
-  	  <tbody>
-  			<tr th:each="lista : ${listas}">
-          <td>
-          <a th:href="@{'/listas/ver/' + ${lista.listaID.nombreLista}}" th:utext="${lista.listaID.nombreLista}" style="color:black"> Ver lista </a>
-          </td>
-        </tr>
-  		</tbody>
-  	</table>
-  	</div>
+      <div th:if="${hayListas}">
+        <table class="table table-hover">
+      	  <thead class ="thead-dark">
+      	    <tr>
+      	      <th scope="col">Mis listas</th>
+      	    </tr>
+      	  </thead>
+      	  <tbody>
+      			<tr th:each="lista : ${listas}">
+              <td>
+              <a th:href="@{'/listas/ver/' + ${lista.listaID.nombreLista}}" th:utext="${lista.listaID.nombreLista}" style="color:black"> Ver lista </a>
+              </td>
+            </tr>
+      		</tbody>
+      	</table>
+      </div>
+      <div th:unless="${hayListas}">
+        <h1 style="text-align:center">Todavia no tienes listas </h1>
+      </div>
+    </div>
 
 
   	<div class = "container pt-3" >
