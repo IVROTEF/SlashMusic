@@ -39,6 +39,11 @@ public class Administrador {
     this.correo = correo;
   }
 
+  public Administrador(Persona persona) {
+    this.persona = persona;
+    this.correo = persona.getCorreo();
+  }
+
   public void setPersona (Persona persona) {
     this.persona = persona;
   }

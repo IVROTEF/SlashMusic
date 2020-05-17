@@ -14,7 +14,8 @@
 </head>
 
 <body>
-	<!-- Barra de navegacion  -->
+
+	<!-- Barra de navegacion para usuario -->
 	<nav class="navbar navbar-expand-sm bg-dark navbar-dark" th:fragment= "navbar">
       <div class="container">
 	  	<form class="form-inline" action="/action_page.php">
@@ -48,6 +49,25 @@
 		</ul>
 	</div>
 	</nav>
+
+
+  <!-- Barra de navegacion para administrador -->
+	<nav class="navbar navbar-expand-sm bg-dark navbar-dark" th:fragment= "navbar-admin">
+      <div class="container">
+
+		 <ul class="nav nav-pills">
+
+		  <li class="nav-item">
+		    <a class="nav-link" href="/admin/inicio">Inicio</a>
+		  </li>
+
+		  <li class="nav-item">
+		    <a class="nav-link" href="/logout">Salir</a>
+		  </li>
+		</ul>
+	</div>
+	</nav>
+
 
   <!-- Popup para confirmar alguna accion
      ${aceptar} el url al cual se redirige despues de presionar el boton de Aceptar

@@ -28,6 +28,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
     http
        .authorizeRequests()
           .antMatchers("/resources/**", "/signup").permitAll()
+          .antMatchers("/admin/**").access("hasRole('ADMIN')")
           .anyRequest().authenticated()
           .and()
        .formLogin()

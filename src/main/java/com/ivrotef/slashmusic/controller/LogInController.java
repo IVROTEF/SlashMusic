@@ -35,8 +35,9 @@ public class LogInController {
         return "login";
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    public ModelAndView verInicio(@AuthenticationPrincipal PersonaWrapper persona) {
+    /*  Inicio para los usuarios */
+    @RequestMapping(value = "/inicio", method = RequestMethod.GET)
+    public ModelAndView verMenu (@AuthenticationPrincipal PersonaWrapper persona) {
       Persona actual = persona.getPersona();
       ModelAndView modelAndView = new ModelAndView("index");
       String correo = persona.getPersona().getCorreo();
@@ -50,5 +51,14 @@ public class LogInController {
       modelAndView.addObject("listas", listas);
       modelAndView.addObject("hayListas", hayListas);
       return modelAndView;
+    }
+
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public String verInicio(@AuthenticationPrincipal PersonaWrapper persona) {
+      Persona actual = persona.getPersona();
+      if (actual.getAdministrador() != null) {
+        return "redirect:/admin/inicio";
+      }
+      return "redirect:/inicio";
     }
 }
