@@ -57,7 +57,9 @@
 
         </div>
         <div class="modal-footer">
-          <a type="button" class="btn btn-success" id="guardar" onclick="insertar()">Guardar</a>
+          <div th:if="${hayListas}">
+            <a type="button" class="btn btn-success" id="guardar" onclick="insertar()">Guardar</a>
+          </div>
           <a type="button" class="btn btn-secondary" href="/" >Cancelar</a>
         </div>
       </div>
