@@ -31,9 +31,6 @@ public class Persona {
   @Column(name="nombre")
   private String nombre;
 
-  @Transient
-  private String passwordConfirm;
-
   @OneToMany(mappedBy="autor")
   private List<Cancion> canciones;
 
@@ -100,14 +97,6 @@ public class Persona {
 
   public void setAdministrador (Administrador administrador) {
     this.administrador = administrador;
-  }
-
-  public String getPasswordConfirm () {
-    return this.passwordConfirm;
-  }
-
-  public void setPasswordConfirm (String passwordConfirm) {
-    this.passwordConfirm = passwordConfirm;
   }
 
 }
