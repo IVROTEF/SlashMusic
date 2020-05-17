@@ -40,7 +40,7 @@ public class CancionService {
     }
 
     public ArrayList<Cancion> getCancionesSimilares (String id) {
-      Query query = entityManager.createQuery("FROM Cancion c WHERE c.nombre LIKE =: nombre", Cancion.class);
+      Query query = entityManager.createQuery("FROM Cancion c WHERE c.nombre LIKE :nombre", Cancion.class);
       query.setParameter("nombre", "%"+id+"%");
       ArrayList<Cancion> canciones = (ArrayList<Cancion>) query.getResultList();
       if (canciones.size() == 0) {
