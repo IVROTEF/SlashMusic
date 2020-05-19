@@ -10,7 +10,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import java.sql.Blob;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -23,7 +22,7 @@ public class Cancion {
   private String nombre;
 
   @Column(name = "archivo")
-  private Blob archivo;
+  private String archivo;
 
   /* La persona que subio la cancion */
   @ManyToOne
@@ -62,12 +61,23 @@ public class Cancion {
   private List<Artista> autores;
 
   public Cancion (){
+    this.listas = new ArrayList<Lista>();
+    this.comentarios = new ArrayList<Comentario>();
+    this.seguidores = new ArrayList<Usuario>();
+    this.propietarios = new ArrayList<Usuario>();
+    this.distribuidores = new ArrayList<Usuario>();
+    this.autores = new ArrayList<Artista>();
   }
 
-  public Cancion (String nombre, Blob archivo) {
+  public Cancion (String nombre, String archivo) {
     this.nombre = nombre;
     this.archivo = archivo;
     this.listas = new ArrayList<Lista>();
+    this.comentarios = new ArrayList<Comentario>();
+    this.seguidores = new ArrayList<Usuario>();
+    this.propietarios = new ArrayList<Usuario>();
+    this.distribuidores = new ArrayList<Usuario>();
+    this.autores = new ArrayList<Artista>();
   }
 
   public String getNombre () {
@@ -78,11 +88,11 @@ public class Cancion {
     this.nombre = nombre;
   }
 
-  public Blob getArchivo () {
+  public String getArchivo () {
     return this.archivo;
   }
 
-  public void setArchivo (Blob archivo) {
+  public void setArchivo (String archivo) {
     this.archivo = archivo;
   }
 
@@ -147,13 +157,21 @@ public class Cancion {
     this.autores = autores;
   }
 
+  public void asignarArtista (Artista artista) {
+    this.autores.add(artista);
+  }
+
+  public void asignarPropietario (Usuario usuario) {
+    this.propietarios.add(usuario);
+  }
+
   @Override
   public boolean equals (Object o) {
     Cancion c = (Cancion) o;
     if (!c.getNombre().equals(this.nombre)){
       return false;
     }
-    
+
     return true;
   }
 

@@ -60,4 +60,9 @@ public class CancionService {
       return t;
     }
 
+    public void guardar (Cancion cancion) {
+      repository.save(cancion);
+    }
+
+
 }

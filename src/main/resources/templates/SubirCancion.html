@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <title> Subir cancion </title>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+</head>
+
+<body>
+
+  <div th:if="${esAdmin}">
+    <div th:insert="fragments/common :: navbar-admin"></div>
+  </div>
+  <div th:unless="${esAdmin}">
+    <div th:insert="fragments/common :: navbar"></div>
+  </div>
+
+<div class="col-lg-4 offset-lg-4 col-md-6 offset-md-3 col-12">
+  <div class="container pt-5">
+
+  <form method="POST" th:action="@{/uploadFile}" enctype="multipart/form-data">
+    <h1 class="form-signin-heading pb-3 text-center"> Sube una cancion </h1>
+    
+    <div th:if="${message}">
+      <div class="container pt-5">
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+          <p th:text="${message}"> </p>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- SI VA A SUBIR LA CANCION UN ADMINISTRADOR EL AUTOR ES UN ARTISTA -->
+    <div th:if="${esAdmin}">
+      <div th:if="${hayArtistas}">
+        <h5> Selecciona un artista </h5>
+        <div class = "container pb-3">
+        <select class="form-control" name="autor" required>
+          <option value="">Selecciona un artista</option>
+          <div th:each="artista : ${artistas}">
+          <option th:value="${artista.nombre}" th:text="${artista.nombre}"></option>
+          </div>
+        </select>
+      </div>
+      </div>
+      <div th:unless="${hayArtistas}">
+        <h5> No existen artistas, para subir una cancion debes seleccionar un artista </h5>
+        <a type="button" class="btn btn-info mb-5 center" href ="/admin/agregar/artista"> Agregar artista</a>
+      </div>
+    </div>
+
+    <!-- SI EL USUARIO VA A SUBIR UNA CANCION, ENTONCES EL AUTOR ES EL USUARIO -->
+    <div th:unless="${esAdmin}">
+      <input type="hidden" name="autor" value=" ">
+    </div>
+
+    <div th:if="${hayArtistas or not esAdmin}">
+
+      <input type="file" class="pt-2" name="file" accept=".mp3" required/> <br></br>
+      <button class="btn btn-success" type="submit">Subir</button>
+    </div>
+
+  </form>
+</div>
+</div>
+
+
+</body>
+</html>

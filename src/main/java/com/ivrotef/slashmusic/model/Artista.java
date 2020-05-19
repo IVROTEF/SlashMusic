@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import java.sql.Blob;
 import java.util.List;
+import java.util.ArrayList;
 
 @Entity
 @Table(name="Artista")
@@ -35,10 +36,14 @@ public class Artista {
   private List<Cancion> cancionesCreadas;
 
   public Artista (){
+    seguidores = new ArrayList<Usuario>();
+    cancionesCreadas = new ArrayList<Cancion>();
   }
 
   public Artista (String nombre) {
     this.nombre = nombre;
+    seguidores = new ArrayList<Usuario>();
+    cancionesCreadas = new ArrayList<Cancion>();
   }
 
   public String getNombre () {
@@ -47,6 +52,10 @@ public class Artista {
 
   public void setNombre (String nombre) {
     this.nombre = nombre;
+  }
+
+  public void asignarCancion (Cancion cancion) {
+    this.cancionesCreadas.add(cancion);
   }
 
 }
