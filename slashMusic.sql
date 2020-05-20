@@ -52,7 +52,7 @@ CREATE TABLE Agregar_Usuario_Favorito (
 
 CREATE TABLE Cancion (
 	nombre VARCHAR(30) NOT NULL,	
-    archivo BLOB NULL,
+    archivo TEXT NULL,
     autor VARCHAR(40) NOT NULL,
     CONSTRAINT PK_Cancion PRIMARY KEY (nombre),
     CONSTRAINT FK_Cancion_Persona FOREIGN KEY (autor) 

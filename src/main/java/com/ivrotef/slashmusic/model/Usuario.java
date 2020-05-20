@@ -1,6 +1,8 @@
 package com.ivrotef.slashmusic.model;
 
 import com.ivrotef.slashmusic.model.Persona;
+import com.ivrotef.slashmusic.model.Cancion;
+
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 import javax.persistence.OneToOne;
@@ -17,7 +19,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import java.util.List;
-
+import java.util.ArrayList;
 
 @Entity
 @Table(name="Usuario")
@@ -31,6 +33,7 @@ public class Usuario {
   @PrimaryKeyJoinColumn
   @NotFound(action=NotFoundAction.IGNORE)
   private Persona persona;
+
 
   /* Lista de usuarios favoritos del usuario actual */
   @ManyToMany
@@ -115,12 +118,35 @@ public class Usuario {
   private List<Cancion> cancionesCompartidas;
 
   public Usuario (){
+    usuariosFavoritos = new ArrayList<Usuario>();
+    seguidores = new ArrayList<Usuario>();
+    comentarios = new ArrayList<Comentario>();
+    amigos = new ArrayList<Usuario>();
+    vecinos = new ArrayList<Usuario>();
+    artistasFavoritos = new ArrayList<Artista>();
+    cancionesFavoritas = new ArrayList<Cancion>();
+    cancionesPropias = new ArrayList<Cancion>();
+    cancionesCompartidas = new ArrayList<Cancion>();
   }
 
   public Usuario(String correo) {
     this.correo = correo;
+    usuariosFavoritos = new ArrayList<Usuario>();
+    seguidores = new ArrayList<Usuario>();
+    comentarios = new ArrayList<Comentario>();
+    amigos = new ArrayList<Usuario>();
+    vecinos = new ArrayList<Usuario>();
+    artistasFavoritos = new ArrayList<Artista>();
+    cancionesFavoritas = new ArrayList<Cancion>();
+    cancionesPropias = new ArrayList<Cancion>();
+    cancionesCompartidas = new ArrayList<Cancion>();
   }
 
+  public Usuario (Persona persona){
+    this.correo = persona.getCorreo();
+    this.persona = persona;
+  }
+  
   public Persona getPersona () {
     return this.persona;
   }
@@ -135,6 +161,10 @@ public class Usuario {
 
   public void setCorreo (String correo) {
     this.correo = correo;
+  }
+
+  public void agregarCancion (Cancion cancion) {
+    this.cancionesPropias.add(cancion);
   }
 
 }

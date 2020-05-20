@@ -3,9 +3,7 @@ package com.ivrotef.slashmusic.controller;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import com.ivrotef.slashmusic.model.Cancion;
+import com.ivrotef.slashmusic.model.Artista;
 
 @Repository
-public interface CancionRepository extends CrudRepository<Cancion, String>{
-  Cancion findByArchivo (String ruta);
-}
+public interface ArtistaRepository extends CrudRepository<Artista, String>{}
