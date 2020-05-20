@@ -74,16 +74,6 @@ CREATE TABLE Pertenece_Artista (
     REFERENCES Cancion (nombre)
 );
 
-CREATE TABLE Compartir (
-	usuario VARCHAR(20),
-    cancion VARCHAR(30),
-    CONSTRAINT PK_Compartir PRIMARY KEY (usuario, cancion),
-    CONSTRAINT FK_Compartir_Usuario FOREIGN KEY (usuario)
-    REFERENCES Usuario (correo),
-    CONSTRAINT FK_Compartir_Cancion FOREIGN KEY (cancion) 
-    REFERENCES Cancion (nombre)
-);
-
 CREATE TABLE Pertenece_Usuario (
 	usuario VARCHAR(20),
     cancion VARCHAR(30),
@@ -102,17 +92,6 @@ CREATE TABLE Agregar_Favorito (
     REFERENCES Usuario (correo),
 	CONSTRAINT FK_Agregar_Favorito_Cancion FOREIGN KEY (cancion) 
 	REFERENCES Cancion (nombre)		
-);
-
-CREATE TABLE Comentar (
-	usuario VARCHAR(20),
-    cancion VARCHAR(30),
-    comentario TEXT,
-    CONSTRAINT PK_Comentar PRIMARY KEY (usuario, cancion),
-    CONSTRAINT FK_Comentar_Usuario FOREIGN KEY (usuario)
-    REFERENCES Usuario (correo),
-	CONSTRAINT FK_Comentar_Cancion FOREIGN KEY (cancion) 
-	REFERENCES Cancion (nombre)	
 );
 
 CREATE TABLE Contener (
@@ -135,3 +114,38 @@ CREATE TABLE Agregar_Artista_Fav (
     CONSTRAINT FK_Agregar_Artista_Fav_Artista FOREIGN KEY (artista) 
     REFERENCES Artista (nombre)
 );
+
+CREATE TABLE Publicacion (
+    id_publicacion int(11) NOT NULL AUTO_INCREMENT, 
+    descripcion TEXT,
+    usuario VARCHAR(20),
+    cancion VARCHAR(30),
+    CONSTRAINT PK_Publicacion PRIMARY KEY (id_publicacion),  
+    CONSTRAINT FK_Publicacion_Usuario FOREIGN KEY (usuario)
+    REFERENCES Usuario (correo),
+    CONSTRAINT FK_Publicacion_Cancion FOREIGN KEY (cancion)
+    REFERENCES Cancion (nombre)
+);
+
+CREATE TABLE Comentario (
+    id_publicacion int(11) NOT NULL,
+    id_comentario int(11) NOT NULL auto_increment, 
+    comentario TEXT,
+	usuario VARCHAR(20),
+    CONSTRAINT PK_Comentar PRIMARY KEY (id_publicacion, id_comentario),
+    CONSTRAINT FK_Comentar_Publicacion FOREIGN KEY (id_publicacion)
+    REFERENCES Publicacion (id_publicacion),
+	CONSTRAINT FK_Comentar_Usuario FOREIGN KEY (usuario) 
+	REFERENCES Usuario (correo)	
+)ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT = 1;
+
+CREATE TABLE Publicacion_Compartida (
+    id_publicacion_original int(11) NOT NULL,
+    id_publicacion_compartida int(11) NOT NULL auto_increment,
+	usuario VARCHAR(20),
+    CONSTRAINT PK_Compartir PRIMARY KEY (id_publicacion_original, id_publicacion_compartida),
+    CONSTRAINT FK_Compartir_Publicacion FOREIGN KEY (id_publicacion_original)
+    REFERENCES Publicacion (id_publicacion),
+    CONSTRAINT FK_Compartir_Usuario FOREIGN KEY (usuario) 
+	REFERENCES Usuario (correo)	
+)ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT = 1;
