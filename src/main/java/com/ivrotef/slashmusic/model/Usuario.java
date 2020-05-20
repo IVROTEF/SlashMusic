@@ -48,10 +48,6 @@ public class Usuario {
   @ManyToMany(mappedBy = "usuariosFavoritos")
   private List<Usuario> seguidores;
 
-  /* Lista de comentarios que han hecho el usuario */
-  @OneToMany(mappedBy = "usuario")
-  private List<Comentario> comentarios;
-
   /* Lista de amigos del usuario actual */
   @ManyToMany
   @JoinTable(
@@ -75,21 +71,6 @@ public class Usuario {
   )
   private List<Artista> artistasFavoritos;
 
-/*
-  // Lista de canciones que el usuario ha comentado
-  @ManyToMany
-  @JoinTable(
-    name = "Comentar",
-    joinColumns = { @JoinColumns({
-                      @JoinColumn(name = "usuario", referencedColumnName="correo"),
-                      @JoinColumn(name = "comentario")
-                    }) },
-    inverseJoinColumns = { @JoinColumn(name = "cancion", referencedColumnName="nombre")}
-  )
-  private List<Cancion> comentariosCanciones;
-
-  */
-
   /* Lista de canciones favoritas del usuario */
   @ManyToMany
   @JoinTable(
@@ -108,38 +89,43 @@ public class Usuario {
   )
   private List<Cancion> cancionesPropias;
 
-  /* Lista de canciones que el usuario ha compartido */
-  @ManyToMany
-  @JoinTable(
-    name = "Compartir",
-    joinColumns = { @JoinColumn(name = "usuario", referencedColumnName="correo")},
-    inverseJoinColumns = { @JoinColumn(name = "cancion", referencedColumnName="nombre")}
-  )
-  private List<Cancion> cancionesCompartidas;
+  /* Comentarios que ha hecho el usuario. */
+  @OneToMany(mappedBy = "usuarioComentario")
+  private List<Comentario> comentarios;
+
+  /* Publicaciones que ha compartido el usuario. */
+  @OneToMany(mappedBy = "usuarioPC")
+  private List<PublicacionCompartida> publicacionesCompartidas;
+
+  /* Publicaciones del usuario. */ 
+  @OneToMany(mappedBy = "usuarioPublicacion")
+  private List<Publicacion> publicaciones;
 
   public Usuario (){
     usuariosFavoritos = new ArrayList<Usuario>();
     seguidores = new ArrayList<Usuario>();
-    comentarios = new ArrayList<Comentario>();
     amigos = new ArrayList<Usuario>();
     vecinos = new ArrayList<Usuario>();
     artistasFavoritos = new ArrayList<Artista>();
     cancionesFavoritas = new ArrayList<Cancion>();
     cancionesPropias = new ArrayList<Cancion>();
-    cancionesCompartidas = new ArrayList<Cancion>();
+    comentarios = new ArrayList<Comentario>();
+    publicacionesCompartidas = new ArrayList<PublicacionCompartida>();
+    publicaciones = new ArrayList<Publicacion>();
   }
 
   public Usuario(String correo) {
     this.correo = correo;
     usuariosFavoritos = new ArrayList<Usuario>();
     seguidores = new ArrayList<Usuario>();
-    comentarios = new ArrayList<Comentario>();
     amigos = new ArrayList<Usuario>();
     vecinos = new ArrayList<Usuario>();
     artistasFavoritos = new ArrayList<Artista>();
     cancionesFavoritas = new ArrayList<Cancion>();
     cancionesPropias = new ArrayList<Cancion>();
-    cancionesCompartidas = new ArrayList<Cancion>();
+    comentarios = new ArrayList<Comentario>();
+    publicacionesCompartidas = new ArrayList<PublicacionCompartida>();
+    publicaciones = new ArrayList<Publicacion>();
   }
 
   public Usuario (Persona persona){
@@ -167,4 +153,43 @@ public class Usuario {
     this.cancionesPropias.add(cancion);
   }
 
+  public List<Artista> getArtistasFavoritos () {
+    return this.artistasFavoritos;
+  }
+
+  public void setArtistasFavoritos(List<Artista> artistasFavoritos) {
+    this.artistasFavoritos = artistasFavoritos;
+  }
+
+  public List<Usuario> getUsuariosFavoritos () {
+    return this.usuariosFavoritos;
+  }
+
+  public void setUsuariosFavoritos(List<Usuario> usuariosFavoritos) {
+    this.usuariosFavoritos = usuariosFavoritos;
+  }
+
+  public List<Comentario> getComentarios () {
+    return this.comentarios;
+  }
+
+  public void setcomentarios (List<Comentario> comentarios) {
+    this.comentarios = comentarios;
+  }
+
+  public List<PublicacionCompartida> getPublicacionesCompartidas () {
+    return this.publicacionesCompartidas;
+  }
+
+  public void setPublicacionesCompartidas (List<PublicacionCompartida> publicacionesCompartidas) {
+    this.publicacionesCompartidas = publicacionesCompartidas;
+  }
+
+  public List<Publicacion> getPublicaciones () {
+    return this.publicaciones;
+  }
+
+  public void setPublicaciones (List<Publicacion> publicaciones) {
+    this.publicaciones = publicaciones;
+  }
 }
