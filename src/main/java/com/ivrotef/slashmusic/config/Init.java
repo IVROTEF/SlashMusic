@@ -3,9 +3,11 @@ package com.ivrotef.slashmusic.config;
 import javax.annotation.PostConstruct;
 
 import com.ivrotef.slashmusic.controller.AdministradorRepository;
+import com.ivrotef.slashmusic.controller.UsuarioRepository;
 import com.ivrotef.slashmusic.controller.PersonaService;
 import com.ivrotef.slashmusic.model.Administrador;
 import com.ivrotef.slashmusic.model.Persona;
+import com.ivrotef.slashmusic.model.Usuario;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -21,6 +23,9 @@ public class Init {
   private AdministradorRepository administradorRepository;
 
   @Autowired
+  private UsuarioRepository usuarioRepository;
+
+  @Autowired
   private PersonaService personaService;
 
   @PostConstruct
@@ -32,5 +37,10 @@ public class Init {
     persona.setAdministrador(admin);
     administradorRepository.save(admin);
 
+    // Usuarios
+    Persona persona1 = new Persona("example@email", encoder.encode("12345678"), "exampleuser");
+    Usuario usuario1 = new Usuario (persona1);
+    persona1.setUsuario(usuario1);
+    usuarioRepository.save(usuario1);
   }
 }

@@ -39,6 +39,11 @@ public class CancionService {
       return null;
     }
 
+    public Cancion obtenerCancionRuta (String ruta) {
+      Cancion cancion =  repository.findByArchivo(ruta);
+      return cancion;
+    }
+
     public Cancion actualizar (Cancion cancion) {
       Optional<Cancion> l = repository.findById(cancion.getNombre());
       Cancion t = null;

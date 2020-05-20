@@ -1,5 +1,8 @@
 package com.ivrotef.slashmusic.controller;
 
+import com.ivrotef.slashmusic.controller.CancionService;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.util.StringUtils;
@@ -15,22 +18,42 @@ import java.nio.file.Files;
 @Service
 public class FileService {
 
-    @Value("${app.upload.dir:${user.home}}")
+    @Value("${upload.path}")
     public String uploadDir;
 
+    @Autowired
+    CancionService cancionService;
+
     /* Guarda el archivo en la carpeta especificada por uploadDir y
-      regresa en un arreglo el nombre del archivo y su ruta */
-    public String[] uploadFile(MultipartFile file) {
-      String[] info = new String[2];
+      regresa la ruta del archivo ruta */
+    public String uploadFile(MultipartFile file){
+        String ruta = null;
         try {
+            ruta = obtenerRuta(uploadDir + File.separator + StringUtils.cleanPath(file.getOriginalFilename()));
             Path copyLocation = Paths
-                .get(uploadDir + File.separator + StringUtils.cleanPath(file.getOriginalFilename()));
-            info[0] = copyLocation.toString();
-            info[1] = file.getOriginalFilename();
+                .get(ruta);
             Files.copy(file.getInputStream(), copyLocation, StandardCopyOption.REPLACE_EXISTING);
         } catch (Exception e) {
-            e.printStackTrace();
+          e.printStackTrace();
         }
-        return info;
+
+        return ruta;
     }
+
+    /* Crea unaa ruta para el archivo, si ya existe,
+      crea una copia de la ruta y le agrega un numero */
+    public String obtenerRuta (String rt) {
+      if (cancionService.obtenerCancionRuta(rt) == null) {
+        return rt;
+      }
+      String tmp = "";
+      for (int i = 1;; i++) {
+        tmp = rt.substring(0, rt.length() - 4) + "(" + Integer.toString(i) + ")" + ".mp3";
+        if (cancionService.obtenerCancionRuta(tmp) == null) {
+          break;
+        }
+      }
+      return tmp;
+    }
+
 }

@@ -27,7 +27,7 @@
 
   <form method="POST" th:action="@{/uploadFile}" enctype="multipart/form-data">
     <h1 class="form-signin-heading pb-3 text-center"> Sube una cancion </h1>
-    
+
     <div th:if="${message}">
       <div class="container pt-5">
         <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -36,6 +36,15 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
+      </div>
+    </div>
+
+    <div th:if="${error != null}">
+      <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <p th:text="${error}"> </p>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
       </div>
     </div>
 
@@ -61,6 +70,13 @@
     <!-- SI EL USUARIO VA A SUBIR UNA CANCION, ENTONCES EL AUTOR ES EL USUARIO -->
     <div th:unless="${esAdmin}">
       <input type="hidden" name="autor" value=" ">
+    </div>
+
+    <div class="form-group">
+      <h5> Nombre </h5>
+        <input type="text" name="nombreCancion" path="nombreCancion" class="form-control" placeholder="Nombre de la cancion"
+            autofocus="true" title="Debe tener una longitud de al menos 6 caracteres y maximo 30"
+            pattern=".{6,30}"  required></input>
     </div>
 
     <div th:if="${hayArtistas or not esAdmin}">

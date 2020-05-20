@@ -6,7 +6,6 @@ import com.ivrotef.slashmusic.model.Cancion;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 import javax.persistence.OneToOne;
-import javax.persistence.FetchType;
 import javax.persistence.CascadeType;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.ManyToMany;
@@ -34,6 +33,7 @@ public class Usuario {
   @PrimaryKeyJoinColumn
   @NotFound(action=NotFoundAction.IGNORE)
   private Persona persona;
+
 
   /* Lista de usuarios favoritos del usuario actual */
   @ManyToMany
@@ -142,6 +142,11 @@ public class Usuario {
     cancionesCompartidas = new ArrayList<Cancion>();
   }
 
+  public Usuario (Persona persona){
+    this.correo = persona.getCorreo();
+    this.persona = persona;
+  }
+  
   public Persona getPersona () {
     return this.persona;
   }
