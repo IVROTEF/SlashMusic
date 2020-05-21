@@ -12,7 +12,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-  
+
 </head>
 
 <body>
@@ -77,21 +77,30 @@
 
 
   <div class="container offset-md-3 pb-5" style="position:fixed;bottom:0">
-    <audio id="myAudio" style="width: 700px;" autoplay controls> </audio>
+    <audio id="myAudio" style="width: 700px;" type ="audio/mp3" src="" controls> </audio>
   </div>
 
 </body>
 
   <script>
-    var myAudio = document.getElementById("myAudio");
     var isPlaying = false;
-
+    var myAudio = document.getElementById("myAudio");
     function play(archivo) {
-      myAudio.src=archivo;
-      if (isPlaying) {
-        myAudio.pause()
-      } else {
+      if (archivo != myAudio.src && myAudio.src != "" && myAudio.src != undefined ) {
+        if (isPlaying){
+          myAudio.pause()
+        }
+        myAudio.src=archivo;
+        myAudio.load();
         myAudio.play();
+      } else {
+        if (isPlaying) {
+          myAudio.pause()
+        } else {
+          //myAudio.src=archivo;
+          myAudio.load();
+          myAudio.play();
+        }
       }
     };
 
