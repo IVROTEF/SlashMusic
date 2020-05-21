@@ -24,12 +24,14 @@ public class FileService {
     @Autowired
     CancionService cancionService;
 
-    /* Guarda el archivo en la carpeta especificada por uploadDir y
-      regresa la ruta del archivo ruta */
+    /* Guarda el archivo en la carpeta especificada por
+       uploadDir y regresa el nombre del archivo */
     public String uploadFile(MultipartFile file){
         String ruta = null;
+        String archivo = null;
         try {
-            ruta = obtenerRuta(uploadDir + File.separator + StringUtils.cleanPath(file.getOriginalFilename()));
+            ruta = obtenerRuta (uploadDir + File.separator + StringUtils.cleanPath(file.getOriginalFilename()));
+            archivo = obtenerArchivo (ruta);
             Path copyLocation = Paths
                 .get(ruta);
             Files.copy(file.getInputStream(), copyLocation, StandardCopyOption.REPLACE_EXISTING);
@@ -37,23 +39,38 @@ public class FileService {
           e.printStackTrace();
         }
 
-        return ruta;
+        return archivo;
     }
 
     /* Crea unaa ruta para el archivo, si ya existe,
       crea una copia de la ruta y le agrega un numero */
     public String obtenerRuta (String rt) {
-      if (cancionService.obtenerCancionRuta(rt) == null) {
+      if (cancionService.obtenerCancionArchivo(obtenerArchivo(rt)) == null) {
         return rt;
       }
       String tmp = "";
       for (int i = 1;; i++) {
         tmp = rt.substring(0, rt.length() - 4) + "(" + Integer.toString(i) + ")" + ".mp3";
-        if (cancionService.obtenerCancionRuta(tmp) == null) {
+        if (cancionService.obtenerCancionArchivo(obtenerArchivo(tmp)) == null) {
           break;
         }
       }
       return tmp;
+    }
+
+
+    /* Obtiene el nombre del archivo guardado por la ruta */
+    public String obtenerArchivo (String ruta) {
+      int t;
+      char c;
+      for (t = ruta.length() - 1 ; t > 0 ; t--) {
+        c = ruta.charAt(t);
+        if (Character.toString(c).equals(File.separator)) {
+          break;
+        }
+      }
+      String archivo = ruta.substring(t+1, ruta.length());
+      return archivo;
     }
 
 }
