@@ -23,16 +23,98 @@
   	<table class="table table-bordered">
   	  <thead class ="thead-dark">
   	    <tr>
-  	      <th scope="col">Resultados de la búsqueda</th>
+			<th scope="col">Canciones Relacionadas</th>
+			<th scope="col">Reproducir</th>
+			<th scope="col">Favoritos</th>
+			<th scope="col">Listas</th>
   	    </tr>
   	  </thead>
   	  <tbody>
-  			<tr th:each="lista : ${listas}">
-  		    <td th:utext="${lista.nombre}"></td>
+  			<tr th:each="li : ${listas}">
+			  <td th:utext="${li.nombre}"></td>
+			  <td> <a  class="btn btn-success" type="submit"> Reproducir </a> </td>
+			  <td><a class="btn btn-info" role="button" data-toggle="modal" data-target="#agregar" th:attr="data-cancion=${li.nombre}"> Agregar a favoritos </a></td> 
+			 <td><a class="btn btn-info" role="button" data-toggle="modal" data-target="#agregar" th:attr="data-cancion=${li.nombre}"> Agregar a una lista </a></td> 
+  		  </tr>
+		  </tbody>
+		  <thead class ="thead-dark">
+			<tr>
+			  <th scope="col">Artistas Relacionados</th>
+			  <th scope="col">Accion</th>
+			</tr>
+		  </thead>
+  	  </thead>
+  	  <tbody>
+  			<tr th:each="listas : ${listasArt}">
+			  <td th:utext="${listas.nombre}"></td>
+			  <td><a class="btn btn-info" role="button" data-toggle="modal" data-target="#agregar" th:attr="data-cancion=${listas.nombre}"> Agregar a favoritos </a></td> 
+  		  </tr>
+		  </tbody>
+		  
+		  <thead class ="thead-dark">
+			<tr>
+			  <th scope="col">Usuarios Relacionados</th>
+			  <th scope="col">Accion</th>
+			</tr>
+		  </thead>
+  	  </thead>
+  	  <tbody>
+  			<tr th:each="list : ${listasUs}">
+			  <td th:utext="${list.nombre}"></td>
+			  <td><a class="btn btn-info" role="button" data-toggle="modal" data-target="#agregar" th:attr="data-cancion=${list.nombre}"> Agregar a favoritos </a></td> 
   		  </tr>
   		</tbody>
   	</table>
-  	</div>
+	  </div>
+	  
+	  <div class="modal fade" tabindex="-1" role="dialog" id="agregar">
+		<div class="modal-dialog" role="document">
+		  <div class="modal-content">
+			<div class="modal-header">
+			  <h5 class="modal-title">Escoge una lista para agregar</h5>
+			</div>
+			<div class="modal-body">
+			  <h6 class="modal-cancion" id="seleccionada"> Cancion </h6>
+			  <div class="form-group">
+				<div th:if="${hayListas}">
+				  <select class="form-control" id="agregarListas">
+					<div th:each="lista : ${list}">
+					<option th:value="${lista.listaID.nombreLista}" th:text="${lista.listaID.nombreLista}"></option>
+					</div>
+				  </select>
+				</div>
+				<div th:unless="${hayListas}" >
+				  <a type="button" class="btn btn-secondary" href ="listas/ver/"> Crear una lista </a>
+				</div>
+			  </div>
+	
+			</div>
+			<div class="modal-footer" >
+			  <a type="button" class="btn btn-success" id="guardar" onclick="insertar()">Guardar</a>
+			  <a type="button" class="btn btn-secondary" href= "/" >Cancelar</a>
+			</div>
+		  </div>
+		</div>
+	  </div>
+	
+	  <script th:inline="javascript">
+	  function insertar() {
+		var cancion = document.getElementById('seleccionada').innerHTML;
+		var lista = $('#agregarListas').find("option:selected").val();
+		document.getElementById("guardar").href = "/listas/ver/" + lista + "/agregar/" + cancion;
+	  }
+	  </script>
+	
+	</body>
+	
+	  <script>
+	  $('#agregar').on('show.bs.modal', function (event) {
+		  var boton = $(event.relatedTarget)
+		  var cancion = boton.data('cancion');
+		  var modal = $(this)
+		  modal.find('.modal-cancion').text(cancion)
+	  })
+	  </script>
 
 </body>
 </html>
