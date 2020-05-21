@@ -1,15 +1,11 @@
 package com.ivrotef.slashmusic.controller;
 
-import com.ivrotef.slashmusic.model.Publicacion;
-import com.ivrotef.slashmusic.model.Comentario;
-import com.ivrotef.slashmusic.model.ComentarioID;
-import com.ivrotef.slashmusic.model.PublicacionCompartida;
-import com.ivrotef.slashmusic.model.PublicacionCompartidaID;
+import com.ivrotef.slashmusic.model.Usuario;
+import com.ivrotef.slashmusic.model.Artista;
 import com.ivrotef.slashmusic.model.Persona;
 import com.ivrotef.slashmusic.config.PersonaWrapper;
-import com.ivrotef.slashmusic.controller.PublicacionService;
-import com.ivrotef.slashmusic.controller.ComentarioService;
-import com.ivrotef.slashmusic.controller.PublicacionCompartidaService;
+import com.ivrotef.slashmusic.controller.UsuarioService;
+import com.ivrotef.slashmusic.controller.ArtistaService;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +17,13 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.ArrayList;
 
 @Controller
-@RequestMapping(value = "/inicio")
-public class PublicacionController {
-    
+@RequestMapping(value = "/favoritos")
+public class UsuarioController {
+
+  @Autowired
+  UsuarioService usuario;
+  
+  @Autowired
+  ArtistaService listaService;
+
 }
