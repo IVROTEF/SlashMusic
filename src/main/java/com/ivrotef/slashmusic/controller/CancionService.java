@@ -39,7 +39,7 @@ public class CancionService {
       return null;
     }
 
-    public Cancion obtenerCancionRuta (String ruta) {
+    public Cancion obtenerCancionArchivo (String ruta) {
       Cancion cancion =  repository.findByArchivo(ruta);
       return cancion;
     }
