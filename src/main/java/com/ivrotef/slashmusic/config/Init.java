@@ -38,9 +38,13 @@ public class Init {
     administradorRepository.save(admin);
 
     // Usuarios
-    Persona persona1 = new Persona("example@email", encoder.encode("12345678"), "exampleuser");
-    Usuario usuario1 = new Usuario (persona1);
-    persona1.setUsuario(usuario1);
-    usuarioRepository.save(usuario1);
+    for (int i = 0 ; i< 9 ; i++) {
+      Persona persona1 = new Persona("user" + Integer.toString(i) + "@email", encoder.encode("12345678"), "exampleuser" + Integer.toString(i));
+      Usuario usuario1 = new Usuario (persona1);
+      persona1.setUsuario(usuario1);
+      usuarioRepository.save(usuario1);
+    }
+
+    
   }
 }
