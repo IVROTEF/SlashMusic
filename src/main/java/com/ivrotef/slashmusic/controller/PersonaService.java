@@ -6,9 +6,24 @@ import com.ivrotef.slashmusic.controller.PersonaRepository;
 import com.ivrotef.slashmusic.controller.UsuarioService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+
+import java.util.Optional;
+import java.util.ArrayList;
+import java.util.List;
+
+import java.sql.SQLIntegrityConstraintViolationException;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Set;
 
 @Service
@@ -22,6 +37,9 @@ public class PersonaService {
 
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    @PersistenceContext
+    EntityManager entityManager;
 
 
     public Persona findByCorreo (String email){

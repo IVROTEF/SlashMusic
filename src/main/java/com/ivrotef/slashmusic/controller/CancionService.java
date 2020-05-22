@@ -43,6 +43,16 @@ public class CancionService {
       Cancion cancion =  repository.findByArchivo(ruta);
       return cancion;
     }
+    
+    public ArrayList<Cancion> getCancionesSimilares (String id) {
+      Query query = entityManager.createQuery("FROM Cancion c WHERE c.nombre LIKE :nombre", Cancion.class);
+      query.setParameter("nombre", "%"+id+"%");
+      ArrayList<Cancion> canciones = (ArrayList<Cancion>) query.getResultList();
+      if (canciones.size() == 0) {
+        return null;
+      }
+      return canciones;
+    }
 
     public Cancion actualizar (Cancion cancion) {
       Optional<Cancion> l = repository.findById(cancion.getNombre());
