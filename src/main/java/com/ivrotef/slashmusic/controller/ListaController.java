@@ -84,8 +84,13 @@ public class ListaController {
 
   /* Operaciones sobre una lista */
 
+  // Cuando se reproduce la cancion dentro de una lista 
+  @RequestMapping(value = "/ver/{cancion:\\w+\\W(?:mp3$)}", method = RequestMethod.GET )
+  public String reproducirCancion (@PathVariable("cancion") String song) {
+    return "redirect:/" + song;
+  }
 
-  @RequestMapping(value= "/ver/{nombreLista}", method = RequestMethod.GET)
+  @RequestMapping(value= "/ver/{nombreLista:\\w+(?!:mp3$)}", method = RequestMethod.GET)
   public ModelAndView verLista(@PathVariable("nombreLista") String nombreLista,  @AuthenticationPrincipal PersonaWrapper persona){
     Persona actual = persona.getPersona();
     check(actual);
