@@ -85,6 +85,7 @@ public class PublicacionCompartidaService {
         if (p1.isPresent()) {
           p2 = p1.get();
           p2.setPublicacionCompartidaID(publicacionCompartida.getPublicacionCompartidaID());
+          p2.setDescripcion(publicacionCompartida.getDescripcion());
           p2.setUsuarioPC(publicacionCompartida.getUsuarioPC());
           try {
             p2 = repository.save(p2);

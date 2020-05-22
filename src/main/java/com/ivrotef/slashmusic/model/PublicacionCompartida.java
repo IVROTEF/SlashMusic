@@ -10,6 +10,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -26,9 +28,16 @@ public class PublicacionCompartida {
   @EmbeddedId
   private PublicacionCompartidaID publicacionCompartidaID;
 
+  @Column(name = "descripcion")
+  private String descripcion;
+
   @ManyToOne
   @JoinColumn(name = "usuario")
   private Usuario usuarioPC;
+
+  @ManyToOne
+  @JoinColumn(name="id_publicacion",referencedColumnName="id_publicacion")
+  private Publicacion publicacionPC;
 
   public PublicacionCompartida(){
   }
@@ -45,11 +54,28 @@ public class PublicacionCompartida {
     this.publicacionCompartidaID = publicacionCompartidaID;
   }
 
+  public String getDescripcion () {
+    return this.descripcion;
+  }
+
+  public void setDescripcion (String descripcion) {
+    this.descripcion = descripcion;
+  }
+
+
   public Usuario getUsuarioPC () {
     return this.usuarioPC;
   }
 
   public void setUsuarioPC (Usuario usuarioPC) {
     this.usuarioPC = usuarioPC;
+  }
+
+  public Publicacion getPublicacionPC () {
+    return this.publicacionPC;
+  }
+
+  public void setPublicacionPC (Publicacion publicacionPC) {
+    this.publicacionPC = publicacionPC;
   }
 }

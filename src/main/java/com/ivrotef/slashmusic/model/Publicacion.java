@@ -2,10 +2,13 @@ package com.ivrotef.slashmusic.model;
 
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Column;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -33,12 +36,23 @@ public class Publicacion {
   @JoinColumn(name = "cancion")
   private Cancion cancionPublicacion;
 
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "publicacionC")
+  private List<Comentario> comentarios =new ArrayList<Comentario>();
+
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "publicacionC")
+  private List<PublicacionCompartida> publicacionesCompartidas =new ArrayList<PublicacionCompartida>();
+
   public Publicacion (){
+    comentarios = new ArrayList<Comentario>();
+    publicacionesCompartidas = new ArrayList<PublicacionCompartida>();
   }
 
-  public Publicacion (int idPublicacion, String descripcion) {
+  public Publicacion (int idPublicacion, String descripcion, Usuario usuarioPublicacion) {
     this.idPublicacion = idPublicacion;
     this.descripcion = descripcion;
+    this.usuarioPublicacion = usuarioPublicacion;
+    comentarios = new ArrayList<Comentario>();
+    publicacionesCompartidas = new ArrayList<PublicacionCompartida>();
   }
 
   public int getIdPublicacion () {
@@ -72,4 +86,21 @@ public class Publicacion {
   public void setCancionPublicacion (Cancion cancionPublicacion) {
     this.cancionPublicacion = cancionPublicacion;
   }
+
+  public List<Comentario> getComentarios () {
+    return this.comentarios;
+  }
+
+  public void setComentarios (List<Comentario> comentarios) {
+    this.comentarios = comentarios;
+  }
+
+  public List<PublicacionCompartida> getPublicacionCompartidas () {
+    return this.publicacionesCompartidas;
+  }
+
+  public void setPublicacionCompartidas (List<PublicacionCompartida> publicacionesCompartidas) {
+    this.publicacionesCompartidas = publicacionesCompartidas;
+  }
+
 }

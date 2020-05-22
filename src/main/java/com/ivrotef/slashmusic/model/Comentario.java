@@ -2,15 +2,22 @@ package com.ivrotef.slashmusic.model;
 
 import com.ivrotef.slashmusic.model.Usuario;
 import com.ivrotef.slashmusic.model.ComentarioID;
+
+import javax.persistence.FetchType;
 import javax.persistence.EmbeddedId;
-import javax.persistence.ManyToOne;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.persistence.Table;
-import java.util.List;
 
-/* Clase que representa la relacion comentar de muchos a muchos */
+import javax.persistence.EmbeddedId;
+
 
 @Entity
 @Table(name = "Comentario")
@@ -25,6 +32,10 @@ public class Comentario {
   @ManyToOne
   @JoinColumn(name = "usuario")
   private Usuario usuarioComentario;
+
+  @ManyToOne
+  @JoinColumn(name="id_publicacion",referencedColumnName="id_publicacion")
+  private Publicacion publicacionC;
 
   public Comentario(){
   }
@@ -55,5 +66,13 @@ public class Comentario {
 
   public void setUsuarioComentario (Usuario usuarioComentario) {
     this.usuarioComentario = usuarioComentario;
+  }
+
+  public Publicacion getPublicacionC () {
+    return this.publicacionC;
+  }
+
+  public void setPublicacionC (Publicacion publicacionC) {
+    this.publicacionC = publicacionC;
   }
 }

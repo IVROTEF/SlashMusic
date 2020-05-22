@@ -17,21 +17,4 @@ import java.util.ArrayList;
 @RequestMapping(value = "/artistas")
 public class ArtistaController {
 
-  @Autowired
-  ArtistaService artistaService;
-  
-  ArrayList<Artista> artistas;
-
-  @RequestMapping(value = "/ver", method = RequestMethod.GET)
-  public ModelAndView verArtistas(@AuthenticationPrincipal PersonaWrapper persona){
-      ModelAndView modelAndView = new ModelAndView ("VerArtistas");
-      artistas = artistaService.obtenerArtistas();
-      if (artistas == null){
-          artistas = new ArrayList<Artista>();
-      }
-      boolean hayArtistas = (artistas.size() == 0) ? false : true;
-      modelAndView.addObject("artistas", artistas);
-      modelAndView.addObject("hayArtistas", hayArtistas);
-      return modelAndView;
-  }
 }
