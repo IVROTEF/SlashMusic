@@ -50,7 +50,7 @@ public class FileService {
       }
       String tmp = "";
       for (int i = 1;; i++) {
-        tmp = rt.substring(0, rt.length() - 4) + "(" + Integer.toString(i) + ")" + ".mp3";
+        tmp = rt.substring(0, rt.length() - 4) + Integer.toString(i) + ".mp3";
         if (cancionService.obtenerCancionArchivo(obtenerArchivo(tmp)) == null) {
           break;
         }

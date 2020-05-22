@@ -75,43 +75,11 @@
     }
   </script>
 
-
-  <div class="container offset-md-3 pb-5" style="position:fixed;bottom:0">
-    <audio id="myAudio" style="width: 700px;" type ="audio/mp3" src="" controls> </audio>
-  </div>
+  <div th:insert="fragments/common :: music-bar"></div>
 
 </body>
 
-  <script>
-    var isPlaying = false;
-    var myAudio = document.getElementById("myAudio");
-    function play(archivo) {
-      if (archivo != myAudio.src && myAudio.src != "" && myAudio.src != undefined ) {
-        if (isPlaying){
-          myAudio.pause()
-        }
-        myAudio.src=archivo;
-        myAudio.load();
-        myAudio.play();
-      } else {
-        if (isPlaying) {
-          myAudio.pause()
-        } else {
-          //myAudio.src=archivo;
-          myAudio.load();
-          myAudio.play();
-        }
-      }
-    };
-
-    myAudio.onplaying = function() {
-      isPlaying = true;
-    };
-
-    myAudio.onpause = function() {
-      isPlaying = false;
-    };
-  </script>
+  <div th:insert="fragments/common :: scriptAudio"></div>
 
   <script>
   $('#agregar').on('show.bs.modal', function (event) {
