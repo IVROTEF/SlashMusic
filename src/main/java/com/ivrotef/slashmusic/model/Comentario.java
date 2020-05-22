@@ -1,58 +1,44 @@
 package com.ivrotef.slashmusic.model;
 
 import com.ivrotef.slashmusic.model.Usuario;
-import com.ivrotef.slashmusic.model.Cancion;
+import com.ivrotef.slashmusic.model.ComentarioID;
+import javax.persistence.EmbeddedId;
 import javax.persistence.ManyToOne;
 import javax.persistence.JoinColumn;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.Table;
-import java.io.Serializable;
 import java.util.List;
 
 /* Clase que representa la relacion comentar de muchos a muchos */
 
 @Entity
-@Table(name = "Comentar")
-public class Comentario implements Serializable {
-
-  @Id
-  @ManyToOne
-  @JoinColumn(name = "usuario")
-  private Usuario usuario;
-
-  @Id
-  @ManyToOne
-  @JoinColumn(name = "cancion")
-  private Cancion cancion;
+@Table(name = "Comentario")
+public class Comentario {
+  /* La llave compuesta del id_publicacion de la publicación y el id_Comentario del comentario. */
+  @EmbeddedId
+  private ComentarioID comentarioID;
 
   @Column(name = "comentario")
   private String comentario;
 
-  public Comentario (){
+  @ManyToOne
+  @JoinColumn(name = "usuario")
+  private Usuario usuarioComentario;
+
+  public Comentario(){
   }
 
-  public Comentario (Usuario usuario, Cancion cancion, String comentario) {
-    this.usuario = usuario;
-    this.cancion = cancion;
-    this.comentario = comentario;
+  public Comentario (ComentarioID comentarioID) {
+    this.comentarioID = comentarioID;
   }
 
-  public Usuario getUsuario () {
-    return this.usuario;
+  public ComentarioID getComentarioID () {
+    return this.comentarioID;
   }
 
-  public void setUsuario (Usuario usuario) {
-    this.usuario = usuario;
-  }
-
-  public Cancion getCancion () {
-    return this.cancion;
-  }
-
-  public void setCancion (Cancion c) {
-    this.cancion = c;
+  public void setComentarioID (ComentarioID comentarioID) {
+    this.comentarioID = comentarioID;
   }
 
   public String getComentario () {
@@ -63,4 +49,11 @@ public class Comentario implements Serializable {
     this.comentario = comentario;
   }
 
+  public Usuario getUsuarioComentario () {
+    return this.usuarioComentario;
+  }
+
+  public void setUsuarioComentario (Usuario usuarioComentario) {
+    this.usuarioComentario = usuarioComentario;
+  }
 }

@@ -44,6 +44,16 @@ public class CancionService {
       return cancion;
     }
 
+    public ArrayList<Cancion> getCancionesSimilares (String id) {
+      Query query = entityManager.createQuery("FROM Cancion c WHERE c.nombre LIKE :nombre", Cancion.class);
+      query.setParameter("nombre", "%"+id+"%");
+      ArrayList<Cancion> canciones = (ArrayList<Cancion>) query.getResultList();
+      if (canciones.size() == 0) {
+        return null;
+      }
+      return canciones;
+    }
+
     public Cancion actualizar (Cancion cancion) {
       Optional<Cancion> l = repository.findById(cancion.getNombre());
       Cancion t = null;
@@ -53,10 +63,10 @@ public class CancionService {
         t.setArchivo(cancion.getArchivo());
         t.setAutor(cancion.getAutor());
         t.setListas(cancion.getListas());
-        t.setComentarios(cancion.getComentarios());
+      //  t.setComentarios(cancion.getComentarios());
         t.setSeguidores(cancion.getSeguidores());
         t.setPropietarios(cancion.getPropietarios());
-        t.setDistribuidores(cancion.getDistribuidores());
+       // t.setDistribuidores(cancion.getDistribuidores());
         t.setAutores(cancion.getAutores());
         try {
           t = repository.save(t);
