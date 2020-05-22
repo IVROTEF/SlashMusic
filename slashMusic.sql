@@ -142,6 +142,7 @@ CREATE TABLE Comentario (
 CREATE TABLE Publicacion_Compartida (
     id_publicacion_original int(11) NOT NULL,
     id_publicacion_compartida int(11) NOT NULL auto_increment,
+    descripcion TEXT,
 	usuario VARCHAR(20),
     CONSTRAINT PK_Compartir PRIMARY KEY (id_publicacion_original, id_publicacion_compartida),
     CONSTRAINT FK_Compartir_Publicacion FOREIGN KEY (id_publicacion_original)
