@@ -33,11 +33,14 @@
     	  <thead class ="thead-dark">
     	    <tr>
     	      <th scope="col">Canciones</th>
+            <th scope="col"></th>
     	    </tr>
     	  </thead>
     	  <tbody>
     			<tr th:each="cancion : ${canciones}">
     		    <td th:utext="${cancion.nombre}"></td>
+            <td> <button id="botonPlay" class="btn btn-success" role="button"
+                            th:attr="value=${cancion.archivo}" onclick="play(this.value)">Reproducir</button></td>
     		  </tr>
     		</tbody>
     	</table>
@@ -81,8 +84,10 @@
       }
     </script>
 
+    <div th:insert="fragments/common :: music-bar"></div>
+
 </body>
 
-
+    <div th:insert="fragments/common :: scriptAudio"></div>
 
 </html>

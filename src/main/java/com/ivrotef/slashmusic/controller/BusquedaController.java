@@ -74,8 +74,8 @@ public class BusquedaController {
     return modelAndView;
   }
 
-  @RequestMapping(value = "/agregaC/{nombre}" )
-  public String agregarCancion(@PathVariable("nombre") String can, @AuthenticationPrincipal PersonaWrapper persona){
+  @RequestMapping(value = "/agregaC/{cancion}" )
+  public String agregarCancion(@PathVariable("cancion") String can, @AuthenticationPrincipal PersonaWrapper persona){
     Persona actual = persona.getPersona();
     String correo = actual.getCorreo();
     Cancion c = cancionService.obtenerCancion(can);
@@ -83,11 +83,4 @@ public class BusquedaController {
     return "redirect:/search/ver/?item"+valor;
   }
 
-  @RequestMapping(value = "/editar/{nombreLista}")
-  public String eliminarCancion(@PathVariable("nombreLista") String nombreLista, @AuthenticationPrincipal PersonaWrapper persona){
-    Persona actual = persona.getPersona();
-    Lista descartado = listaService.obtenerListaNombre(actual.getCorreo(), nombreLista);
-    
-    return "redirect:/listas/editar";
-  }
 }

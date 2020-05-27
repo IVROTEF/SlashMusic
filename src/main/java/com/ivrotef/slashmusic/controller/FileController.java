@@ -64,7 +64,7 @@ public class FileController {
                             @AuthenticationPrincipal PersonaWrapper persona,
                             RedirectAttributes redirectAttributes) {
       Persona actual = persona.getPersona();
-      String ruta = null;
+      String archivo = null;
 
       /* Revisa que el nombre sea unico */
       if (cancionService.obtenerCancion(nombreCancion) != null) {
@@ -73,9 +73,9 @@ public class FileController {
       }
 
       /* Sube el archivo */
-      ruta = fileService.uploadFile(file);
+      archivo = fileService.uploadFile(file);
 
-      Cancion cancion = new Cancion(nombreCancion, ruta);
+      Cancion cancion = new Cancion(nombreCancion, archivo);
 
       /* Si esta loggeado un Administrador*/
       if (actual.getAdministrador() != null) {

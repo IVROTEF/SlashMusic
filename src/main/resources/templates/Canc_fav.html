@@ -32,7 +32,8 @@
   	  <tbody>
   			<tr th:each="li : ${list}">
 			  <td th:utext="${li.nombre}"></td>
-			  <td> <a  class="btn btn-success" type="submit"> Reproducir </a> </td>
+			  <td><button id="botonPlay" class="btn btn-success" role="button"
+                th:attr="value=${li.archivo}" onclick="play(this.value)">Reproducir</button></td>
 			  <td> <a th:href="@{'/search/eliminar/' + ${li.nombre}}" class="btn btn-danger" role="button"> Eliminar </a> </td>
   		  </tr>
 		  </tbody>
@@ -42,6 +43,7 @@
         <h1 style="text-align:center"> Aun no tienes canciones agregadas </h1>
       </div>
 	  </div>
-
+	  <div th:insert="fragments/common :: music-bar"></div>
 </body>
+<div th:insert="fragments/common :: scriptAudio"></div>
 </html>

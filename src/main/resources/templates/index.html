@@ -20,18 +20,18 @@
   <div th:insert="fragments/common :: navbar"></div>
   <p th:text="Bienvenido + ${currentUsername}"> </p>
 
-  <div class="card-group">
-
+  <div class="card-deck" style="padding: 1rem;">
     <tr th:each="cancion : ${canciones}">
-    <div class="card" style="width: 18rem;">
-      <img class="card-img-top" src="..." alt="Imagen" >
-        <div class="card-body">
-          <h5 class="card-title" th:text="${cancion.nombre}"></h5>
-          <a class="btn btn-info" role="button" data-toggle="modal" data-target="#agregar" th:attr="data-cancion=${cancion.nombre}"> Agregar a una lista </a>
-        </div>
-    </div>
+      <div class="card" style="padding: 2rem; min-width: 300px;">
+          <div class="card-body">
+            <h6 class="card-title" th:text="${cancion.nombre}"></h6>
+            <button class="btn btn-info" role="button" data-toggle="modal" data-target="#agregar"
+                th:attr="data-cancion=${cancion.nombre}"> Agregar a una lista </button>
+            <button id="botonPlay" class="btn btn-success" role="button"
+                th:attr="value=${cancion.archivo}" onclick="play(this.value)">Reproducir</button>
+          </div>
+      </div>
     </tr>
-
   </div>
 
   <div class="modal fade" tabindex="-1" role="dialog" id="agregar">
@@ -66,15 +66,20 @@
     </div>
   </div>
 
+
   <script th:inline="javascript">
-  function insertar() {
-    var cancion = document.getElementById('seleccionada').innerHTML;
-    var lista = $('#agregarListas').find("option:selected").val();
-    document.getElementById("guardar").href = "/listas/ver/" + lista + "/agregar/" + cancion;
-  }
+    function insertar() {
+      var cancion = document.getElementById('seleccionada').innerHTML;
+      var lista = $('#agregarListas').find("option:selected").val();
+      document.getElementById("guardar").href = "/listas/ver/" + lista + "/agregar/" + cancion;
+    }
   </script>
 
+  <div th:insert="fragments/common :: music-bar"></div>
+
 </body>
+
+  <div th:insert="fragments/common :: scriptAudio"></div>
 
   <script>
   $('#agregar').on('show.bs.modal', function (event) {
