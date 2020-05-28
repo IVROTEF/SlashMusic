@@ -80,6 +80,9 @@
         /*<![CDATA[*/
         var anterior = /*[[${lista_actual.listaID.nombreLista}]]*/ null;
         /*]]>*/
+        if (anterior == ""){
+          return;
+        }
         document.getElementById("guardar").href = "/listas/ver/" + anterior + "/cambiar_nombre/" + nombre.toString();
       }
     </script>

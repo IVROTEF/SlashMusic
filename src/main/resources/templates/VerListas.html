@@ -62,7 +62,7 @@
           </div>
           <div class="modal-body">
             <label for="message-text" class="col-form-label">Nombre:</label>
-            <input class="form-group" type="text" id="titulo" value=""></input>
+            <input class="form-group" type="text" id="titulo" required></input>
           </div>
           <div class="modal-footer">
             <a type="button" class="btn btn-success" id="crearLista" onclick="crear()">Crear</a>
@@ -76,6 +76,9 @@
     <script th:inline="javascript">
       function crear(){
         var nombre = document.getElementById("titulo").value;
+        if (nombre == ""){
+          return;
+        }
         document.getElementById("crearLista").href = "/listas/crear/" + nombre.toString();
       }
     </script>
