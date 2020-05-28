@@ -35,7 +35,7 @@
   			  <td th:utext="${li.nombre}"></td>
   			  <td><button id="botonPlay" class="btn btn-success" role="button"
                 th:attr="value=${li.archivo}" onclick="play(this.value)">Reproducir</button></td>
-  			  <td><a class="btn btn-info" role="button" data-toggle="modal" data-target="#agregar" th:attr="data-cancion=${li.nombre}"> Agregar a favoritos </a></td>
+  			  <td><a class="btn btn-info" role="button" data-toggle="modal" data-target="#canFav" th:attr="data-cancion=${li.nombre}"> Agregar a favoritos </a></td>
   			  <td><a class="btn btn-info" role="button" data-toggle="modal" data-target="#agregar" th:attr="data-cancion=${li.nombre}"> Agregar a una lista </a></td>
   		  </tr>
 		  </tbody>
@@ -51,7 +51,7 @@
   	  <tbody>
   			<tr th:each="listas : ${listasArt}">
   			  <td th:utext="${listas.nombre}"></td>
-  			  <td><a class="btn btn-info" role="button" data-toggle="modal" data-target="#agregar" th:attr="data-cancion=${listas.nombre}"> Agregar a favoritos </a></td>
+  			  <td><a class="btn btn-info" role="button" on th:attr="data-cancion=${listas.nombre}"> Agregar a favoritos </a></td>
   		  </tr>
 		  </tbody>
     </table>
@@ -65,8 +65,8 @@
 		  </thead>
   	  <tbody>
   			<tr th:each="list : ${listasUs}">
-  			  <td th:utext="${list.persona.nombre}"></td>
-  			  <td><a class="btn btn-info" role="button" data-toggle="modal" data-target="#agregar" th:attr="data-cancion=${list.persona.nombre}"> Agregar a favoritos </a></td>
+  			  <td th:utext="${list.nombre}"></td>
+  			  <td><a class="btn btn-info" role="button" data-toggle="modal" data-target="#agregar" th:attr="data-cancion=${list.nombre}"> Agregar a favoritos </a></td>
   		  </tr>
   		</tbody>
   	</table>
@@ -103,6 +103,22 @@
 		</div>
 	  </div>
 
+	  <div class="modal fade" tabindex="-1" role="dialog" id="canFav">
+		<div class="modal-dialog" role="document">
+		  <div class="modal-content">
+			<div class="modal-header">
+			  <h5 class="modal-title">¿Estas seguro de agregar a tus favoritos? </h5>
+			</div>
+			<div class="modal-body">
+			  <h6 class="modal-cancion" id="seleccionada2"> Cancion </h6>
+			<div class="modal-footer" >
+			  <a type="button" class="btn btn-success" id="guardar2" onclick="insertar2()">Guardar</a>
+			  <a type="button" class="btn btn-secondary" href= "/" >Cancelar</a>
+			</div>
+		  </div>
+		</div>
+	  </div>
+
 	  <script th:inline="javascript">
 	  function insertar() {
 		var cancion = document.getElementById('seleccionada').innerHTML;
@@ -110,6 +126,13 @@
 		document.getElementById("guardar").href = "/listas/ver/" + lista + "/agregar/" + cancion;
 	  }
 	  </script>
+
+      <script th:inline="javascript">
+	  function insertar2() {
+	  var cancion = document.getElementById('seleccionada2').innerHTML;
+	  document.getElementById("guardar2").href = "/search/agregaC/"  + cancion;
+	}
+	</script>
 
     <div th:insert="fragments/common :: music-bar"></div>
 
@@ -125,6 +148,15 @@
 		  modal.find('.modal-cancion').text(cancion)
 	  })
 	  </script>
+
+<script>
+	$('#canFav').on('show.bs.modal', function (event) {
+		var boton = $(event.relatedTarget)
+		var cancion = boton.data('cancion');
+		var modal = $(this)
+		modal.find('.modal-cancion').text(cancion)
+	})
+	</script>
 
 </body>
 </html>

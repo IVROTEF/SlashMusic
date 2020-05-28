@@ -20,7 +20,6 @@ import com.ivrotef.slashmusic.model.Persona;
 import com.ivrotef.slashmusic.model.Lista;
 import com.ivrotef.slashmusic.config.PersonaWrapper;
 import com.ivrotef.slashmusic.controller.ListaService;
-import com.ivrotef.slashmusic.controller.UsuarioService;
 import com.ivrotef.slashmusic.controller.CancionService;
 
 import java.util.ArrayList;
@@ -37,6 +36,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 @Controller
+@RequestMapping(value = "/search")
 public class BusquedaController {
 
   @Autowired
@@ -46,17 +46,20 @@ public class BusquedaController {
   @Autowired
   PersonaService personaService;
   @Autowired
-  UsuarioService usuarioService;
-  @Autowired
   ListaService listaService;
+  @Autowired
+  UsuarioService usService;
+
+  String valor;
 
 
-  @RequestMapping(value = "/buscar", method = RequestMethod.GET)
+  @RequestMapping(value = "/ver", method = RequestMethod.GET)
   public ModelAndView verListas(@RequestParam(value="item", required=true) String param1,@AuthenticationPrincipal PersonaWrapper persona) {
     ModelAndView modelAndView = new ModelAndView ("Busqueda");
+    valor = param1;
     ArrayList<Cancion> resultados = cancionService.getCancionesSimilares(param1);
     ArrayList<Artista> art = artistaService.getArtSimilares(param1);
-    ArrayList<Usuario> us = usuarioService.getUsSimilares(param1);
+    ArrayList<Persona> us = personaService.getUsSimilares(param1);
     Persona actual = persona.getPersona();
     ArrayList<Lista> listas = listaService.obtenerListasCorreo(actual.getCorreo());
     boolean hayListas = false;
@@ -70,6 +73,15 @@ public class BusquedaController {
     modelAndView.addObject("listasArt", art);
 
     return modelAndView;
+  }
+
+  @RequestMapping(value = "/agregaC/{cancion}" )
+  public String agregarCancion(@PathVariable("cancion") String can, @AuthenticationPrincipal PersonaWrapper persona){
+    Persona actual = persona.getPersona();
+    String correo = actual.getCorreo();
+    Cancion c = cancionService.obtenerCancion(can);
+    usService.guardarCancionFav(c, correo);
+    return "redirect:/search/ver/?item="+valor;
   }
 
 }

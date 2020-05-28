@@ -7,6 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +37,6 @@ public class ArtistaService {
 
     @Autowired
     ArtistaRepository repository;
-
     @PersistenceContext
     EntityManager entityManager;
 
@@ -50,7 +54,7 @@ public class ArtistaService {
       return artistas;
     }
 
-    public ArrayList<Artista> getArtSimilares (String id) {
+     public ArrayList<Artista> getArtSimilares (String id) {
       Query query = entityManager.createQuery("FROM Artista c WHERE c.nombre LIKE :nombre", Artista.class);
       query.setParameter("nombre", "%"+id+"%");
       ArrayList<Artista> canciones = (ArrayList<Artista>) query.getResultList();

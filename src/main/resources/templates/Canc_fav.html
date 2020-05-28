@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html xmlns:th="http://www.thymeleaf.org" >
+
+<head>
+
+<title> Busqueda </title>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+</head>
+
+<body>
+	<!-- Barra de navegacion  -->
+  <div th:insert="fragments/common :: navbar"></div>
+
+  	<div class = "container pt-3">
+        <div th:if="${hayListas}">
+  	<table class="table table-bordered">
+  	  <thead class ="thead-dark">
+  	    <tr>
+			<th scope="col">Canciones Favoritas</th>
+			<th scope="col">Reproducir</th>
+			<th scope="col">Eliminar de tus favoritos</th>
+  	    </tr>
+  	  </thead>
+  	  <tbody>
+  			<tr th:each="li : ${list}">
+			  <td th:utext="${li.nombre}"></td>
+			  <td><button id="botonPlay" class="btn btn-success" role="button"
+                th:attr="value=${li.archivo}" onclick="play(this.value)">Reproducir</button></td>
+			  <td> <a th:href="@{'/search/eliminar/' + ${li.nombre}}" class="btn btn-danger" role="button"> Eliminar </a> </td>
+  		  </tr>
+		  </tbody>
+      </table>
+      </div>
+      <div th:unless="${hayListas}">
+        <h1 style="text-align:center"> Aun no tienes canciones agregadas </h1>
+      </div>
+	  </div>
+	  <div th:insert="fragments/common :: music-bar"></div>
+</body>
+<div th:insert="fragments/common :: scriptAudio"></div>
+</html>

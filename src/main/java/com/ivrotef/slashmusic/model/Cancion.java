@@ -33,17 +33,6 @@ public class Cancion {
   @ManyToMany(mappedBy = "canciones",fetch = FetchType.EAGER)
   private List<Lista> listas;
 
-/*
-  // Lista de usuarios que han comentado esta cancion
-  @ManyToMany(mappedBy = "comentariosCanciones")
-  private List<Usuario> comentarios;
-*/
-
-  /* Lista de comentarios que han hecho a esta cancion */
-  @OneToMany(mappedBy = "cancion")
-  private List<Comentario> comentarios;
-
-
   /* Lista de usuarios que añadieron esta cancion a favoritos */
   @ManyToMany(mappedBy = "cancionesFavoritas")
   private List<Usuario> seguidores;
@@ -52,32 +41,34 @@ public class Cancion {
   @ManyToMany(mappedBy = "cancionesPropias")
   private List<Usuario> propietarios;
 
-  /* Lista de usuarios que han compartido esta cancion */
-  @ManyToMany(mappedBy = "cancionesCompartidas")
-  private List<Usuario> distribuidores;
-
   /* Artistas a los que les pertenece esta cancion */
   @ManyToMany(mappedBy = "cancionesCreadas")
   private List<Artista> autores;
 
+  /* Publicaciones que contienen la canción. */
+  @OneToMany(mappedBy = "cancionPublicacion")
+  private List<Publicacion> publicaciones;
+
   public Cancion (){
     this.listas = new ArrayList<Lista>();
-    this.comentarios = new ArrayList<Comentario>();
+   // this.comentarios = new ArrayList<Comentario>();
     this.seguidores = new ArrayList<Usuario>();
     this.propietarios = new ArrayList<Usuario>();
-    this.distribuidores = new ArrayList<Usuario>();
+    //this.distribuidores = new ArrayList<Usuario>();
     this.autores = new ArrayList<Artista>();
+    this.publicaciones = new ArrayList<Publicacion>();
   }
 
   public Cancion (String nombre, String archivo) {
     this.nombre = nombre;
     this.archivo = archivo;
     this.listas = new ArrayList<Lista>();
-    this.comentarios = new ArrayList<Comentario>();
+    //this.comentarios = new ArrayList<Comentario>();
     this.seguidores = new ArrayList<Usuario>();
     this.propietarios = new ArrayList<Usuario>();
-    this.distribuidores = new ArrayList<Usuario>();
+    //this.distribuidores = new ArrayList<Usuario>();
     this.autores = new ArrayList<Artista>();
+    this.publicaciones = new ArrayList<Publicacion>();
   }
 
   public String getNombre () {
@@ -94,14 +85,6 @@ public class Cancion {
 
   public void setArchivo (String archivo) {
     this.archivo = archivo;
-  }
-
-  public List<Comentario> getComentarios(){
-    return this.comentarios;
-  }
-
-  public void setComentarios (List<Comentario> comentarios) {
-    this.comentarios = comentarios;
   }
 
   public void agregarLista (Lista lista) {
@@ -141,20 +124,20 @@ public class Cancion {
     this.propietarios = propietarios;
   }
 
-  public List<Usuario> getDistribuidores () {
-    return this.distribuidores;
-  }
-
-  public void setDistribuidores (List<Usuario> distribuidores){
-    this.distribuidores = distribuidores;
-  }
-
   public List<Artista> getAutores () {
     return this.autores;
   }
 
   public void setAutores (List<Artista> autores) {
     this.autores = autores;
+  }
+
+  public List<Publicacion> getPublicaciones () {
+    return this.publicaciones;
+  }
+
+  public void setPublicaciones (List<Publicacion> publicaciones){
+    this.publicaciones = publicaciones;
   }
 
   public void asignarArtista (Artista artista) {
