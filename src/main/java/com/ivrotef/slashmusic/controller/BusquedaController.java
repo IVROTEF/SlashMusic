@@ -52,6 +52,11 @@ public class BusquedaController {
 
   String valor;
 
+  // Cuando se reproduce una cancion dentro de la busqueda
+  @RequestMapping(value = "/{cancion:\\w+\\W(?:mp3$)}", method = RequestMethod.GET )
+  public String reproducirCancion (@PathVariable("cancion") String song) {
+    return "redirect:/" + song;
+  }
 
   @RequestMapping(value = "/ver", method = RequestMethod.GET)
   public ModelAndView verListas(@RequestParam(value="item", required=true) String param1,@AuthenticationPrincipal PersonaWrapper persona) {
@@ -82,6 +87,15 @@ public class BusquedaController {
     Cancion c = cancionService.obtenerCancion(can);
     usService.guardarCancionFav(c, correo);
     return "redirect:/search/ver/?item="+valor;
+  }
+
+  @RequestMapping(value= "/eliminar/{cancion}" )
+  public String eliminarCancion (@PathVariable("cancion") String cancion, @AuthenticationPrincipal PersonaWrapper persona){
+    Persona actual = persona.getPersona();
+    String correo = actual.getCorreo();
+    Cancion r = cancionService.obtenerCancion(cancion);
+    usService.eliminarCancionFav(r, correo);
+    return "redirect:/canciones_favoritas";
   }
 
 }

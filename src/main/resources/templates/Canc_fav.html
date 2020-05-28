@@ -34,7 +34,7 @@
 			  <td th:utext="${li.nombre}"></td>
 			  <td><button id="botonPlay" class="btn btn-success" role="button"
                 th:attr="value=${li.archivo}" onclick="play(this.value)">Reproducir</button></td>
-			  <td> <a th:href="@{'/search/eliminar/' + ${li.nombre}}" class="btn btn-danger" role="button"> Eliminar </a> </td>
+			  <td> <button class="btn btn-danger" role="button" data-toggle="modal" th:attr="data-cancion=${li.nombre}" data-target="#confirmar"> Eliminar </button> </td>
   		  </tr>
 		  </tbody>
       </table>
@@ -43,7 +43,49 @@
         <h1 style="text-align:center"> Aun no tienes canciones agregadas </h1>
       </div>
 	  </div>
+
+      <!-- Modal -->
+      <div class="modal fade" id="confirmar">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+              <h4 class="modal-title-center"> Confirmación</h4>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+              <h1  class= "text-center"></h1>¿Deseas continuar?
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+              <a class="btn btn-secondary" data-dismiss="modal" > Cancelar </a>
+              <a type="button" id ="aceptar_eliminar" class="btn btn-success" > Aceptar</a>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+
 	  <div th:insert="fragments/common :: music-bar"></div>
+
 </body>
+
+<script>
+$('#confirmar').on('show.bs.modal', function (event) {
+    var boton = $(event.relatedTarget);
+    var cancion = boton.data('cancion');
+    var modal = $(this);
+    document.getElementById('aceptar_eliminar').href = "/search/eliminar/" + cancion.toString();
+})
+</script>
+
 <div th:insert="fragments/common :: scriptAudio"></div>
+
+
+
+
 </html>

@@ -104,20 +104,23 @@
 	  </div>
 
 	  <div class="modal fade" tabindex="-1" role="dialog" id="canFav">
-		<div class="modal-dialog" role="document">
-		  <div class="modal-content">
-			<div class="modal-header">
-			  <h5 class="modal-title">¿Estas seguro de agregar a tus favoritos? </h5>
-			</div>
-			<div class="modal-body">
-			  <h6 class="modal-cancion" id="seleccionada2"> Cancion </h6>
-			<div class="modal-footer" >
-			  <a type="button" class="btn btn-success" id="guardar2" onclick="insertar2()">Guardar</a>
-			  <a type="button" class="btn btn-secondary" href= "/" >Cancelar</a>
-			</div>
-		  </div>
-		</div>
-	  </div>
+  		<div class="modal-dialog" role="document">
+  		  <div class="modal-content">
+  			<div class="modal-header">
+  			  <h5 class="modal-title">¿Estas seguro de agregar a tus favoritos? </h5>
+  			</div>
+  			<div class="modal-body">
+  			  <h6 class="modal-cancion" id="seleccionada2"> Cancion </h6>
+  			<div class="modal-footer" >
+  			  <a type="button" class="btn btn-success" id="guardar2" onclick="insertar2()">Guardar</a>
+  			  <a type="button" class="btn btn-secondary" href= "/" >Cancelar</a>
+  			</div>
+  		  </div>
+  		</div>
+  	  </div>
+    </div>
+
+    <div th:insert="fragments/common :: music-bar"></div>
 
 	  <script th:inline="javascript">
 	  function insertar() {
@@ -127,14 +130,13 @@
 	  }
 	  </script>
 
-      <script th:inline="javascript">
+    <script th:inline="javascript">
 	  function insertar2() {
 	  var cancion = document.getElementById('seleccionada2').innerHTML;
 	  document.getElementById("guardar2").href = "/search/agregaC/"  + cancion;
-	}
-	</script>
+	  }
+	 </script>
 
-    <div th:insert="fragments/common :: music-bar"></div>
 
 	</body>
 

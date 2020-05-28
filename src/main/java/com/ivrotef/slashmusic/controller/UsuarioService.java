@@ -121,6 +121,10 @@ public class UsuarioService {
   public void guardarCancionFav (Cancion cancion, String correo_usuario) {
     Usuario usuario = obtenerUsuarioCorreo(correo_usuario);
     List<Cancion> cancionesFavoritas = usuario.getCancionesFavoritas();
+    /* La cancion ya esta en la lista */
+    if (usuario.getCancionesFavoritas().contains(cancion)) {
+      return;
+    }
     cancionesFavoritas.add(cancion);
     usuario.setCancionesFavoritas(cancionesFavoritas);
     repository.save(usuario);
