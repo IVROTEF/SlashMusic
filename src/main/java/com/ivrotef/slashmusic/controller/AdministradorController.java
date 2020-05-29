@@ -40,7 +40,7 @@ public class AdministradorController {
   @PreAuthorize("hasRole('ADMIN')")
   @RequestMapping(value = "/artistas/ver", method = RequestMethod.GET)
   public ModelAndView verArtistas (@AuthenticationPrincipal PersonaWrapper persona) {
-    ModelAndView modelAndView = new ModelAndView ("VerArtistas");
+    ModelAndView modelAndView = new ModelAndView ("VerArtistasAdmin");
     Persona actual = persona.getPersona();
     List<Artista> artistas = artistaService.getArtistas();
     boolean hayArtistas = false;

@@ -54,8 +54,8 @@
   	  <tbody>
   			<tr th:each="listas : ${listasArt}">
   			  <td th:utext="${listas.nombre}"></td>
-  			  <td><a class="btn btn-info" role="button" on th:attr="data-cancion=${listas.nombre}"> Agregar a favoritos </a></td>
-  		  </tr>
+          <td><a class="btn btn-info" role="button" data-toggle="modal" data-target="#agregarArtista" th:attr="data-artista=${listas.nombre}"> Agregar a favoritos </a></td>
+        </tr>
 		  </tbody>
     </table>
     </div>
@@ -141,6 +141,22 @@
       </div>
     </div>
 
+
+    <div class="modal fade" tabindex="-1" role="dialog" id="agregarArtista">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">¿Estas seguro de agregar este artista?</h5>
+        </div>
+        <div class="modal-footer" >
+          <a type="button" class="btn btn-success" id="botonAgregarArtista" onclick="agregarArtista()">Aceptar</a>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" >Cancelar</button>
+        </div>
+        </div>
+      </div>
+      </div>
+    </div>
+
     <div th:insert="fragments/common :: music-bar"></div>
 
 	  <script th:inline="javascript">
@@ -180,6 +196,15 @@
 		  modal.find('.modal-cancion').text(cancion)
 	  })
 	  </script>
+
+    <script>
+    $('#agregarArtista').on('show.bs.modal', function (event) {
+      var boton = $(event.relatedTarget)
+      var artista = boton.data('artista');
+      var modal = $(this)
+    	document.getElementById('botonAgregarArtista').href = "/artistasFavoritos/agregar/" + artista.toString();
+    })
+    </script>
 
 <script>
 	$('#canFav').on('show.bs.modal', function (event) {

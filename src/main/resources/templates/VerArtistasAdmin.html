@@ -4,7 +4,7 @@
 
 <head>
 
-<title> Artistas favoritos </title>
+<title> Artistas </title>
 
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -17,10 +17,10 @@
 
 <body>
 	<!-- Barra de navegacion  -->
-  <div th:insert="fragments/common :: navbar"></div>
+  <div th:insert="fragments/common :: navbar-admin"></div>
 
   <div class = "container pt-5">
-    <h1> Artistas favoritos </h1>
+    <button class="btn btn-info" role="button" data-toggle="modal" data-target="#guardarArtista"> Agregar artista </button>
   </div>
 
   	<div class = "container pt-3">
@@ -41,7 +41,7 @@
           </table>
       </div>
       <div th:unless="${hayArtistas}">
-        <h1 style="text-align:center"> Todavía no agregas artistas </h1>
+        <h1 style="text-align:center"> Aun no existen artistas </h1>
       </div>
 	  </div>
 
@@ -70,6 +70,37 @@
         </div>
       </div>
 
+
+
+      <div class="modal fade" tabindex="-1" role="dialog" id="guardarArtista">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Ingresar un artista</h5>
+            </div>
+            <div class="modal-body">
+              <label for="message-text" class="col-form-label">Nombre:</label>
+              <input class="form-group" type="text" id="artista" required></input>
+            </div>
+            <div class="modal-footer">
+              <a type="button" class="btn btn-success" id="guardar" onclick="crear()">Guardar</a>
+              <a type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <script th:inline="javascript">
+        function crear(){
+          var artista = document.getElementById("artista").value;
+          if (artista == ""){
+            return;
+          }
+          document.getElementById("guardar").href = "/admin/artistas/agregar/" + artista.toString();
+        }
+      </script>
+
+
 </body>
 
 <script>
@@ -77,7 +108,7 @@ $('#confirmar').on('show.bs.modal', function (event) {
     var boton = $(event.relatedTarget);
     var artista = boton.data('artista');
     var modal = $(this);
-    document.getElementById('aceptar_eliminar').href = "/artistasFavoritos/eliminar/" + artista.toString();
+    document.getElementById('aceptar_eliminar').href = "/admin/artistas/eliminar/" + artista.toString();
 })
 </script>
 

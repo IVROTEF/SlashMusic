@@ -174,4 +174,28 @@ public class UsuarioService {
     return actual.getAmigos();
   }
 
+  public void agregarArtista (Artista artista, String correo) {
+    Usuario actual = obtenerUsuarioCorreo (correo);
+    List<Artista> favoritos = actual.getArtistasFavoritos();
+    if (favoritos.contains (artista)) {
+      return;
+    }
+    favoritos.add(artista);
+    actual.setArtistasFavoritos(favoritos);
+    repository.save(actual);
+  }
+
+  public void eliminarArtista (Artista artista, String correo) {
+    Usuario actual = obtenerUsuarioCorreo (correo);
+    List<Artista> favoritos = actual.getArtistasFavoritos();
+    favoritos.remove(artista);
+    actual.setArtistasFavoritos(favoritos);
+    repository.save(actual);
+  }
+
+  public List<Artista> getArtistasFavoritosUsuario (String correo) {
+    Usuario actual = obtenerUsuarioCorreo (correo);
+    return actual.getArtistasFavoritos();
+  }
+
 }
