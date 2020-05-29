@@ -79,5 +79,10 @@ public class CancionService {
     repository.save(cancion);
   }
 
+  public void eliminar (Cancion cancion) {
+    
+
+    repository.deleteById (cancion.getNombre());
+  }
 
 }

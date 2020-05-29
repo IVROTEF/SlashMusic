@@ -141,4 +141,10 @@ public class UsuarioService {
     repository.save(usuario);
   }
 
+  public List<Cancion> obtenerCancionesPropias (String correo) {
+    Usuario usuario = obtenerUsuarioCorreo (correo);
+    List<Cancion> cancionesPropias = usuario.getCancionesPropias();
+    return cancionesPropias;
+  }
+
 }
