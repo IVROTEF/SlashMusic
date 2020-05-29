@@ -28,8 +28,8 @@
       <div class="card" style="padding: 2rem; min-width: 300px;">
           <div class="card-body">
             <h6 class="card-title" th:text="${cancion.nombre}"></h6>
-            <!-- <button class="btn btn-info" role="button" data-toggle="modal" data-target="#agregar"
-                th:attr="data-cancion=${cancion.nombre}"> Agregar a una lista </button> -->
+            <button class="btn btn-info" role="button" data-toggle="modal" data-target="#agregar"
+                th:attr="data-cancion=${cancion.nombre}"> Agregar a una lista </button>
             <button id="botonPlay" class="btn btn-success" role="button"
                 th:attr="value=${cancion.archivo}" onclick="play(this.value)">Reproducir</button>
           </div>

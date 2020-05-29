@@ -19,7 +19,7 @@
 	<nav class="navbar navbar-expand-sm bg-dark navbar-dark" th:fragment= "navbar">
     <div class="container">
 			<form class="form-inline" action="/search/ver">
-			  <input name="item" class="form-control mr-sm-2" type="text" placeholder="Ingresa tu busqueda" width= 100>
+			  <input name="item" class="form-control mr-sm-2" type="text" placeholder="Ingresa tu busqueda" width= 100 required>
 			  <button class="btn btn-success" type="submit">Buscar </button>
 			</form>
 			 <ul class="nav nav-pills">
@@ -30,7 +30,7 @@
 		      <a class="dropdown-item" href="/canciones_favoritas">Mis canciones favoritas</a>
 		      <a class="dropdown-item" href="/listas/ver">Listas de reproducción</a>
 		      <a class="dropdown-item" href="/mis_canciones">Mis propias canciones</a>
-          <a class="dropdown-item" href="/siguiendo/ver">Amigos</a>
+          <a class="dropdown-item" href="/siguiendo/ver">Siguiendo</a>
 		      <a class="dropdown-item" href="/artistasFavoritos/ver">Artistas favoritos</a>
 		    </div>
 		  </li>
@@ -38,13 +38,13 @@
 		  <li class="nav-item">
 		    <a class="nav-link" href="/">Inicio</a>
 		  </li>
-
+<!--
 		  <li class="nav-item">
 		    <a class="nav-link" href="/perfil/ver">Perfil</a>
-		  </li>
+		  </li> -->
 
       <li class="nav-item">
-        <a class="nav-link" href="/subirCancion">Subir cancion</a>
+        <a class="nav-link" href="/subirCancion">Subir canción</a>
       </li>
 
 		  <li class="nav-item">

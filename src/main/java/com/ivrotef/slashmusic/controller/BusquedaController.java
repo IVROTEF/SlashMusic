@@ -65,8 +65,12 @@ public class BusquedaController {
     ArrayList<Cancion> resultados = cancionService.getCancionesSimilares(param1);
     ArrayList<Artista> art = artistaService.getArtSimilares(param1);
     ArrayList<Persona> us = personaService.getUsSimilares(param1);
-    /* No agrega en la lista de busqueda al usuario actual */
-    us.remove(persona.getPersona());
+    if (us == null) {
+      us = new ArrayList<Persona>();
+    } else {
+      /* No agrega en la lista de busqueda al usuario actual */
+      us.remove(persona.getPersona());
+    }
     Persona actual = persona.getPersona();
     ArrayList<Lista> listas = listaService.obtenerListasCorreo(actual.getCorreo());
     boolean hayListas = false;
