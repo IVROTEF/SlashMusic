@@ -19,12 +19,12 @@
 	<!-- Barra de navegacion  -->
   <div th:insert="fragments/common :: navbar"></div>
 
-  	<div class = "container pt-3">
-
+  	<div class = "container pt-5">
+    <h1>Canciones</h1>
   	<table class="table table-bordered">
   	  <thead class ="thead-dark">
   	    <tr>
-			<th scope="col">Canciones Relacionadas</th>
+			<th scope="col">Nombre</th>
 			<th scope="col">Reproducir</th>
 			<th scope="col">Favoritos</th>
 			<th scope="col">Listas</th>
@@ -40,11 +40,14 @@
   		  </tr>
 		  </tbody>
     </table>
+    </div>
 
+    <div class = "container pt-5">
+    <h1>Artistas</h1>
     <table class="table table-bordered">
       <thead class ="thead-dark">
 			<tr>
-			  <th scope="col">Artistas Relacionados</th>
+			  <th scope="col">Nombre</th>
 			  <th scope="col">Accion</th>
 			</tr>
 		  </thead>
@@ -55,11 +58,14 @@
   		  </tr>
 		  </tbody>
     </table>
+    </div>
 
+    <div class = "container pt-5">
+      <h1>Usuarios</h1>
     <table class="table table-bordered">
 		  <thead class ="thead-dark">
 			<tr>
-			  <th scope="col">Usuarios Relacionados</th>
+			  <th scope="col">Nombre</th>
 			  <th scope="col">Accion</th>
 			</tr>
 		  </thead>
@@ -70,7 +76,6 @@
   		  </tr>
   		</tbody>
   	</table>
-
     </div>
 
 	  <div class="modal fade" tabindex="-1" role="dialog" id="agregar">
