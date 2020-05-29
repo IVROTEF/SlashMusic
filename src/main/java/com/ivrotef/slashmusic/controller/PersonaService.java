@@ -71,6 +71,13 @@ public class PersonaService {
       Query query = entityManager.createQuery("FROM Persona c WHERE c.nombre LIKE :nombre", Persona.class);
       query.setParameter("nombre", "%"+id+"%");
       ArrayList<Persona> us = (ArrayList<Persona>) query.getResultList();
+      /* Quita al administrador */
+      for (int i = 0; i < us.size() ; i++) {
+        if (us.get(i).getAdministrador() != null) {
+          us.remove(i);
+          break;
+        }
+      }
       if (us.size() == 0) {
         return null;
       }
