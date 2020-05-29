@@ -207,5 +207,17 @@ public class Usuario {
   public List<Cancion> getCancionesPropias() {
     return this.cancionesPropias;
   }
-  
+
+  public List<Usuario> getAmigos () {
+    return this.amigos;
+  }
+
+  public void setAmigos (List<Usuario> amigos) {
+    this.amigos = amigos;
+  }
+
+  public void agregarAmigo (Usuario amigo) {
+    this.amigos.add(amigo);
+  }
+
 }

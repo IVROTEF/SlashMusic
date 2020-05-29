@@ -147,4 +147,31 @@ public class UsuarioService {
     return cancionesPropias;
   }
 
+  /* Agrega al usuario a la lista de seguidos del usuario con el correo indicado */
+  public void agregarSeguidor (Usuario usuario, String correo) {
+    Usuario actual = obtenerUsuarioCorreo(correo);
+    List<Usuario> amigos = actual.getAmigos();
+    if (amigos.contains(usuario)) {
+      return;
+    }
+    amigos.add(usuario);
+    actual.setAmigos(amigos);
+    repository.save(actual);
+  }
+
+  /* Elimina un amigo de la lista del usuario actual */
+  public void eliminarAmigo (Usuario usuario, String correo) {
+    Usuario actual = obtenerUsuarioCorreo(correo);
+    List<Usuario> amigos = actual.getAmigos();
+    amigos.remove(usuario);
+    actual.setAmigos(amigos);
+    repository.save(actual);
+  }
+
+  /* Obtiene los usuarios que sigue */
+  public List<Usuario> obtenerAmigos (String correo){
+    Usuario actual = obtenerUsuarioCorreo(correo);
+    return actual.getAmigos();
+  }
+
 }

@@ -99,4 +99,10 @@ public class Persona {
     this.administrador = administrador;
   }
 
+  @Override
+  public boolean equals (Object obj) {
+    Persona p = (Persona) obj;
+    return this.correo.equals(p.getCorreo());
+  }
+
 }

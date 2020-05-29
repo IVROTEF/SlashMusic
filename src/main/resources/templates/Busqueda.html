@@ -72,7 +72,8 @@
   	  <tbody>
   			<tr th:each="list : ${listasUs}">
   			  <td th:utext="${list.nombre}"></td>
-  			  <td><a class="btn btn-info" role="button" data-toggle="modal" data-target="#agregar" th:attr="data-cancion=${list.nombre}"> Agregar a favoritos </a></td>
+  			  <td><button class="btn btn-info" role="button" data-toggle="modal" data-target="#seguir"
+                th:attr="data-usuario=${list.correo}"> Seguir </button></td>
   		  </tr>
   		</tbody>
   	</table>
@@ -125,6 +126,21 @@
   	  </div>
     </div>
 
+    <div class="modal fade" tabindex="-1" role="dialog" id="seguir">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">¿Estas seguro de seguir a este usuario? </h5>
+        </div>
+        <div class="modal-footer" >
+          <a type="button" class="btn btn-success" id="seguirUsuario" onclick="seguir()">Aceptar</a>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" >Cancelar</button>
+        </div>
+        </div>
+      </div>
+      </div>
+    </div>
+
     <div th:insert="fragments/common :: music-bar"></div>
 
 	  <script th:inline="javascript">
@@ -146,6 +162,15 @@
 	</body>
 
     <div th:insert="fragments/common :: scriptAudio"></div>
+
+    <script>
+    	$('#seguir').on('show.bs.modal', function (event) {
+    		var boton = $(event.relatedTarget)
+    		var usuario = boton.data('usuario');
+    		var modal = $(this)
+    		document.getElementById('seguirUsuario').href = "/siguiendo/agregar/" + usuario.toString();
+    	})
+    	</script>
 
 	  <script>
 	  $('#agregar').on('show.bs.modal', function (event) {
