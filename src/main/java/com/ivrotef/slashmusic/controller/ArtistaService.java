@@ -64,4 +64,12 @@ public class ArtistaService {
       return canciones;
     }
 
+    public void eliminar (Artista d) {
+      repository.deleteById(d.getNombre());
+    }
+
+    public void guardar (Artista artista) {
+      repository.save(artista);
+    }
+
 }

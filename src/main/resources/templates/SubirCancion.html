@@ -63,7 +63,9 @@
       </div>
       <div th:unless="${hayArtistas}">
         <h5> No existen artistas, para subir una cancion debes seleccionar un artista </h5>
-        <a type="button" class="btn btn-info mb-5 center" href ="/admin/agregar/artista"> Agregar artista</a>
+        <div class="container pt-3">
+          <button class="btn btn-info" role="button" data-toggle="modal" data-target="#guardarArtista"> Agregar artista </button>
+        </div>
       </div>
     </div>
 
@@ -73,14 +75,13 @@
     </div>
 
     <div class="form-group">
-      <h5> Nombre </h5>
-        <input type="text" name="nombreCancion" path="nombreCancion" class="form-control" placeholder="Nombre de la cancion"
-            autofocus="true" title="Debe tener una longitud de al menos 6 caracteres y maximo 30"
-            pattern=".{6,30}"  required></input>
+        <h5> Nombre </h5>
+          <input type="text" name="nombreCancion" path="nombreCancion" class="form-control" placeholder="Nombre de la cancion"
+              autofocus="true" title="Debe tener una longitud de al menos 6 caracteres y maximo 30"
+              pattern=".{6,30}"  required></input>
     </div>
 
     <div th:if="${hayArtistas or not esAdmin}">
-
       <input type="file" class="pt-2" name="file" accept=".mp3" required/> <br></br>
       <button class="btn btn-success" type="submit">Subir</button>
     </div>
@@ -89,6 +90,37 @@
 </div>
 </div>
 
+<div class="modal fade" tabindex="-1" role="dialog" id="guardarArtista">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Ingresar un artista</h5>
+      </div>
+      <div class="modal-body">
+        <label for="message-text" class="col-form-label">Nombre:</label>
+        <input class="form-group" type="text" id="artista" required></input>
+      </div>
+      <div class="modal-footer">
+        <a type="button" class="btn btn-success" id="guardar" onclick="crear()">Guardar</a>
+        <a type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script th:inline="javascript">
+function crear(){
+  var artista = document.getElementById("artista").value;
+  if (artista == ""){
+    return;
+  }
+  document.getElementById("guardar").href = "/admin/artistas/agregar/" + artista.toString();
+}
+</script>
 
 </body>
+</html>
+
+>
 </html>

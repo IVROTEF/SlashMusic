@@ -57,6 +57,8 @@ CREATE TABLE Cancion (
     CONSTRAINT PK_Cancion PRIMARY KEY (nombre),
     CONSTRAINT FK_Cancion_Persona FOREIGN KEY (autor) 
     REFERENCES Persona (correo)
+	ON DELETE CASCADE
+    ON UPDATE CASCADE
 );
 
 CREATE TABLE Artista (
@@ -69,7 +71,9 @@ CREATE TABLE Pertenece_Artista (
 	cancion VARCHAR(30),    
     CONSTRAINT PK_Cancion_Artista PRIMARY KEY (artista, cancion),
     CONSTRAINT FK_Cancion_Artista_Artista FOREIGN KEY (artista) 
-    REFERENCES Artista (nombre),
+    REFERENCES Artista (nombre)
+	ON DELETE CASCADE
+    ON UPDATE CASCADE,
     CONSTRAINT FK_Cancion_Artista_Cancion FOREIGN KEY (cancion) 
     REFERENCES Cancion (nombre)
     ON DELETE CASCADE
@@ -146,4 +150,6 @@ CREATE TABLE Agregar_Artista_Fav (
     REFERENCES Usuario (correo),
     CONSTRAINT FK_Agregar_Artista_Fav_Artista FOREIGN KEY (artista) 
     REFERENCES Artista (nombre)
+	ON DELETE CASCADE
+    ON UPDATE CASCADE
 );
