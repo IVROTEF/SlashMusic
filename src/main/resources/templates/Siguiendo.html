@@ -19,8 +19,12 @@
 	<!-- Barra de navegacion  -->
   <div th:insert="fragments/common :: navbar"></div>
 
+  <div class = "container pt-5">
+      <h1>Amigos</h1>
+  </div>
+
   	<div class = "container pt-3">
-        <div th:if="${hayAmigos}">
+      <div th:if="${hayAmigos}">
   	<table class="table table-bordered">
   	  <thead class ="thead-dark">
   	    <tr>
