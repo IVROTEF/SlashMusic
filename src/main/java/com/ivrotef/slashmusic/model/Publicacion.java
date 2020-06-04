@@ -33,12 +33,23 @@ public class Publicacion {
   @JoinColumn(name = "cancion")
   private Cancion cancionPublicacion;
 
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "publicacionC")
+  private List<Comentario> comentarios;
+
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "publicacionPC")
+  private List<PublicacionCompartida> publicacionesCompartidas;
+
   public Publicacion (){
+    comentarios = new ArrayList<Comentario>();
+    publicacionesCompartidas = new ArrayList<PublicacionCompartida>();
   }
 
-  public Publicacion (int idPublicacion, String descripcion) {
+  public Publicacion (int idPublicacion, String descripcion, Usuario usuario) {
     this.idPublicacion = idPublicacion;
     this.descripcion = descripcion;
+    this.usuario = usuario;
+    comentarios = new ArrayList<Comentario>();
+    publicacionesCompartidas = new ArrayList<PublicacionCompartida>();
   }
 
   public int getIdPublicacion () {
@@ -71,5 +82,21 @@ public class Publicacion {
 
   public void setCancionPublicacion (Cancion cancionPublicacion) {
     this.cancionPublicacion = cancionPublicacion;
+  }
+
+  public List<Comentario> getComentarios () {
+    return this.comentarios;
+  }
+
+  public void setComentarios (List<Comentario> comentarios) {
+    this.comentarios = comentarios;
+  }
+
+  public List<PublicacionCompartida> getPublicacionCompartidas () {
+    return this.publicacionesCompartidas;
+  }
+
+  public void setPublicacionCompartidas (List<PublicacionCompartida> publicacionesCompartidas) {
+    this.publicacionesCompartidas = publicacionesCompartidas;
   }
 }

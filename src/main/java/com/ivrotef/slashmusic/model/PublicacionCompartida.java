@@ -18,7 +18,6 @@ import javax.persistence.Table;
 
 import javax.persistence.EmbeddedId;
 
-
 @Entity
 @Table(name = "Publicacion_Compartida")
 public class PublicacionCompartida {
@@ -26,9 +25,16 @@ public class PublicacionCompartida {
   @EmbeddedId
   private PublicacionCompartidaID publicacionCompartidaID;
 
+  @Column(name = "descripcion")
+  private String descripcion;
+
   @ManyToOne
   @JoinColumn(name = "usuario")
   private Usuario usuarioPC;
+
+  @ManyToOne
+  @JoinColumn(name="id_publicacion",referencedColumnName="id_publicacion")
+  private Publicacion publicacionPC;
 
   public PublicacionCompartida(){
   }
@@ -45,11 +51,27 @@ public class PublicacionCompartida {
     this.publicacionCompartidaID = publicacionCompartidaID;
   }
 
+  public String getDescripcion () {
+    return this.descripcion;
+  }
+
+  public void setDescripcion (String descripcion) {
+    this.descripcion = descripcion;
+  }
+
   public Usuario getUsuarioPC () {
     return this.usuarioPC;
   }
 
   public void setUsuarioPC (Usuario usuarioPC) {
     this.usuarioPC = usuarioPC;
+  }
+
+  public Publicacion getPublicacionPC () {
+    return this.publicacionPC;
+  }
+
+  public void setPublicacionPC (Publicacion publicacionPC) {
+    this.publicacionPC = publicacionPC;
   }
 }
