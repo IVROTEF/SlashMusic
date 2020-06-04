@@ -20,54 +20,69 @@ import com.ivrotef.slashmusic.model.Cancion;
 @Service
 public class CancionService {
 
-    @PersistenceContext
-    EntityManager entityManager;
+  @PersistenceContext
+  EntityManager entityManager;
 
-    @Autowired
-    private CancionRepository repository;
+  @Autowired
+  private CancionRepository repository;
 
-    public ArrayList<Cancion> getCanciones() {
-      ArrayList<Cancion> canciones = (ArrayList<Cancion>) repository.findAll();
-      return canciones;
+  public ArrayList<Cancion> getCanciones() {
+    ArrayList<Cancion> canciones = (ArrayList<Cancion>) repository.findAll();
+    return canciones;
+  }
+
+  public Cancion obtenerCancion(String id) {
+    Optional<Cancion> cancion =  repository.findById(id);
+    if (cancion.isPresent()) {
+      return cancion.get();
     }
+    return null;
+  }
 
-    public Cancion obtenerCancion(String id) {
-      Optional<Cancion> cancion =  repository.findById(id);
-      if (cancion.isPresent()) {
-        return cancion.get();
-      }
+  public Cancion obtenerCancionArchivo (String ruta) {
+    Cancion cancion =  repository.findByArchivo(ruta);
+    return cancion;
+  }
+
+  public ArrayList<Cancion> getCancionesSimilares (String id) {
+    Query query = entityManager.createQuery("FROM Cancion c WHERE c.nombre LIKE :nombre", Cancion.class);
+    query.setParameter("nombre", "%"+id+"%");
+    ArrayList<Cancion> canciones = (ArrayList<Cancion>) query.getResultList();
+    if (canciones.size() == 0) {
       return null;
     }
+    return canciones;
+  }
 
-    public Cancion obtenerCancionRuta (String ruta) {
-      Cancion cancion =  repository.findByArchivo(ruta);
-      return cancion;
+  public Cancion actualizar (Cancion cancion) {
+    Optional<Cancion> l = repository.findById(cancion.getNombre());
+    Cancion t = null;
+    if (l.isPresent()) {
+      t = l.get();
+      t.setNombre(cancion.getNombre());
+      t.setArchivo(cancion.getArchivo());
+      t.setAutor(cancion.getAutor());
+      t.setListas(cancion.getListas());
+      //t.setComentarios(cancion.getComentarios());
+      t.setSeguidores(cancion.getSeguidores());
+      t.setPropietarios(cancion.getPropietarios());
+     // t.setDistribuidores(cancion.getDistribuidores());
+      t.setAutores(cancion.getAutores());
+      try {
+        t = repository.save(t);
+      } catch (Exception e) { e.printStackTrace();}
     }
+    return t;
+  }
 
-    public Cancion actualizar (Cancion cancion) {
-      Optional<Cancion> l = repository.findById(cancion.getNombre());
-      Cancion t = null;
-      if (l.isPresent()) {
-        t = l.get();
-        t.setNombre(cancion.getNombre());
-        t.setArchivo(cancion.getArchivo());
-        t.setAutor(cancion.getAutor());
-        t.setListas(cancion.getListas());
-        t.setComentarios(cancion.getComentarios());
-        t.setSeguidores(cancion.getSeguidores());
-        t.setPropietarios(cancion.getPropietarios());
-        t.setDistribuidores(cancion.getDistribuidores());
-        t.setAutores(cancion.getAutores());
-        try {
-          t = repository.save(t);
-        } catch (Exception e) { e.printStackTrace();}
-      }
-      return t;
-    }
+  public void guardar (Cancion cancion) {
+    repository.save(cancion);
+  }
 
-    public void guardar (Cancion cancion) {
-      repository.save(cancion);
-    }
+  public void eliminar (Cancion cancion) {
+    
 
+    repository.deleteById (cancion.getNombre());
+  }
 
 }

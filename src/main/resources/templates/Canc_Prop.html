@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html xmlns:th="http://www.thymeleaf.org" >
+
+<head>
+
+<title> Canciones propias </title>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+</head>
+
+<body>
+	<!-- Barra de navegacion  -->
+  <div th:insert="fragments/common :: navbar"></div>
+
+  <div class = "container pt-5">
+    <h1> Mis propias canciones </h1>
+  </div>
+
+  	<div class = "container pt-3">
+        <div th:if="${hayCanciones}">
+  	<table class="table table-bordered">
+  	  <thead class ="thead-dark">
+  	    <tr>
+			<th scope="col">Mis canciones</th>
+			<th scope="col">Reproducir</th>
+			<th scope="col">Eliminar</th>
+  	    </tr>
+  	  </thead>
+  	  <tbody>
+  			<tr th:each="li : ${misCanciones}">
+			  <td th:utext="${li.nombre}"></td>
+			  <td><button id="botonPlay" class="btn btn-success" role="button"
+                th:attr="value=${li.archivo}" onclick="play(this.value)">Reproducir</button></td>
+			  <td> <button class="btn btn-danger" role="button" data-toggle="modal" th:attr="data-cancion=${li.nombre}" data-target="#confirmar"> Eliminar </button> </td>
+  		  </tr>
+		  </tbody>
+      </table>
+      </div>
+      <div th:unless="${hayCanciones}">
+        <h1 style="text-align:center"> Aun no tienes canciones agregadas </h1>
+      </div>
+	  </div>
+
+      <!-- Modal -->
+      <div class="modal fade" id="confirmar">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+              <h4 class="modal-title-center"> Confirmación</h4>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+              <h1  class= "text-center"></h1>¿Deseas continuar?
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+              <a class="btn btn-secondary" data-dismiss="modal" > Cancelar </a>
+              <a type="button" id ="aceptar_eliminar" class="btn btn-success" > Aceptar</a>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+
+	  <div th:insert="fragments/common :: music-bar"></div>
+
+</body>
+
+<script>
+$('#confirmar').on('show.bs.modal', function (event) {
+    var boton = $(event.relatedTarget);
+    var cancion = boton.data('cancion');
+    var modal = $(this);
+    document.getElementById('aceptar_eliminar').href = "/mis_canciones/eliminar/" + cancion.toString();
+})
+</script>
+
+<div th:insert="fragments/common :: scriptAudio"></div>
+
+</html>

@@ -1,0 +1,219 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html xmlns:th="http://www.thymeleaf.org" >
+
+<head>
+
+<title> Busqueda </title>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+</head>
+
+<body>
+	<!-- Barra de navegacion  -->
+  <div th:insert="fragments/common :: navbar"></div>
+
+  	<div class = "container pt-5">
+    <h1>Canciones</h1>
+  	<table class="table table-bordered">
+  	  <thead class ="thead-dark">
+  	    <tr>
+			<th scope="col">Nombre</th>
+			<th scope="col">Reproducir</th>
+			<th scope="col">Favoritos</th>
+			<th scope="col">Listas</th>
+  	    </tr>
+  	  </thead>
+  	  <tbody>
+  			<tr th:each="li : ${listas}">
+  			  <td th:utext="${li.nombre}"></td>
+  			  <td><button id="botonPlay" class="btn btn-success" role="button"
+                th:attr="value=${li.archivo}" onclick="play(this.value)">Reproducir</button></td>
+  			  <td><a class="btn btn-info" role="button" data-toggle="modal" data-target="#canFav" th:attr="data-cancion=${li.nombre}"> Agregar a favoritos </a></td>
+  			  <td><a class="btn btn-info" role="button" data-toggle="modal" data-target="#agregar" th:attr="data-cancion=${li.nombre}"> Agregar a una lista </a></td>
+  		  </tr>
+		  </tbody>
+    </table>
+    </div>
+
+    <div class = "container pt-5">
+    <h1>Artistas</h1>
+    <table class="table table-bordered">
+      <thead class ="thead-dark">
+			<tr>
+			  <th scope="col">Nombre</th>
+			  <th scope="col">Accion</th>
+			</tr>
+		  </thead>
+  	  <tbody>
+  			<tr th:each="listas : ${listasArt}">
+  			  <td th:utext="${listas.nombre}"></td>
+          <td><a class="btn btn-info" role="button" data-toggle="modal" data-target="#agregarArtista" th:attr="data-artista=${listas.nombre}"> Agregar a favoritos </a></td>
+        </tr>
+		  </tbody>
+    </table>
+    </div>
+
+    <div class = "container pt-5">
+      <h1>Usuarios</h1>
+    <table class="table table-bordered">
+		  <thead class ="thead-dark">
+			<tr>
+			  <th scope="col">Nombre</th>
+			  <th scope="col">Accion</th>
+			</tr>
+		  </thead>
+  	  <tbody>
+  			<tr th:each="list : ${listasUs}">
+  			  <td th:utext="${list.nombre}"></td>
+  			  <td><button class="btn btn-info" role="button" data-toggle="modal" data-target="#seguir"
+                th:attr="data-usuario=${list.correo}"> Seguir </button></td>
+  		  </tr>
+  		</tbody>
+  	</table>
+    </div>
+
+	  <div class="modal fade" tabindex="-1" role="dialog" id="agregar">
+		<div class="modal-dialog" role="document">
+		  <div class="modal-content">
+			<div class="modal-header">
+			  <h5 class="modal-title">Escoge una lista para agregar</h5>
+			</div>
+			<div class="modal-body">
+			  <h6 class="modal-cancion" id="seleccionada"> Cancion </h6>
+			  <div class="form-group">
+				<div th:if="${hayListas}">
+				  <select class="form-control" id="agregarListas">
+					<div th:each="lista : ${list}">
+					<option th:value="${lista.listaID.nombreLista}" th:text="${lista.listaID.nombreLista}"></option>
+					</div>
+				  </select>
+				</div>
+				<div th:unless="${hayListas}" >
+				  <a type="button" class="btn btn-secondary" href ="/listas/ver"> Crear una lista </a>
+				</div>
+			  </div>
+
+			</div>
+			<div class="modal-footer" >
+			  <a type="button" class="btn btn-success" id="guardar" onclick="insertar()">Guardar</a>
+			  <a type="button" class="btn btn-secondary" href= "/" >Cancelar</a>
+			</div>
+		  </div>
+		</div>
+	  </div>
+
+	  <div class="modal fade" tabindex="-1" role="dialog" id="canFav">
+  		<div class="modal-dialog" role="document">
+  		  <div class="modal-content">
+  			<div class="modal-header">
+  			  <h5 class="modal-title">¿Estas seguro de agregar a tus favoritos? </h5>
+  			</div>
+  			<div class="modal-body">
+  			  <h6 class="modal-cancion" id="seleccionada2"> Cancion </h6>
+  			<div class="modal-footer" >
+  			  <a type="button" class="btn btn-success" id="guardar2" onclick="insertar2()">Guardar</a>
+  			  <a type="button" class="btn btn-secondary" href= "/" >Cancelar</a>
+  			</div>
+  		  </div>
+  		</div>
+  	  </div>
+    </div>
+
+    <div class="modal fade" tabindex="-1" role="dialog" id="seguir">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">¿Estas seguro de seguir a este usuario? </h5>
+        </div>
+        <div class="modal-footer" >
+          <a type="button" class="btn btn-success" id="seguirUsuario" onclick="seguir()">Aceptar</a>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" >Cancelar</button>
+        </div>
+        </div>
+      </div>
+      </div>
+    </div>
+
+
+    <div class="modal fade" tabindex="-1" role="dialog" id="agregarArtista">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">¿Estas seguro de agregar este artista?</h5>
+        </div>
+        <div class="modal-footer" >
+          <a type="button" class="btn btn-success" id="botonAgregarArtista" onclick="agregarArtista()">Aceptar</a>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" >Cancelar</button>
+        </div>
+        </div>
+      </div>
+      </div>
+    </div>
+
+    <div th:insert="fragments/common :: music-bar"></div>
+
+	  <script th:inline="javascript">
+	  function insertar() {
+		var cancion = document.getElementById('seleccionada').innerHTML;
+		var lista = $('#agregarListas').find("option:selected").val();
+		document.getElementById("guardar").href = "/listas/ver/" + lista + "/agregar/" + cancion;
+	  }
+	  </script>
+
+    <script th:inline="javascript">
+	  function insertar2() {
+	  var cancion = document.getElementById('seleccionada2').innerHTML;
+	  document.getElementById("guardar2").href = "/search/agregaC/"  + cancion;
+	  }
+	 </script>
+
+
+	</body>
+
+    <div th:insert="fragments/common :: scriptAudio"></div>
+
+    <script>
+    	$('#seguir').on('show.bs.modal', function (event) {
+    		var boton = $(event.relatedTarget)
+    		var usuario = boton.data('usuario');
+    		var modal = $(this)
+    		document.getElementById('seguirUsuario').href = "/siguiendo/agregar/" + usuario.toString();
+    	})
+    	</script>
+
+	  <script>
+	  $('#agregar').on('show.bs.modal', function (event) {
+		  var boton = $(event.relatedTarget)
+		  var cancion = boton.data('cancion');
+		  var modal = $(this)
+		  modal.find('.modal-cancion').text(cancion)
+	  })
+	  </script>
+
+    <script>
+    $('#agregarArtista').on('show.bs.modal', function (event) {
+      var boton = $(event.relatedTarget)
+      var artista = boton.data('artista');
+      var modal = $(this)
+    	document.getElementById('botonAgregarArtista').href = "/artistasFavoritos/agregar/" + artista.toString();
+    })
+    </script>
+
+<script>
+	$('#canFav').on('show.bs.modal', function (event) {
+		var boton = $(event.relatedTarget)
+		var cancion = boton.data('cancion');
+		var modal = $(this)
+		modal.find('.modal-cancion').text(cancion)
+	})
+	</script>
+
+</body>
+</html>

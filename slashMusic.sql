@@ -57,6 +57,8 @@ CREATE TABLE Cancion (
     CONSTRAINT PK_Cancion PRIMARY KEY (nombre),
     CONSTRAINT FK_Cancion_Persona FOREIGN KEY (autor) 
     REFERENCES Persona (correo)
+	ON DELETE CASCADE
+    ON UPDATE CASCADE
 );
 
 CREATE TABLE Artista (
@@ -69,11 +71,30 @@ CREATE TABLE Pertenece_Artista (
 	cancion VARCHAR(30),    
     CONSTRAINT PK_Cancion_Artista PRIMARY KEY (artista, cancion),
     CONSTRAINT FK_Cancion_Artista_Artista FOREIGN KEY (artista) 
-    REFERENCES Artista (nombre),
+    REFERENCES Artista (nombre)
+	ON DELETE CASCADE
+    ON UPDATE CASCADE,
     CONSTRAINT FK_Cancion_Artista_Cancion FOREIGN KEY (cancion) 
     REFERENCES Cancion (nombre)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
 );
 
+<<<<<<< HEAD
+=======
+CREATE TABLE Compartir (
+	usuario VARCHAR(20),
+    cancion VARCHAR(30),
+    CONSTRAINT PK_Compartir PRIMARY KEY (usuario, cancion),
+    CONSTRAINT FK_Compartir_Usuario FOREIGN KEY (usuario)
+    REFERENCES Usuario (correo),
+    CONSTRAINT FK_Compartir_Cancion FOREIGN KEY (cancion) 
+    REFERENCES Cancion (nombre)
+	ON DELETE CASCADE
+    ON UPDATE CASCADE
+);
+
+>>>>>>> origin
 CREATE TABLE Pertenece_Usuario (
 	usuario VARCHAR(20),
     cancion VARCHAR(30),
@@ -81,7 +102,9 @@ CREATE TABLE Pertenece_Usuario (
     CONSTRAINT FK_Pertenece_Usuario_Usuario FOREIGN KEY (usuario)
     REFERENCES Usuario (correo),
 	CONSTRAINT FK_Pertenece_Usuario_Cancion FOREIGN KEY (cancion) 
-	REFERENCES Cancion (nombre)	
+	REFERENCES Cancion (nombre)
+	ON DELETE CASCADE
+    ON UPDATE CASCADE
 );
 
 CREATE TABLE Agregar_Favorito (
@@ -92,8 +115,26 @@ CREATE TABLE Agregar_Favorito (
     REFERENCES Usuario (correo),
 	CONSTRAINT FK_Agregar_Favorito_Cancion FOREIGN KEY (cancion) 
 	REFERENCES Cancion (nombre)		
+	ON DELETE CASCADE
+    ON UPDATE CASCADE
 );
 
+<<<<<<< HEAD
+=======
+CREATE TABLE Comentar (
+	usuario VARCHAR(20),
+    cancion VARCHAR(30),
+    comentario TEXT,
+    CONSTRAINT PK_Comentar PRIMARY KEY (usuario, cancion),
+    CONSTRAINT FK_Comentar_Usuario FOREIGN KEY (usuario)
+    REFERENCES Usuario (correo),
+	CONSTRAINT FK_Comentar_Cancion FOREIGN KEY (cancion) 
+	REFERENCES Cancion (nombre)	
+	ON DELETE CASCADE
+    ON UPDATE CASCADE
+);
+
+>>>>>>> origin
 CREATE TABLE Contener (
 	usuario VARCHAR(40) NOT NULL,
     nombre_lista VARCHAR(20) NOT NULL,
@@ -103,6 +144,8 @@ CREATE TABLE Contener (
     REFERENCES Lista (usuario, nombre_lista),
     CONSTRAINT FK_Contener_Cancion FOREIGN KEY (cancion)
     REFERENCES Cancion (nombre)
+	ON DELETE CASCADE
+    ON UPDATE CASCADE
 );
 
 CREATE TABLE Agregar_Artista_Fav (
@@ -113,6 +156,7 @@ CREATE TABLE Agregar_Artista_Fav (
     REFERENCES Usuario (correo),
     CONSTRAINT FK_Agregar_Artista_Fav_Artista FOREIGN KEY (artista) 
     REFERENCES Artista (nombre)
+<<<<<<< HEAD
 );
 
 CREATE TABLE Publicacion (
@@ -150,3 +194,8 @@ CREATE TABLE Publicacion_Compartida (
     CONSTRAINT FK_Compartir_Usuario FOREIGN KEY (usuario) 
 	REFERENCES Usuario (correo)	
 )ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT = 1;
+=======
+	ON DELETE CASCADE
+    ON UPDATE CASCADE
+);
+>>>>>>> origin

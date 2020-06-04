@@ -97,7 +97,11 @@ public class Usuario {
   @OneToMany(mappedBy = "usuarioPC")
   private List<PublicacionCompartida> publicacionesCompartidas;
 
+<<<<<<< HEAD
   /* Publicaciones del usuario. */ 
+=======
+  /* Publicaciones del usuario. */
+>>>>>>> origin
   @OneToMany(mappedBy = "usuarioPublicacion")
   private List<Publicacion> publicaciones;
 
@@ -132,7 +136,7 @@ public class Usuario {
     this.correo = persona.getCorreo();
     this.persona = persona;
   }
-  
+
   public Persona getPersona () {
     return this.persona;
   }
@@ -192,4 +196,35 @@ public class Usuario {
   public void setPublicaciones (List<Publicacion> publicaciones) {
     this.publicaciones = publicaciones;
   }
+<<<<<<< HEAD
+=======
+  public List<Cancion> getCancionesFavoritas () {
+    return this.cancionesFavoritas;
+  }
+
+  public void setCancionesFavoritas(List<Cancion> cancionesFavoritas) {
+    this.cancionesFavoritas = cancionesFavoritas;
+  }
+
+  public void setCancionesPropias (List<Cancion> cancionesPropias) {
+    this.cancionesPropias = cancionesPropias;
+  }
+
+  public List<Cancion> getCancionesPropias() {
+    return this.cancionesPropias;
+  }
+
+  public List<Usuario> getAmigos () {
+    return this.amigos;
+  }
+
+  public void setAmigos (List<Usuario> amigos) {
+    this.amigos = amigos;
+  }
+
+  public void agregarAmigo (Usuario amigo) {
+    this.amigos.add(amigo);
+  }
+
+>>>>>>> origin
 }

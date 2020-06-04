@@ -51,10 +51,10 @@ public class Cancion {
 
   public Cancion (){
     this.listas = new ArrayList<Lista>();
-    this.comentarios = new ArrayList<Comentario>();
+   // this.comentarios = new ArrayList<Comentario>();
     this.seguidores = new ArrayList<Usuario>();
     this.propietarios = new ArrayList<Usuario>();
-    this.distribuidores = new ArrayList<Usuario>();
+    //this.distribuidores = new ArrayList<Usuario>();
     this.autores = new ArrayList<Artista>();
     this.publicaciones = new ArrayList<Publicacion>();
   }
@@ -63,10 +63,10 @@ public class Cancion {
     this.nombre = nombre;
     this.archivo = archivo;
     this.listas = new ArrayList<Lista>();
-    this.comentarios = new ArrayList<Comentario>();
+    //this.comentarios = new ArrayList<Comentario>();
     this.seguidores = new ArrayList<Usuario>();
     this.propietarios = new ArrayList<Usuario>();
-    this.distribuidores = new ArrayList<Usuario>();
+    //this.distribuidores = new ArrayList<Usuario>();
     this.autores = new ArrayList<Artista>();
     this.publicaciones = new ArrayList<Publicacion>();
   }

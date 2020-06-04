@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html xmlns:th="http://www.thymeleaf.org" >
+
+<head>
+
+<title> Siguiendo </title>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+</head>
+
+<body>
+	<!-- Barra de navegacion  -->
+  <div th:insert="fragments/common :: navbar"></div>
+
+  <div class = "container pt-5">
+      <h1>Usuarios que sigues</h1>
+  </div>
+
+  	<div class = "container pt-3">
+      <div th:if="${hayAmigos}">
+  	<table class="table table-bordered">
+  	  <thead class ="thead-dark">
+  	    <tr>
+			<th scope="col">Nombre</th>
+			<th scope="col">Dejar de seguir</th>
+  	    </tr>
+  	  </thead>
+  	  <tbody>
+  			<tr th:each="li : ${amigos}">
+			  <td th:utext="${li.persona.nombre}"></td>
+			  <td> <button class="btn btn-danger" role="button" data-toggle="modal" th:attr="data-usuario=${li.correo}" data-target="#dejarSeguir"> Eliminar </button> </td>
+  		  </tr>
+		  </tbody>
+      </table>
+      </div>
+      <div th:unless="${hayAmigos}">
+        <h1 style="text-align:center"> Aun no sigues a algun usuario </h1>
+      </div>
+	  </div>
+
+      <!-- Modal -->
+      <div class="modal fade" id="dejarSeguir">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+              <h4 class="modal-title-center"> Confirmación</h4>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+              <h1  class= "text-center"></h1>¿Deseas continuar?
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+              <a class="btn btn-secondary" data-dismiss="modal" > Cancelar </a>
+              <a type="button" id ="aceptar_eliminar" class="btn btn-success" > Aceptar</a>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+
+</body>
+
+<script>
+$('#dejarSeguir').on('show.bs.modal', function (event) {
+    var boton = $(event.relatedTarget);
+    var usuario = boton.data('usuario');
+    var modal = $(this);
+    document.getElementById('aceptar_eliminar').href = "/siguiendo/eliminar/" + usuario.toString();
+})
+</script>
+
+</html>

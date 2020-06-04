@@ -17,12 +17,12 @@
 
 	<!-- Barra de navegacion para usuario -->
 	<nav class="navbar navbar-expand-sm bg-dark navbar-dark" th:fragment= "navbar">
-      <div class="container">
-	  	<form class="form-inline" action="/action_page.php">
-	    	<input class="form-control mr-sm-2" type="text" placeholder="Ingresa tu busqueda" width= 100>
-	    	<button class="btn btn-success" type="submit">Buscar </button>
-	  	</form>
-		 <ul class="nav nav-pills">
+    <div class="container">
+			<form class="form-inline" action="/search/ver">
+			  <input name="item" class="form-control mr-sm-2" type="text" placeholder="Ingresa tu busqueda" width= 100 required>
+			  <button class="btn btn-success" type="submit">Buscar </button>
+			</form>
+			 <ul class="nav nav-pills">
 
 		  <li class="nav-item dropdown">
 		    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Opciones</a>
@@ -30,18 +30,22 @@
 		      <a class="dropdown-item" href="/canciones_favoritas">Mis canciones favoritas</a>
 		      <a class="dropdown-item" href="/listas/ver">Listas de reproducción</a>
 		      <a class="dropdown-item" href="/mis_canciones">Mis propias canciones</a>
-          <a class="dropdown-item" href="/amigos">Amigos</a>
-		      <a class="dropdown-item" href="/artistas_favoritos">Artistas favoritos</a>
+          <a class="dropdown-item" href="/siguiendo/ver">Siguiendo</a>
+		      <a class="dropdown-item" href="/artistasFavoritos/ver">Artistas favoritos</a>
 		    </div>
 		  </li>
 
 		  <li class="nav-item">
 		    <a class="nav-link" href="/">Inicio</a>
 		  </li>
-
+<!--
 		  <li class="nav-item">
 		    <a class="nav-link" href="/perfil/ver">Perfil</a>
-		  </li>
+		  </li> -->
+
+      <li class="nav-item">
+        <a class="nav-link" href="/subirCancion">Subir canción</a>
+      </li>
 
 		  <li class="nav-item">
 		    <a class="nav-link" href="/logout">Salir</a>
@@ -61,7 +65,11 @@
 		    <a class="nav-link" href="/admin/inicio">Inicio</a>
 		  </li>
 
-		  <li class="nav-item">
+      <li class="nav-item">
+        <a class="nav-link" href="/subirCancion">Subir cancion</a>
+      </li>
+
+      <li class="nav-item">
 		    <a class="nav-link" href="/logout">Salir</a>
 		  </li>
 		</ul>
@@ -100,6 +108,42 @@
 
 </div>
 
+<div class="container offset-md-3 pb-5" style="position:fixed;bottom:0" th:fragment="music-bar">
+  <audio id="myAudio" style="width: 700px;" type ="audio/mp3" src="" controls> </audio>
+</div>
+
+
+
+<script th:fragment="scriptAudio">
+  var isPlaying = false;
+  var myAudio = document.getElementById("myAudio");
+  function play(archivo) {
+    if (archivo != myAudio.src && myAudio.src != "" && myAudio.src != undefined ) {
+      if (isPlaying){
+        myAudio.pause()
+      }
+      myAudio.src=archivo;
+      myAudio.load();
+      myAudio.play();
+    } else {
+      if (isPlaying) {
+        myAudio.pause()
+      } else {
+        myAudio.src= archivo;
+        myAudio.load();
+        myAudio.play();
+      }
+    }
+  };
+
+  myAudio.onplaying = function() {
+    isPlaying = true;
+  };
+
+  myAudio.onpause = function() {
+    isPlaying = false;
+  };
+</script>
 
 
 </body>

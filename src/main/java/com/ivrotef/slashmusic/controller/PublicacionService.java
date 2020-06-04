@@ -83,4 +83,13 @@ public class PublicacionService {
         }
         return p2;
     }
+
+    /* Actualiza las publicaciones de la base de datos por las publicaciones recibidas
+     * Borra todas las publicaciones y guarda las que el usuario no elimino.
+     */
+    public void actualizarPublicaciones(ArrayList<Publicacion> publicaciones) {
+      ArrayList<Publicacion> publicacionesAnt = (ArrayList<Publicacion>) repository.findAll();
+      repository.deleteAll(publicacionesAnt);
+      repository.saveAll(publicaciones);
+    }
 }

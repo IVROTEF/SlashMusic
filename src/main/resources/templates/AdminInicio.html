@@ -19,9 +19,17 @@
 	<!-- Barra de navegacion  -->
   <div th:insert="fragments/common :: navbar-admin"></div>
 
+  <div class = "container pt-5">
+    <h1 th:text="Bienvenido + ' ' + Admin + ' ' + ${admin}"></h1>
+  </div>
 
-  <p th:text="Bienvenido + ' ' + Admin + ' ' + ${admin}"> </p>
-  <a class="btn btn-info" role="button" href="/upload"> Subir cancion </a>
+  <div class = "container offset-lg-5  pt-5">
+    <a class="btn btn-info" role="button" href="/subirCancion"> Subir cancion </a>
+  </div>
+
+  <div class = "container offset-lg-5 pt-5">
+    <a class="btn btn-info" role="button" href="artistas/ver"> Ver artistas </a>
+  </div>
 
 </body>
 

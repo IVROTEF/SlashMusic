@@ -85,4 +85,15 @@ public class ComentarioService {
         }
         return c2;
     }
+
+    /* Actualiza los comentarios de una publicación por los comentarios recibidos
+     * Borra todos los comentarios y guarda los que el usuario no elimino.
+     */
+    public void actualizarComentarios(ArrayList<Comentario> comentarios, int id_publicacion) {
+      Query query = entityManager.createQuery("FROM Comentario c WHERE c.id_publicacion =: id", Comentario.class);
+      query.setParameter("id", id_publicacion);
+      ArrayList<Comentario> comentariosAnt = (ArrayList<Comentario>) query.getResultList();
+      repository.deleteAll(comentariosAnt);
+      repository.saveAll(comentarios);
+    }
 }

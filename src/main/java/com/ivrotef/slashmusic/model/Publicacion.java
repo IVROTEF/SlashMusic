@@ -39,7 +39,7 @@ public class Publicacion {
   @OneToMany(cascade = CascadeType.ALL, mappedBy = "publicacionC")
   private List<Comentario> comentarios =new ArrayList<Comentario>();
 
-  @OneToMany(cascade = CascadeType.ALL, mappedBy = "publicacionC")
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "publicacionPC")
   private List<PublicacionCompartida> publicacionesCompartidas =new ArrayList<PublicacionCompartida>();
 
   public Publicacion (){
