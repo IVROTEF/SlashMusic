@@ -82,7 +82,7 @@ public class PublicacionController {
     /* Muestra todas las publicaciones realizadas por el usuario actual. */
     @RequestMapping(value = "/publicaciones", method = RequestMethod.GET)
     public ModelAndView verPublicacionesPropias (@AuthenticationPrincipal PersonaWrapper persona) {
-        ModelAndView modelAndView = new ModelAndView("Publicaciones");
+        ModelAndView modelAndView = new ModelAndView("PublicacionesPropias");
         Persona actual = persona.getPersona();
         obtienePU(actual);
         boolean hayPU = (publicacionesUsuario.size() == 0) ? false : true;
@@ -123,7 +123,7 @@ public class PublicacionController {
     /* Muestra los comentarios de una publicacion compartida por el usuario. */
     @RequestMapping(value = "/publicaciones_compartidas/{idPublicacion}", method = RequestMethod.GET)
     public ModelAndView verComentariosPC(@PathVariable("idPublicacion") String idPublicacion){
-        ModelAndView modelAndView = new ModelAndView("PublicacionU");
+        ModelAndView modelAndView = new ModelAndView("PublicacionComp");
         int id = Integer.parseInt(idPublicacion);
         PublicacionCompartida pc = pcService.obtenerPCPublicacion(id);
         Publicacion publicacion = pc.getPublicacionPC();
@@ -194,7 +194,7 @@ public class PublicacionController {
     /* Vista para actualizar una publicacion realizada por el usuario. */
     @RequestMapping(value = "/publicaciones/actualizar/{idPublicacion}", method = RequestMethod.GET)
     public ModelAndView actualizarPropia(){
-        ModelAndView modelAndView = new ModelAndView ("ActualizarPropia");
+        ModelAndView modelAndView = new ModelAndView("ActualizarPropia");
         int id = Integer.parseInt(idPublicacion);
         Publicacion publicacion = publicacionService.obtenerPublicacionId(id);
         modelAndView.addObject("publicacion", publicacion);
@@ -238,7 +238,7 @@ public class PublicacionController {
     /* Vista para actualizar una publicacion compartida por el usuario. */
     @RequestMapping(value = "/publicaciones_compartidas/actualizar/{idPublicacion}/{idPublicacionC}", method = RequestMethod.GET)
     public ModelAndView actualizarCompartida(){
-        ModelAndView modelAndView = new ModelAndView ("ActualizarCompartida");
+        ModelAndView modelAndView = new ModelAndView("ActualizarCompartida");
         int id = Integer.parseInt(idPublicacion);
         int idComp = Integer.parseInt(idPublicacionC);
         PublicacionCompartidaID id_publicacionComp = new PublicacionCompartidaID(id, idComp);
