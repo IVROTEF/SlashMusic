@@ -268,7 +268,7 @@ public class PublicacionController {
     /* Vista para compartir una publicacion. */
     @RequestMapping(value = "/compartir/{idPublicacion}", method = RequestMethod.GET)
     public  ModelAndView compartirPub (@PathVariable("idPublicacion") String idPublicacion, @AuthenticationPrincipal PersonaWrapper persona) {
-        ModelAndView modelAndView = new ModelAndView ("CompartirPublicacion");
+        ModelAndView modelAndView = new ModelAndView("CompartirPublicacion");
         int id = Integer.parseInt(idPublicacion);
         Publicacion publicacion = publicacionService.obtenerPublicacionId(id);
         modelAndView.addObject("publicacion", publicacion);
