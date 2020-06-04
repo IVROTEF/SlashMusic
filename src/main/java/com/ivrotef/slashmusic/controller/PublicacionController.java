@@ -82,7 +82,7 @@ public class PublicacionController {
     /* Muestra todas las publicaciones realizadas por el usuario actual. */
     @RequestMapping(value = "/publicaciones", method = RequestMethod.GET)
     public ModelAndView verPublicacionesPropias (@AuthenticationPrincipal PersonaWrapper persona) {
-        ModelAndView modelAndView = new ModelAndView("VerPublicaciones");
+        ModelAndView modelAndView = new ModelAndView("Publicaciones");
         Persona actual = persona.getPersona();
         obtienePU(actual);
         boolean hayPU = (publicacionesUsuario.size() == 0) ? false : true;
@@ -94,7 +94,7 @@ public class PublicacionController {
     /* Muestra los comentarios de una publicacion realizada por el usuario. */
     @RequestMapping(value = "/publicaciones/{idPublicacion}", method = RequestMethod.GET)
     public ModelAndView verComentariosPU(@PathVariable("idPublicacion") String idPublicacion) {
-        ModelAndView modelAndView = new ModelAndView("ComentariosPublicacionU");
+        ModelAndView modelAndView = new ModelAndView("PublicacionU");
         int id = Integer.parseInt(idPublicacion);
         Publicacion publicacion = publicacionService.obtenerPublicacionId(id);
         ArrayList<Comentario> comentarios = comentarioService.obtenerComentariosPublicacion(id);
@@ -111,7 +111,7 @@ public class PublicacionController {
     /* Muestra todas las publicaciones compartidas por el usuario actual. */
     @RequestMapping(value = "/publicaciones_compartidas", method = RequestMethod.GET)
     public ModelAndView verPublicacionesCompartidas () {
-        ModelAndView modelAndView = new ModelAndView("VerPublicacionesComp");
+        ModelAndView modelAndView = new ModelAndView("PublicacionesComp");
         Persona actual = persona.getPersona();
         obtienePC(actual);
         boolean hayPC = (publicacionesCompartidas.size() == 0) ? false : true;
@@ -123,7 +123,7 @@ public class PublicacionController {
     /* Muestra los comentarios de una publicacion compartida por el usuario. */
     @RequestMapping(value = "/publicaciones_compartidas/{idPublicacion}", method = RequestMethod.GET)
     public ModelAndView verComentariosPC(@PathVariable("idPublicacion") String idPublicacion){
-        ModelAndView modelAndView = new ModelAndView("ComentariosPublicacionU");
+        ModelAndView modelAndView = new ModelAndView("PublicacionU");
         int id = Integer.parseInt(idPublicacion);
         PublicacionCompartida pc = pcService.obtenerPCPublicacion(id);
         Publicacion publicacion = pc.getPublicacionPC();
@@ -157,7 +157,7 @@ public class PublicacionController {
     /* El usuario actual selecciona la canción que quiere publicar. */
     @RequestMapping(value = "/seleccionarCanciones/{nombreCancion}", method = RequestMethod.GET)
     public ModelAndView seleccionarCancion (@PathVariable("nombreCancion") String nombreLista, @AuthenticationPrincipal PersonaWrapper persona) {
-        ModelAndView modelAndView = new ModelAndView("SeleccionarCancion");
+        ModelAndView modelAndView = new ModelAndView("CrearPublicacion");
         Persona actual = persona.getPersona();
         Cancion cancion = cancionService.obtenerCancion(nombreCancion);
         modelAndView.addObject("cancion", cancion);
