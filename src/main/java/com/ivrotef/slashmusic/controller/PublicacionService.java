@@ -93,4 +93,15 @@ public class PublicacionService {
       repository.deleteAll(publicacionesAnt);
       repository.saveAll(publicaciones);
     }
+
+    /**
+    * Obtiene las publicaciones que contienen una cancion que coincide con el paramentro
+    */
+    public ArrayList<Publicacion> getPublicacionesSimilares (String param) {
+      Query query = entityManager.createQuery("FROM Publicacion p WHERE p.cancionPublicacion.nombre LIKE: nombre", Publicacion.class);
+      query.setParameter("nombre", "%"+param+"%");
+      ArrayList<Publicacion> publicaciones = (ArrayList<Publicacion>) query.getResultList();
+      return publicaciones;
+    }
+
 }

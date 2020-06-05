@@ -18,9 +18,11 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.ArrayList;
 import com.ivrotef.slashmusic.model.Persona;
 import com.ivrotef.slashmusic.model.Lista;
+import com.ivrotef.slashmusic.model.Publicacion;
 import com.ivrotef.slashmusic.config.PersonaWrapper;
 import com.ivrotef.slashmusic.controller.ListaService;
 import com.ivrotef.slashmusic.controller.CancionService;
+import com.ivrotef.slashmusic.controller.PublicacionService;
 
 import java.util.ArrayList;
 
@@ -49,6 +51,8 @@ public class BusquedaController {
   ListaService listaService;
   @Autowired
   UsuarioService usService;
+  @Autowired
+  PublicacionService publicacionService;
 
   String valor;
 
@@ -65,6 +69,7 @@ public class BusquedaController {
     ArrayList<Cancion> resultados = cancionService.getCancionesSimilares(param1);
     ArrayList<Artista> art = artistaService.getArtSimilares(param1);
     ArrayList<Persona> us = personaService.getUsSimilares(param1);
+    ArrayList<Publicacion> publicaciones = publicacionService.getPublicacionesSimilares(param1);
     if (us == null) {
       us = new ArrayList<Persona>();
     } else {
@@ -82,7 +87,7 @@ public class BusquedaController {
     modelAndView.addObject("listasUs", us);
     modelAndView.addObject("listas", resultados);
     modelAndView.addObject("listasArt", art);
-
+    modelAndView.addObject("publicaciones", publicaciones);
     return modelAndView;
   }
 
