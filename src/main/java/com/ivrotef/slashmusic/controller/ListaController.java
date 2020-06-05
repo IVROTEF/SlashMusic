@@ -59,8 +59,6 @@ public class ListaController {
   public ModelAndView editar(){
     ModelAndView modelAndView = new ModelAndView ("EditarListas");
     modelAndView.addObject("listas", listas);
-    // el url para eliminar las listas descartadas
-    modelAndView.addObject("aceptar", "/listas/eliminar");
     return modelAndView;
   }
 
@@ -84,7 +82,7 @@ public class ListaController {
 
   /* Operaciones sobre una lista */
 
-  // Cuando se reproduce la cancion dentro de una lista 
+  // Cuando se reproduce la cancion dentro de una lista
   @RequestMapping(value = "/ver/{cancion:\\w+\\W(?:mp3$)}", method = RequestMethod.GET )
   public String reproducirCancion (@PathVariable("cancion") String song) {
     return "redirect:/" + song;

@@ -50,8 +50,30 @@
     		</button>
   	</div>
 
-  <!-- Popup para confirmar  -->
-  <div th:insert="fragments/common :: confirmar-popup"></div>
+
+  <div class="modal fade" id="confirmar">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title-center"> Confirmación</h4>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+          <h1  class= "text-center"></h1>¿Deseas continuar?
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button class="btn btn-secondary" data-dismiss="modal" > Cancelar </button>
+          <a id="aceptarPopup" class="btn btn-success" th:href="@{'/listas/ver/' + ${lista_actual.listaID.nombreLista} + '/eliminar'}"> Aceptar</a>
+        </div>
+
+      </div>
+    </div>
+  </div>
 
 
 </body>
