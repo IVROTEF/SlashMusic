@@ -169,6 +169,14 @@ public class Usuario {
     this.usuariosFavoritos = usuariosFavoritos;
   }
 
+  public List<Usuario> getSeguidores () {
+    return this.seguidores;
+  }
+
+  public void setSeguidores(List<Usuario> seguidores) {
+    this.seguidores = seguidores;
+  }
+
   public List<Comentario> getComentarios () {
     return this.comentarios;
   }

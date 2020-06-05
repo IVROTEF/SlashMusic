@@ -283,20 +283,26 @@ public class PublicacionController {
     }
 
     /* El usuario actual comparte una publicacion. */
-    @RequestMapping(value = "/compartir/{idPublicacion}/hacer_publicacion", method = RequestMethod.GET)
+    @RequestMapping(value = "/compartir/{idPublicacion}/{descripcion}", method = RequestMethod.GET)
     public String compartirPublicacion (@PathVariable("idPublicacion") String idPublicacion,
-                                        @RequestParam("descripcion") String descripcion,
+                                        @PathVariable("descripcion") String descripcion,
                                         @AuthenticationPrincipal PersonaWrapper persona) {
         Persona actual = persona.getPersona();
+        Usuario usuario = actual.getUsuario();
+        List<Usuario> seguidores = usuario.getSeguidores();
         int id = Integer.parseInt(idPublicacion);
         ArrayList<PublicacionCompartida> publicacionesCom = pcService.obtenerPCPublicacion(id);
-        int longitud = publicacionesCom.size() + 1;
-        PublicacionCompartidaID id_publicacion = new PublicacionCompartidaID(id, longitud);
+        int idCompartida = publicacionesCom.size() + 1;
+        PublicacionCompartidaID id_publicacion = new PublicacionCompartidaID(id, idCompartida);
         PublicacionCompartida publicacionComp = new PublicacionCompartida(id_publicacion, actual.getUsuario());
-        publicacionComp.setUsuarioPC(actual.getUsuario());
         publicacionComp.setDescripcion(descripcion);
         pcService.guardar(publicacionComp);
-        return "redirect:/inicio/publicaciones_compartidas";
+        for(Usuairo u : seguidores){
+            PublicacionCompartida pc = new PublicacionCompartida(id_publicacion, u);
+            pc.setDescripcion(descripcion);
+            pcService.guardar(pc);
+        }
+        return "redirect:/inicio/publicaciones";
     }
 
     /* El usuario actual comenta en una publicación. */
