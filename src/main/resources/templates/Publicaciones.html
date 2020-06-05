@@ -45,7 +45,7 @@
                     th:attr="data-publicacion=${publicacion.idPublicacion}"> Comentar </button>
                 <button id="botonPlay" class="btn btn-success" role="button"
                     th:attr="value=${publicacion.cancionPublicacion.archivo}" onclick="play(this.value)">Reproducir</button>
-                <button class="btn btn-info" role="button" data-toggle="modal" data-target="#comentarios">Ver comentarios</button>
+                <a class="btn btn-info" role="button" th:href="@{'/inicio/ver/' + ${publicacion.idPublicacion} }">Ver comentarios</a>
                 </div>
             </div>
         </div>

@@ -66,13 +66,20 @@ public class PublicacionController {
 
     // Cuando se reproduce una cancion dentro de la navegacion
     @RequestMapping(value = "/{cancion:\\w+\\W(?:mp3$)}", method = RequestMethod.GET )
-    public String reproducirCancion (@PathVariable("cancion") String song) {
+    public String reproducirCancionPublicaciones(@PathVariable("cancion") String song) {
+      return "redirect:/" + song;
+    }
+
+    // Cuando se reproduce una cancion al ver una publicacion
+    @RequestMapping(value = "/ver/{cancion:\\w+\\W(?:mp3$)}", method = RequestMethod.GET )
+    public String reproducirCancionPublicacion (@PathVariable("cancion") String song) {
       return "redirect:/" + song;
     }
 
     /* Muestra los comentarios de una publicacion. */
-    @RequestMapping(value = "/ver/{idPublicacion}", method = RequestMethod.GET)
-    public ModelAndView verComentariosP(@PathVariable("idPublicacion") String idPublicacion){
+    @RequestMapping(value = "/ver/{idPublicacion:\\w+(?!:mp3$)}", method = RequestMethod.GET)
+    public ModelAndView verComentariosP(@PathVariable("idPublicacion") String idPublicacion,
+                                        @AuthenticationPrincipal PersonaWrapper persona){
         ModelAndView modelAndView = new ModelAndView("VerPublicacion");
         int id = Integer.parseInt(idPublicacion);
         Publicacion publicacion = publicacionService.obtenerPublicacionId(id);
@@ -81,6 +88,7 @@ public class PublicacionController {
             comentarios = new ArrayList<Comentario>();
         }
         boolean hayComentarios = (comentarios.size() == 0) ? false : true;
+        modelAndView.addObject("current", persona.getPersona().getUsuario());
         modelAndView.addObject("publicacion", publicacion);
         modelAndView.addObject("comentarios", comentarios);
         modelAndView.addObject("hayComentarios", hayComentarios);
@@ -153,8 +161,7 @@ public class PublicacionController {
     /* Hacer una publicación */
     @RequestMapping(value = "/publicacion/crear/{idCancion}/{descripcion}", method = RequestMethod.GET)
     public String crearPublicacion(@PathVariable("idCancion") String idCancion,
-                                   @PathVariable("descripcion") String descripcion, 
-                                   @AuthenticationPrincipal PersonaWrapper persona) {
+                                   @PathVariable("descripcion") String descripcion, @AuthenticationPrincipal PersonaWrapper persona){
         Persona actual = persona.getPersona();
         Cancion cancionPublicacion = cancionService.obtenerCancion(idCancion);
         ArrayList<Publicacion> p = publicacionService.obtenerPublicaciones();
