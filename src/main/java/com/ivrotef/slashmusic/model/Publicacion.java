@@ -35,7 +35,7 @@ public class Publicacion {
   private Cancion cancionPublicacion;
 
   public Publicacion (){
-    
+
   }
 
   public Publicacion (int idPublicacion, String descripcion, Usuario usuarioPublicacion) {
@@ -75,4 +75,14 @@ public class Publicacion {
   public void setCancionPublicacion (Cancion cancionPublicacion) {
     this.cancionPublicacion = cancionPublicacion;
   }
+
+  @Override
+  public boolean equals (Object obj) {
+    Publicacion p = (Publicacion) obj;
+    if (this.idPublicacion == p.getIdPublicacion()) {
+      return true;
+    }
+    return false;
+  }
+
 }

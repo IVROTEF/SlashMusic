@@ -32,6 +32,7 @@
                 <button class="btn btn-danger offset-lg-9" role="button" data-toggle="modal" data-target="#confirmar"
                     th:attr="data-publicacion=${publicacion.idPublicacion}, data-accion=eliminar"> Eliminar </button>
               </div>
+              <h6 th:utext="'Cancion: ' +  ${publicacion.cancionPublicacion.nombre}"> </h6>
             </div>
             <div class="card-footer bg-transparent">
               <div class="container pl-5">
