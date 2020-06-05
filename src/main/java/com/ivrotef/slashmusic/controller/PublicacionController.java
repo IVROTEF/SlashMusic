@@ -185,8 +185,12 @@ public class PublicacionController {
     public String eliminarPublicacion (@PathVariable("idPublicacion") String idPublicacion) {
         int id = Integer.parseInt(idPublicacion);
         Publicacion eliminada = publicacionService.obtenerPublicacionId(id);
-        publicacionesUsuario.remove(eliminada);
-        publicaciones.remove(eliminada);
+        if (publicacionesUsuario != null) {
+            publicacionesUsuario.remove(eliminada);
+        }
+        if (publicaciones != null) {
+            publicaciones.remove(eliminada);
+        }
         try{
             publicacionService.actualizarPublicaciones(publicaciones);
         } catch (Exception e) {}
@@ -231,8 +235,10 @@ public class PublicacionController {
         int idComp = Integer.parseInt(idPublicacionC);
         PublicacionCompartidaID id_publicacionComp = new PublicacionCompartidaID(id, idComp);
         PublicacionCompartida eliminada = pcService.obtenerPCId(id_publicacionComp);
-        ArrayList<PublicacionCompartida> publicacionesComp = pcService.obtenerPCPublicacion(id);    
-        publicacionesComp.remove(eliminada);
+        ArrayList<PublicacionCompartida> publicacionesComp = pcService.obtenerPCPublicacion(id); 
+        if (publicacionesComp != null) {
+            publicacionesComp.remove(eliminada);
+        }
         try{
             pcService.actualizarPublicacionComp(publicacionesComp, id);
         } catch (Exception e) {}
