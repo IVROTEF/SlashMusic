@@ -150,43 +150,20 @@ public class PublicacionController {
         return modelAndView;
     }
 
-    /* El usuario actual ve todas las canciones del sistema*/
-    @RequestMapping(value = "/seleccionarCanciones", method = RequestMethod.GET)
-    public ModelAndView verCanciones () {
-        ModelAndView modelAndView = new ModelAndView("SeleccionarCancion");
-        ArrayList<Cancion> canciones = cancionService.getCanciones();
-        if(canciones == null){
-            canciones = new ArrayList<Cancion>();
-        }
-        boolean hayCanciones = (canciones.size() == 0) ? false : true;
-        modelAndView.addObject("canciones", canciones);
-        modelAndView.addObject("hayCanciones", hayCanciones);
-        return modelAndView;
-    }
-
-    /* El usuario actual selecciona la canción que quiere publicar. */
-    @RequestMapping(value = "/seleccionarCanciones/{nombreCancion}", method = RequestMethod.GET)
-    public ModelAndView seleccionarCancion (@PathVariable("nombreCancion") String nombreCancion, @AuthenticationPrincipal PersonaWrapper persona) {
-        ModelAndView modelAndView = new ModelAndView("CrearPublicacion");
+    /* Hacer una publicación */
+    @RequestMapping(value = "/publicacion/crear/{idCancion}/{descripcion}", method = RequestMethod.GET)
+    public String crearPublicacion(@PathVariable("idCancion") String idCancion,
+                                   @PathVariable("descripcion") String descripcion, 
+                                   @AuthenticationPrincipal PersonaWrapper persona) {
         Persona actual = persona.getPersona();
-        Cancion cancion = cancionService.obtenerCancion(nombreCancion);
-        modelAndView.addObject("cancion", cancion);
-        return modelAndView;
+        Cancion cancionPublicacion = cancionService.obtenerCancion(idCancion);
+        ArrayList<Publicacion> p = publicacionService.obtenerPublicaciones();
+        int idPublicacion = p.size() + 1;
+        Publicacion nueva = new Publicacion(idPublicacion, descripcion, actual.getUsuario);
+        nueva.setCancionPublicacion(cancionPublicacion);
+        publicacionService.guardar(nueva);
+        return "redirect:/inicio/ver";
     }
-
-    /* El usuario actual selecciona la canción que quiere publicar. */
-     @RequestMapping(value = "/seleccionarCanciones/{nombreCancion}/publicar", method = RequestMethod.GET)
-     public String publicar (@PathVariable("nombreCancion") String nombreCancion,
-                             @RequestParam("decripcion") String decripcion,
-                             @AuthenticationPrincipal PersonaWrapper persona) {
-        Persona actual = persona.getPersona();
-        Cancion cancion = cancionService.obtenerCancion(nombreCancion);
-        int id_publicacion = publicaciones.size() + 1;
-         Publicacion publicacion = new Publicacion(id_publicacion, decripcion, actual.getUsuario());
-         publicacion.setCancionPublicacion(cancion);
-         publicacionService.guardar(publicacion);
-         return "redirect:/inicio/publicaciones/{idPublicacion}";
-     }
 
     /* Se elimina una publicación del usuario actual. */
     @RequestMapping(value = "/publicaciones/eliminar/{idPublicacion}", method = RequestMethod.GET)
