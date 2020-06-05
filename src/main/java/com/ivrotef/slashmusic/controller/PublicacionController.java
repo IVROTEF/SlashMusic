@@ -159,7 +159,7 @@ public class PublicacionController {
         Cancion cancionPublicacion = cancionService.obtenerCancion(idCancion);
         ArrayList<Publicacion> p = publicacionService.obtenerPublicaciones();
         int idPublicacion = p.size() + 1;
-        Publicacion nueva = new Publicacion(idPublicacion, descripcion, actual.getUsuario);
+        Publicacion nueva = new Publicacion(idPublicacion, descripcion, actual.getUsuario());
         nueva.setCancionPublicacion(cancionPublicacion);
         publicacionService.guardar(nueva);
         return "redirect:/inicio/ver";
