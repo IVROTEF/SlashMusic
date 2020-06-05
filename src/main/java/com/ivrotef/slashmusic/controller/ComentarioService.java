@@ -42,9 +42,6 @@ public class ComentarioService {
         Query query = entityManager.createQuery("FROM Comentario c WHERE c.comentarioID.idPublicacion =: id", Comentario.class);
         query.setParameter("id", id_publicacion);
         ArrayList<Comentario> comentarios = (ArrayList<Comentario>) query.getResultList();
-        if (comentarios.size() == 0) {
-          return null;
-        }
         return comentarios;
     }
 
