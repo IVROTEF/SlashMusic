@@ -64,6 +64,12 @@ public class PublicacionController {
         return modelAndView;
     }
 
+    // Cuando se reproduce una cancion dentro de la navegacion
+    @RequestMapping(value = "/{cancion:\\w+\\W(?:mp3$)}", method = RequestMethod.GET )
+    public String reproducirCancion (@PathVariable("cancion") String song) {
+      return "redirect:/" + song;
+    }
+
     /* Muestra los comentarios de una publicacion. */
     @RequestMapping(value = "/ver/{idPublicacion}", method = RequestMethod.GET)
     public ModelAndView verComentariosP(@PathVariable("idPublicacion") String idPublicacion){
