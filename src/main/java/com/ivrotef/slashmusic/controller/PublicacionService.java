@@ -43,7 +43,7 @@ public class PublicacionService {
 
     /* Obtiene todas las publicaciones del usuario identificado por el correo. */
     public ArrayList<Publicacion> obtenerPublicacionesCorreo (String correo_usuario) {
-        Query query = entityManager.createQuery("FROM Publicacion p WHERE p.usuario =: correo", Publicacion.class);
+        Query query = entityManager.createQuery("FROM Publicacion p WHERE p.usuarioPublicacion.correo =: correo", Publicacion.class);
         query.setParameter("correo", correo_usuario);
         ArrayList<Publicacion> publicaciones = (ArrayList<Publicacion>) query.getResultList();
         if (publicaciones.size() == 0) {

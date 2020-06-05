@@ -28,7 +28,7 @@ public class ComentarioService {
 
     /* Obtiene todos los comentarios por usuario identificado por el correo. */
     public ArrayList<Comentario> obtenerComentariosCorreo (String correo_usuario) {
-        Query query = entityManager.createQuery("FROM Comentario c WHERE c.usuario =: correo", Comentario.class);
+        Query query = entityManager.createQuery("FROM Comentario c WHERE c.usuarioComentario.correo =: correo", Comentario.class);
         query.setParameter("correo", correo_usuario);
         ArrayList<Comentario> comentarios = (ArrayList<Comentario>) query.getResultList();
         if (comentarios.size() == 0) {
@@ -39,7 +39,7 @@ public class ComentarioService {
 
     /* Obtiene todos los comentarios por publicación indentificada por el id_publicacion. */
     public ArrayList<Comentario> obtenerComentariosPublicacion (int id_publicacion) {
-        Query query = entityManager.createQuery("FROM Comentario c WHERE c.id_publicacion =: id", Comentario.class);
+        Query query = entityManager.createQuery("FROM Comentario c WHERE c.comentarioID.idPublicacion =: id", Comentario.class);
         query.setParameter("id", id_publicacion);
         ArrayList<Comentario> comentarios = (ArrayList<Comentario>) query.getResultList();
         if (comentarios.size() == 0) {
@@ -91,7 +91,7 @@ public class ComentarioService {
      * Borra todos los comentarios y guarda los que el usuario no elimino.
      */
     public void actualizarComentarios(ArrayList<Comentario> comentarios, int id_publicacion) {
-      Query query = entityManager.createQuery("FROM Comentario c WHERE c.id_publicacion =: id", Comentario.class);
+      Query query = entityManager.createQuery("FROM Comentario c WHERE c.comentarioID.idPublicacion =: id", Comentario.class);
       query.setParameter("id", id_publicacion);
       ArrayList<Comentario> comentariosAnt = (ArrayList<Comentario>) query.getResultList();
       repository.deleteAll(comentariosAnt);

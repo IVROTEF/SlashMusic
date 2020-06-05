@@ -17,7 +17,7 @@ import com.ivrotef.slashmusic.controller.PublicacionCompartidaRepository;
 import com.ivrotef.slashmusic.model.PublicacionCompartidaID;
 import com.ivrotef.slashmusic.model.PublicacionCompartida;
 
-@Service 
+@Service
 public class PublicacionCompartidaService {
 
     @PersistenceContext
@@ -28,7 +28,7 @@ public class PublicacionCompartidaService {
 
     /* Obtiene todas las publicaciones compartidas por usuario identificado por el correo. */
     public ArrayList<PublicacionCompartida> obtenerPCCorreo (String correo_usuario) {
-        Query query = entityManager.createQuery("FROM Publicacion_Compartida p WHERE p.usuario =: correo", PublicacionCompartida.class);
+        Query query = entityManager.createQuery("FROM Publicacion_Compartida p WHERE p.usuarioPC.correo =: correo", PublicacionCompartida.class);
         query.setParameter("correo", correo_usuario);
         ArrayList<PublicacionCompartida> publicaciones = (ArrayList<PublicacionCompartida>) query.getResultList();
         if (publicaciones.size() == 0) {
@@ -39,7 +39,7 @@ public class PublicacionCompartidaService {
 
     /* Obtiene todas las publicaciones compartidas de una publicacion identificada por el id_publicación. */
     public ArrayList<PublicacionCompartida> obtenerPCPublicacion (int id_publicacion) {
-        Query query = entityManager.createQuery("FROM Publicacion_Compartida p WHERE p.id_publicacion_original =: id", PublicacionCompartida.class);
+        Query query = entityManager.createQuery("FROM Publicacion_Compartida p WHERE p.publicacionCompartidaID.idPublicacion =: id", PublicacionCompartida.class);
         query.setParameter("id", id_publicacion);
         ArrayList<PublicacionCompartida> publicaciones = (ArrayList<PublicacionCompartida>) query.getResultList();
         if (publicaciones.size() == 0) {
@@ -98,7 +98,7 @@ public class PublicacionCompartidaService {
      * Borra todos las publicaciones compartidas y guarda las que el usuario no elimino.
      */
     public void actualizarPublicacionComp(ArrayList<PublicacionCompartida> publicacionComp, int id_publicacion) {
-      Query query = entityManager.createQuery("FROM Publicacion_Compartida p WHERE p.id_publicacion =: id", PublicacionCompartida.class);
+      Query query = entityManager.createQuery("FROM Publicacion_Compartida p WHERE p.publicacionCompartidaID.idPublicacion =: id", PublicacionCompartida.class);
       query.setParameter("id", id_publicacion);
       ArrayList<PublicacionCompartida> publicacionesAnt = (ArrayList<PublicacionCompartida>) query.getResultList();
       repository.deleteAll(publicacionesAnt);

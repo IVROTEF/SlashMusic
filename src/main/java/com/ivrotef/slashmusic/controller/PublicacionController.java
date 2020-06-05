@@ -186,7 +186,12 @@ public class PublicacionController {
     public String eliminarPublicacion (@PathVariable("idPublicacion") String idPublicacion) {
         int id = Integer.parseInt(idPublicacion);
         Publicacion eliminada = publicacionService.obtenerPublicacionId(id);
-        publicacionesUsuario.remove(eliminada);
+        if (publicacionesUsuario != null) {
+            publicacionesUsuario.remove(eliminada);
+        }
+        if (publicaciones != null) {
+            publicaciones.remove(eliminada);
+        }
         try{
             publicacionService.actualizarPublicaciones(publicaciones);
         } catch (Exception e) {}
@@ -232,7 +237,9 @@ public class PublicacionController {
         PublicacionCompartidaID id_publicacionComp = new PublicacionCompartidaID(id, idComp);
         PublicacionCompartida eliminada = pcService.obtenerPCId(id_publicacionComp);
         ArrayList<PublicacionCompartida> publicacionesComp = pcService.obtenerPCPublicacion(id);
-        publicacionesComp.remove(eliminada);
+        if (publicacionesComp != null) {
+            publicacionesComp.remove(eliminada);
+        }
         try{
             pcService.actualizarPublicacionComp(publicacionesComp, id);
         } catch (Exception e) {}
@@ -264,7 +271,7 @@ public class PublicacionController {
         int id = Integer.parseInt(idPublicacion);
         int idComp = Integer.parseInt(idPublicacionC);
         PublicacionCompartidaID id_publicacionComp = new PublicacionCompartidaID(id, idComp);
-        PublicacionCompartida pc = new PublicacionCompartida(id_publicacionComp);
+        PublicacionCompartida pc = new PublicacionCompartida(id_publicacionComp, actual.getUsuario());
         pc.setUsuarioPC(actual.getUsuario());
         pc.setDescripcion(descripcion);
         try {
@@ -294,7 +301,7 @@ public class PublicacionController {
         ArrayList<PublicacionCompartida> publicacionesCom = pcService.obtenerPCPublicacion(id);
         int longitud = publicacionesCom.size() + 1;
         PublicacionCompartidaID id_publicacion = new PublicacionCompartidaID(id, longitud);
-        PublicacionCompartida publicacionComp = new PublicacionCompartida(id_publicacion);
+        PublicacionCompartida publicacionComp = new PublicacionCompartida(id_publicacion, actual.getUsuario());
         publicacionComp.setUsuarioPC(actual.getUsuario());
         publicacionComp.setDescripcion(descripcion);
         pcService.guardar(publicacionComp);
@@ -312,7 +319,7 @@ public class PublicacionController {
         ArrayList<Comentario> comentarios = comentarioService.obtenerComentariosPublicacion(id);
         int longitud = comentarios.size() + 1;
         ComentarioID idComentario = new ComentarioID(id, longitud);
-        Comentario c = new Comentario(idComentario);
+        Comentario c = new Comentario(idComentario, actual.getUsuario());
         c.setComentario(comentario);
         c.setUsuarioComentario(actual.getUsuario());
         comentarioService.guardar(c);
@@ -330,7 +337,7 @@ public class PublicacionController {
         ArrayList<Comentario> comentarios = comentarioService.obtenerComentariosPublicacion(id);
         int longitud = comentarios.size() + 1;
         ComentarioID idComentario = new ComentarioID(id, longitud);
-        Comentario c = new Comentario(idComentario);
+        Comentario c = new Comentario(idComentario, actual.getUsuario());
         c.setComentario(comentario);
         c.setUsuarioComentario(actual.getUsuario());
         comentarioService.guardar(c);
@@ -348,7 +355,7 @@ public class PublicacionController {
         ArrayList<Comentario> comentarios = comentarioService.obtenerComentariosPublicacion(id);
         int longitud = comentarios.size() + 1;
         ComentarioID idComentario = new ComentarioID(id, longitud);
-        Comentario c = new Comentario(idComentario);
+        Comentario c = new Comentario(idComentario, actual.getUsuario());
         c.setComentario(comentario);
         c.setUsuarioComentario(actual.getUsuario());
         comentarioService.guardar(c);
