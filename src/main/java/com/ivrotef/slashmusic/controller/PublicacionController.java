@@ -59,6 +59,7 @@ public class PublicacionController {
         boolean hayPublicaciones = (publicaciones.size() == 0) ? false : true;
         modelAndView.addObject("publicaciones", publicaciones);
         modelAndView.addObject("hayPublicaciones", hayPublicaciones);
+        modelAndView.addObject("canciones", cancionService.getCanciones());
         modelAndView.addObject("current", persona.getPersona().getUsuario());
         return modelAndView;
     }

@@ -19,6 +19,9 @@
 	<!-- Barra de navegacion  -->
   <div th:insert="fragments/common :: navbar"></div>
 
+  <div class="container pt-5">
+    <button class="btn btn-info" role="button" data-toggle="modal" data-target="#crearPublicacion">Crear Publicación</button>
+  </div>
 
   <div th:if="${hayPublicaciones}">
     <div class="card-deck" style="padding: 1rem;">
@@ -77,6 +80,43 @@
   <!-- Popup para confirmar una accion (eliminar, compartir)-->
   <div th:insert="fragments/common :: confirmar-popup"></div>
 
+  <!-- Popup para crear una publicacion -->
+  <div id="crearPublicacion" class="modal fade">
+      <div class="modal-dialog">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h4 class="modal-title text-xs-center">Crea una publicacion</h4>
+              </div>
+              <div class="modal-body">
+
+                      <div class="form-group">
+                          <label class="control-label">Descripcion</label>
+                          <div>
+                              <textarea id="descripcion" rows="3" cols="40" type="text" class="form-control" required></textarea>
+                          </div>
+                      </div>
+                      <div class="form-group">
+                          <label class="control-label">Selecciona la canción a compartir</label>
+                          <div>
+                            <select class="form-control" id="cancionPublicar" >
+                                <div th:each="cancion : ${canciones}">
+                                  <option th:value="${cancion.nombre}" th:text="${cancion.nombre}"></option>
+                                </div>
+                            </select>
+                          </div>
+                      </div>
+                      <div class="form-group">
+                          <div>
+                              <a id="publicarBoton" class="btn btn-info btn-block" onclick="publicar()">Publicar</a>
+                          </div>
+                      </div>
+              </div>
+          </div>
+      </div>
+  </div>
+
+
+
   <!-- Se quiere guardar el comentario -->
   <script th:inline="javascript">
     function insertar() {
@@ -87,7 +127,18 @@
 
   <div th:insert="fragments/common :: music-bar"></div>
 
+  <!-- Obtiene la descripcion y la cancion de la nueva publicacion -->
+  <script th:inline="javascript">
+     function publicar() {
+       var cancion = $('#cancionPublicar').find("option:selected").val();
+       var descripcion = document.getElementById('descripcion').value
+       document.getElementById("publicarBoton").href = "/inicio/publicacion/crear/" + cancion.toString() + "/" + descripcion.toString();
+     }
+   </script>
+
+
 </body>
+
 <!-- Se abrio el popup para añadir un comentario -->
 <script>
 $('#comentar').on('show.bs.modal', function (event) {
