@@ -7,6 +7,7 @@ import com.ivrotef.slashmusic.model.ComentarioID;
 import com.ivrotef.slashmusic.model.PublicacionCompartida;
 import com.ivrotef.slashmusic.model.PublicacionCompartidaID;
 import com.ivrotef.slashmusic.model.Persona;
+import com.ivrotef.slashmusic.model.Usuario;
 import com.ivrotef.slashmusic.config.PersonaWrapper;
 import com.ivrotef.slashmusic.controller.PublicacionService;
 import com.ivrotef.slashmusic.controller.CancionService;
@@ -186,7 +187,7 @@ public class PublicacionController {
         try{
             publicacionService.actualizarPublicaciones(publicaciones);
         } catch (Exception e) {}
-        return "redirect:/inicio/publicaciones";
+        return "redirect:/inicio/ver";
     }
 
     /* Vista para actualizar una publicacion realizada por el usuario. */
@@ -297,12 +298,12 @@ public class PublicacionController {
         PublicacionCompartida publicacionComp = new PublicacionCompartida(id_publicacion, actual.getUsuario());
         publicacionComp.setDescripcion(descripcion);
         pcService.guardar(publicacionComp);
-        for(Usuairo u : seguidores){
+        for(Usuario u : seguidores){
             PublicacionCompartida pc = new PublicacionCompartida(id_publicacion, u);
             pc.setDescripcion(descripcion);
             pcService.guardar(pc);
         }
-        return "redirect:/inicio/publicaciones";
+        return "redirect:/inicio/ver";
     }
 
     /* El usuario actual comenta en una publicación. */

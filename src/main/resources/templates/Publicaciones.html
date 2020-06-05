@@ -19,7 +19,7 @@
 	<!-- Barra de navegacion  -->
   <div th:insert="fragments/common :: navbar"></div>
 
-  <div class="container pt-5">
+  <div class="container pt-5 offset-lg-5">
     <button class="btn btn-info" role="button" data-toggle="modal" data-target="#crearPublicacion">Crear Publicación</button>
   </div>
 
@@ -30,17 +30,15 @@
         <div class="card" style=" min-width: 400px; max-width: 600px;">
             <div class="card-body">
               <h6 class="card-title" th:text="${publicacion.descripcion}"></h6>
-              <!-- El creo la publicacion, entonces la puede eliminar -->
-              <div th:if="${current.correo == publicacion.usuarioPublicacion.correo}">
-                <button class="btn btn-danger offset-lg-9" role="button" data-toggle="modal" data-target="#confirmar"
-                    th:attr="data-publicacion=${publicacion.idPublicacion}, data-accion=eliminar"> Eliminar </button>
-              </div>
               <h6 th:utext="'Cancion: ' +  ${publicacion.cancionPublicacion.nombre}"> </h6>
+              <div th:if="${current.correo == publicacion.usuarioPublicacion.correo}">
+                <button class="btn btn-danger offset-lg-10" role="button" data-toggle="modal" data-target="#confirmar"
+                th:attr="data-publicacion=${publicacion.idPublicacion}, data-accion=eliminar"> Eliminar </button>
+              </div>
             </div>
             <div class="card-footer bg-transparent">
-              <div class="container pl-5">
-                <button class="btn btn-info" role="button" data-toggle="modal" data-target="#confirmar"
-                    th:attr="data-publicacion=${publicacion.idPublicacion}, data-accion=compartir"> Compartir </button>
+              <div class="container offset-lg-2">
+                <!-- El creo la publicacion, entonces la puede eliminar -->
                 <button class="btn btn-info" role="button" data-toggle="modal" data-target="#comentar"
                     th:attr="data-publicacion=${publicacion.idPublicacion}"> Comentar </button>
                 <button id="botonPlay" class="btn btn-success" role="button"

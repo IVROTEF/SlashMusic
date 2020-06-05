@@ -32,9 +32,7 @@
               <h6 th:utext="'Cancion: ' +  ${publicacion.cancionPublicacion.nombre}"> </h6>
             </div>
             <div class="card-footer bg-transparent">
-              <div class="container pl-5">
-                <button class="btn btn-info" role="button" data-toggle="modal" data-target="#confirmar"
-                    th:attr="data-publicacion=${publicacion.idPublicacion}, data-accion=compartir"> Compartir </button>
+              <div class="container offset-md-3">
                 <button class="btn btn-info" role="button" data-toggle="modal" data-target="#comentar"
                     th:attr="data-publicacion=${publicacion.idPublicacion}"> Comentar </button>
                 <button id="botonPlay" class="btn btn-success" role="button"
