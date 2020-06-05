@@ -97,7 +97,7 @@ public class PublicacionCompartidaService {
     /* Actualiza las publicaciones compartidas de una publicación por las publicaciones compartidas recibidas
      * Borra todos las publicaciones compartidas y guarda las que el usuario no elimino.
      */
-    public void actualizarComentarios(ArrayList<PublicacionCompartida> publicacionComp, int id_publicacion) {
+    public void actualizarPublicacionComp(ArrayList<PublicacionCompartida> publicacionComp, int id_publicacion) {
       Query query = entityManager.createQuery("FROM Publicacion_Compartida p WHERE p.id_publicacion =: id", PublicacionCompartida.class);
       query.setParameter("id", id_publicacion);
       ArrayList<PublicacionCompartida> publicacionesAnt = (ArrayList<PublicacionCompartida>) query.getResultList();

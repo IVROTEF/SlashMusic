@@ -26,10 +26,6 @@ public class Comentario {
   @JoinColumn(name = "usuario")
   private Usuario usuarioComentario;
 
-  @ManyToOne
-  @JoinColumn(name="id_publicacion",referencedColumnName="id_publicacion")
-  private Publicacion publicacionC;
-
   public Comentario(){
   }
 
@@ -59,13 +55,5 @@ public class Comentario {
 
   public void setUsuarioComentario (Usuario usuarioComentario) {
     this.usuarioComentario = usuarioComentario;
-  }
-
-  public Publicacion getPublicacionC () {
-    return this.publicacionC;
-  }
-
-  public void setPublicacionC (Publicacion publicacionC) {
-    this.publicacionC = publicacionC;
   }
 }

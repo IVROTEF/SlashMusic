@@ -32,10 +32,6 @@ public class PublicacionCompartida {
   @JoinColumn(name = "usuario")
   private Usuario usuarioPC;
 
-  @ManyToOne
-  @JoinColumn(name="id_publicacion",referencedColumnName="id_publicacion")
-  private Publicacion publicacionPC;
-
   public PublicacionCompartida(){
   }
 
@@ -65,13 +61,5 @@ public class PublicacionCompartida {
 
   public void setUsuarioPC (Usuario usuarioPC) {
     this.usuarioPC = usuarioPC;
-  }
-
-  public Publicacion getPublicacionPC () {
-    return this.publicacionPC;
-  }
-
-  public void setPublicacionPC (Publicacion publicacionPC) {
-    this.publicacionPC = publicacionPC;
   }
 }
