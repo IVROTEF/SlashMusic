@@ -16,8 +16,9 @@ import java.sql.SQLIntegrityConstraintViolationException;
 import com.ivrotef.slashmusic.controller.PublicacionRepository;
 import com.ivrotef.slashmusic.model.Publicacion;
 
+@Service
 public class PublicacionService {
-    
+
     @PersistenceContext
     EntityManager entityManager;
 
@@ -56,19 +57,19 @@ public class PublicacionService {
         Publicacion p = repository.save(publicacion);
         return p;
     }
-  
+
       /* Elimina la publicación si se encuentra en la base de datos. */
     public void eliminar (Publicacion publicacion) {
-        Integer id = new Integer(publicacion.getIdPublicacion());  
+        Integer id = new Integer(publicacion.getIdPublicacion());
         Optional<Publicacion> p = repository.findById(id);
         if (p.isPresent()) {
           repository.deleteById(id);
         }
     }
-  
+
       /* Si la publicacion se encuentra en la base de datos la actualiza*/
     public Publicacion actualizar (Publicacion publicacion) throws SQLIntegrityConstraintViolationException {
-        Integer id = new Integer(publicacion.getIdPublicacion()); 
+        Integer id = new Integer(publicacion.getIdPublicacion());
         Optional<Publicacion> p1 = repository.findById(id);
         Publicacion p2 = null;
         if (p1.isPresent()) {

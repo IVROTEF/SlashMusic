@@ -29,11 +29,11 @@ import java.util.List;
 @Controller
 @RequestMapping(value = "/inicio")
 public class PublicacionController {
-    
+
     @Autowired
     PublicacionService publicacionService;
 
-    @Autowired 
+    @Autowired
     ComentarioService comentarioService;
 
     @Autowired
@@ -53,12 +53,13 @@ public class PublicacionController {
 
     /* Muestra todas las publicaciones de la base de datos. */
     @RequestMapping(value = "/ver", method = RequestMethod.GET)
-    public ModelAndView verPublicaciones(){
+    public ModelAndView verPublicaciones(@AuthenticationPrincipal PersonaWrapper persona){
         ModelAndView modelAndView = new ModelAndView("Publicaciones");
         obtPublicaciones();
         boolean hayPublicaciones = (publicaciones.size() == 0) ? false : true;
         modelAndView.addObject("publicaciones", publicaciones);
         modelAndView.addObject("hayPublicaciones", hayPublicaciones);
+        modelAndView.addObject("current", persona.getPersona().getUsuario());
         return modelAndView;
     }
 
@@ -129,7 +130,7 @@ public class PublicacionController {
         int id_publicacionComp = Integer.parseInt(idPublicacionC);
         PublicacionCompartidaID id = new PublicacionCompartidaID(id_publicacion, id_publicacionComp);
         PublicacionCompartida pc = pcService.obtenerPCId(id);
-        Publicacion publicacion = publicacionService.obtenerPublicacionId(pc.getPublicacionCompartidaID().getIdPublicacion()); 
+        Publicacion publicacion = publicacionService.obtenerPublicacionId(pc.getPublicacionCompartidaID().getIdPublicacion());
         ArrayList<Comentario> comentarios = comentarioService.obtenerComentariosPublicacion(publicacion.getIdPublicacion());
         if (comentarios == null) {
             comentarios = new ArrayList<Comentario>();
@@ -186,7 +187,6 @@ public class PublicacionController {
         int id = Integer.parseInt(idPublicacion);
         Publicacion eliminada = publicacionService.obtenerPublicacionId(id);
         publicacionesUsuario.remove(eliminada);
-        publicaciones.remove(eliminada);
         try{
             publicacionService.actualizarPublicaciones(publicaciones);
         } catch (Exception e) {}
@@ -208,7 +208,7 @@ public class PublicacionController {
     @RequestMapping(value = "/publicaciones/actualizar/{idPublicacion}/editar_datos", method = RequestMethod.GET)
     public String actualizarPublicacionPropia (@PathVariable("idPublicacion") String idPublicacion,
                                                @RequestParam("descripcion") String descripcion,
-                                               @RequestParam("cancion") String cancion,  
+                                               @RequestParam("cancion") String cancion,
                                                @AuthenticationPrincipal PersonaWrapper persona) {
         Persona actual = persona.getPersona();
         int id = Integer.parseInt(idPublicacion);
@@ -218,20 +218,20 @@ public class PublicacionController {
         try {
             publicacionService.actualizar(publicacion);
         } catch (Exception e) {}
-        return "redirect:/inicio/publicaciones/{idPublicacion}";               
+        return "redirect:/inicio/publicaciones/{idPublicacion}";
     }
 
     /* Se elimina una publicación del usuario actual. */
     @RequestMapping(value = "/publicaciones_compartidas/eliminar/{idPublicacion}/{idPublicacionC}", method = RequestMethod.GET)
     public String eliminarPublicacionCompartida (@PathVariable("idPublicacion") String idPublicacion,
-                                                 @PathVariable("idPublicacionC") String idPublicacionC,  
+                                                 @PathVariable("idPublicacionC") String idPublicacionC,
                                                  @AuthenticationPrincipal PersonaWrapper persona) {
         Persona actual = persona.getPersona();
         int id = Integer.parseInt(idPublicacion);
         int idComp = Integer.parseInt(idPublicacionC);
         PublicacionCompartidaID id_publicacionComp = new PublicacionCompartidaID(id, idComp);
         PublicacionCompartida eliminada = pcService.obtenerPCId(id_publicacionComp);
-        ArrayList<PublicacionCompartida> publicacionesComp = pcService.obtenerPCPublicacion(id);    
+        ArrayList<PublicacionCompartida> publicacionesComp = pcService.obtenerPCPublicacion(id);
         publicacionesComp.remove(eliminada);
         try{
             pcService.actualizarPublicacionComp(publicacionesComp, id);
@@ -241,8 +241,8 @@ public class PublicacionController {
 
     /* Vista para actualizar una publicacion compartida por el usuario. */
     @RequestMapping(value = "/publicaciones_compartidas/actualizar/{idPublicacion}/{idPublicacionC}", method = RequestMethod.GET)
-    public ModelAndView actualizarCompartida(@PathVariable("idPublicacion") String idPublicacion, 
-                                             @PathVariable("idPublicacionC") String idPublicacionC,  
+    public ModelAndView actualizarCompartida(@PathVariable("idPublicacion") String idPublicacion,
+                                             @PathVariable("idPublicacionC") String idPublicacionC,
                                              @AuthenticationPrincipal PersonaWrapper persona){
         ModelAndView modelAndView = new ModelAndView("ActualizarCompartida");
         int id = Integer.parseInt(idPublicacion);
@@ -257,7 +257,7 @@ public class PublicacionController {
      /* Se actualiza una publicación compartida del usuario actual. */
     @RequestMapping(value = "/publicaciones_compartidas/actualizar/{idPublicacion}/{idPublicacionC}/editar_datos", method = RequestMethod.GET)
     public String actualizarPublicacionCompartida (@PathVariable("idPublicacion") String idPublicacion,
-                                                   @PathVariable("idPublicacionC") String idPublicacionC,  
+                                                   @PathVariable("idPublicacionC") String idPublicacionC,
                                                    @RequestParam("descripcion") String descripcion,
                                                    @AuthenticationPrincipal PersonaWrapper persona) {
         Persona actual = persona.getPersona();
@@ -274,7 +274,7 @@ public class PublicacionController {
     }
 
     /* Vista para compartir una publicacion. */
-    @RequestMapping(value = "/compartir/{idPublicacion}", method = RequestMethod.GET)
+    @RequestMapping(value = "/publicaciones/compartir/{idPublicacion}", method = RequestMethod.GET)
     public  ModelAndView compartirPub (@PathVariable("idPublicacion") String idPublicacion, @AuthenticationPrincipal PersonaWrapper persona) {
         ModelAndView modelAndView = new ModelAndView("CompartirPublicacion");
         int id = Integer.parseInt(idPublicacion);
@@ -286,8 +286,8 @@ public class PublicacionController {
 
     /* El usuario actual comparte una publicacion. */
     @RequestMapping(value = "/compartir/{idPublicacion}/hacer_publicacion", method = RequestMethod.GET)
-    public String compartirPublicacion (@PathVariable("idPublicacion") String idPublicacion, 
-                                        @RequestParam("descripcion") String descripcion, 
+    public String compartirPublicacion (@PathVariable("idPublicacion") String idPublicacion,
+                                        @RequestParam("descripcion") String descripcion,
                                         @AuthenticationPrincipal PersonaWrapper persona) {
         Persona actual = persona.getPersona();
         int id = Integer.parseInt(idPublicacion);
@@ -302,66 +302,66 @@ public class PublicacionController {
     }
 
     /* El usuario actual comenta en una publicación. */
-    @RequestMapping(value = "/comentar/{idPublicacion}", method = RequestMethod.GET)
-    public String comentarPublicacion (@PathVariable("idPublicacion") String idPublicacion, 
-                                       @RequestParam("comentario") String comentario, 
+    @RequestMapping(value = "/comentar/{idPublicacion}/{comentario}", method = RequestMethod.GET)
+    public String comentarPublicacion (@PathVariable("idPublicacion") String idPublicacion,
+                                       @PathVariable("comentario") String comentario,
                                        @AuthenticationPrincipal PersonaWrapper persona) {
         Persona actual = persona.getPersona();
         int id = Integer.parseInt(idPublicacion);
         Publicacion publicacion = publicacionService.obtenerPublicacionId(id);
         ArrayList<Comentario> comentarios = comentarioService.obtenerComentariosPublicacion(id);
-        int longitud = comentarios.size() + 1; 
+        int longitud = comentarios.size() + 1;
         ComentarioID idComentario = new ComentarioID(id, longitud);
         Comentario c = new Comentario(idComentario);
         c.setComentario(comentario);
         c.setUsuarioComentario(actual.getUsuario());
         comentarioService.guardar(c);
-        return "redirect:/inicio/ver/{idPublicacion}";                        
+        return "redirect:/inicio/ver/{idPublicacion}";
     }
- 
+
     /* El usuario actual comenta en una publicación propia. */
     @RequestMapping(value = "/publicaciones/comentar/{idPublicacion}", method = RequestMethod.GET)
-    public String comentarPublicacionU (@PathVariable("idPublicacion") String idPublicacion, 
-                                        @RequestParam("comentario") String comentario, 
+    public String comentarPublicacionU (@PathVariable("idPublicacion") String idPublicacion,
+                                        @RequestParam("comentario") String comentario,
                                         @AuthenticationPrincipal PersonaWrapper persona) {
         Persona actual = persona.getPersona();
         int id = Integer.parseInt(idPublicacion);
         Publicacion publicacion = publicacionService.obtenerPublicacionId(id);
         ArrayList<Comentario> comentarios = comentarioService.obtenerComentariosPublicacion(id);
-        int longitud = comentarios.size() + 1; 
+        int longitud = comentarios.size() + 1;
         ComentarioID idComentario = new ComentarioID(id, longitud);
         Comentario c = new Comentario(idComentario);
         c.setComentario(comentario);
         c.setUsuarioComentario(actual.getUsuario());
         comentarioService.guardar(c);
-        return "redirect:/inicio/publicaciones/{idPublicacion}";                                      
+        return "redirect:/inicio/publicaciones/{idPublicacion}";
     }
- 
+
     /* El usuario actual comenta en una publicación compartida. */
     @RequestMapping(value = "/publicaciones_compartidas/comentar/{idPublicacion}", method = RequestMethod.GET)
-    public String comentarPublicacionComp (@PathVariable("idPublicacion") String idPublicacion, 
-                                           @RequestParam("comentario") String comentario, 
+    public String comentarPublicacionComp (@PathVariable("idPublicacion") String idPublicacion,
+                                           @RequestParam("comentario") String comentario,
                                            @AuthenticationPrincipal PersonaWrapper persona) {
         Persona actual = persona.getPersona();
         int id = Integer.parseInt(idPublicacion);
         Publicacion publicacion = publicacionService.obtenerPublicacionId(id);
         ArrayList<Comentario> comentarios = comentarioService.obtenerComentariosPublicacion(id);
-        int longitud = comentarios.size() + 1; 
+        int longitud = comentarios.size() + 1;
         ComentarioID idComentario = new ComentarioID(id, longitud);
         Comentario c = new Comentario(idComentario);
         c.setComentario(comentario);
         c.setUsuarioComentario(actual.getUsuario());
         comentarioService.guardar(c);
-        return "redirect:/inicio/publicaciones_compartidas/{idPublicacion}"; 
+        return "redirect:/inicio/publicaciones_compartidas/{idPublicacion}";
     }
 
     /* Eliminar comentario en una publicación. */
     @RequestMapping(value = "/ver/{idPublicacion}/{idComentario}", method = RequestMethod.GET)
-    public String eliminarComentario (@PathVariable("idPublicacion") String idPublicacion, 
-                                      @RequestParam("idComentario") String idComentario, 
+    public String eliminarComentario (@PathVariable("idPublicacion") String idPublicacion,
+                                      @RequestParam("idComentario") String idComentario,
                                       @AuthenticationPrincipal PersonaWrapper persona) {
         Persona actual = persona.getPersona();
-        int id_publicacion = Integer.parseInt(idPublicacion); 
+        int id_publicacion = Integer.parseInt(idPublicacion);
         int id_comentario = Integer.parseInt(idComentario);
         ComentarioID idCom = new ComentarioID(id_publicacion, id_comentario);
         Comentario comentario = comentarioService.obtenerComentarioId(idCom);
@@ -375,29 +375,29 @@ public class PublicacionController {
 
     /* Eliminar comentario en una publicación propia. */
     @RequestMapping(value = "/publicaciones/{idPublicacion}/{idComentario}", method = RequestMethod.GET)
-    public String eliminarComentarioPropio (@PathVariable("idPublicacion") String idPublicacion, 
-                                            @RequestParam("idComentario") String idComentario, 
+    public String eliminarComentarioPropio (@PathVariable("idPublicacion") String idPublicacion,
+                                            @RequestParam("idComentario") String idComentario,
                                             @AuthenticationPrincipal PersonaWrapper persona) {
         Persona actual = persona.getPersona();
-        int id_publicacion = Integer.parseInt(idPublicacion); 
-        int id_comentario = Integer.parseInt(idComentario); 
+        int id_publicacion = Integer.parseInt(idPublicacion);
+        int id_comentario = Integer.parseInt(idComentario);
         ComentarioID idCom = new ComentarioID(id_publicacion, id_comentario);
         Comentario comentario = comentarioService.obtenerComentarioId(idCom);
         ArrayList<Comentario> comentarios = comentarioService.obtenerComentariosPublicacion(id_publicacion);
-        comentarios.remove(comentario); 
+        comentarios.remove(comentario);
         try{
             comentarioService.actualizarComentarios(comentarios, id_publicacion);
         } catch (Exception e) {}
-        return "redirect:/inicio/publicaciones/{idPublicacion}";                                     
+        return "redirect:/inicio/publicaciones/{idPublicacion}";
     }
 
     /* Eliminar comentario en una publicación comentario. */
     @RequestMapping(value = "/publicaciones_compartidas/{idPublicacion}/{idComentario}", method = RequestMethod.GET)
-    public String eliminarComentarioCompartida (@PathVariable("idPublicacion") String idPublicacion, 
-                                                @RequestParam("idComentario") String idComentario, 
+    public String eliminarComentarioCompartida (@PathVariable("idPublicacion") String idPublicacion,
+                                                @RequestParam("idComentario") String idComentario,
                                                 @AuthenticationPrincipal PersonaWrapper persona) {
         Persona actual = persona.getPersona();
-        int id_publicacion = Integer.parseInt(idPublicacion); 
+        int id_publicacion = Integer.parseInt(idPublicacion);
         int id_comentario = Integer.parseInt(idComentario);
         ComentarioID idCom = new ComentarioID(id_publicacion, id_comentario);
         Comentario comentario = comentarioService.obtenerComentarioId(idCom);

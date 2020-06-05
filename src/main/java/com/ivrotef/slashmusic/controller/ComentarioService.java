@@ -17,8 +17,9 @@ import com.ivrotef.slashmusic.controller.ComentarioRepository;
 import com.ivrotef.slashmusic.model.Comentario;
 import com.ivrotef.slashmusic.model.ComentarioID;
 
+@Service
 public class ComentarioService {
-    
+
     @PersistenceContext
     EntityManager entityManager;
 
@@ -61,15 +62,15 @@ public class ComentarioService {
         Comentario c = repository.save(comentario);
         return c;
     }
-  
+
       /* Elimina el comentario si se encuentra en la base de datos. */
-    public void eliminar (Comentario comentario) {  
+    public void eliminar (Comentario comentario) {
         Optional<Comentario> c = repository.findById(comentario.getComentarioID());
         if (c.isPresent()) {
           repository.deleteById(comentario.getComentarioID());
         }
     }
-  
+
       /* Si el comentario se encuentra en la base de datos lo actualiza. */
     public Comentario actualizar (Comentario comentario) throws SQLIntegrityConstraintViolationException {
         Optional<Comentario> c1 = repository.findById(comentario.getComentarioID());

@@ -19,51 +19,42 @@
 	<!-- Barra de navegacion  -->
   <div th:insert="fragments/common :: navbar"></div>
 
-  <div class="container pt-5">
-  <h2 th:text="Bienvenido + ' ' + ${currentUsername}"> </h2>
-  </div>
-
   <div class="card-deck" style="padding: 1rem;">
-    <tr th:each="cancion : ${canciones}">
-      <div class="card" style="padding: 2rem; min-width: 300px;">
+    <tr th:each="publicacion : ${publicaciones}">
+      <div class="container offset-md-3 pt-5">
+      <div class="card" style=" min-width: 400px; max-width: 600px;">
           <div class="card-body">
-            <h6 class="card-title" th:text="${cancion.nombre}"></h6>
-            <button class="btn btn-info" role="button" data-toggle="modal" data-target="#agregar"
-                th:attr="data-cancion=${cancion.nombre}"> Agregar a una lista </button>
+            <h6 class="card-title" th:text="${publicacion.descripcion}"></h6>
+          </div>
+          <div class="card-footer bg-transparent">
+            <div class="container pl-5">
+            <a class="btn btn-info" role="button" th:href="@{'publicaciones/compartir/' + ${publicacion.idPublicacion}}">Compartir</a>
+            <button class="btn btn-info" role="button" data-toggle="modal" data-target="#comentar"
+                th:attr="data-publicacion=${publicacion.idPublicacion}"> Comentar </button>
             <button id="botonPlay" class="btn btn-success" role="button"
-                th:attr="value=${cancion.archivo}" onclick="play(this.value)">Reproducir</button>
+                th:attr="value=${publicacion.cancionPublicacion.archivo}" onclick="play(this.value)">Reproducir</button>
+            <button class="btn btn-info" role="button" data-toggle="modal" data-target="#comentarios">Ver comentarios</button>
+            </div>
           </div>
       </div>
+    </div>
     </tr>
   </div>
 
-  <div class="modal fade" tabindex="-1" role="dialog" id="agregar">
+  <div class="modal fade" tabindex="-1" role="dialog" id="comentar">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">Escoge una lista para agregar</h5>
+          <h5 class="modal-title">Escribe tu comentario</h5>
         </div>
         <div class="modal-body">
-          <h6 class="modal-cancion" id="seleccionada"> Cancion </h6>
           <div class="form-group">
-            <div th:if="${hayListas}">
-              <select class="form-control" id="agregarListas">
-                <div th:each="lista : ${listas}">
-                <option th:value="${lista.listaID.nombreLista}" th:text="${lista.listaID.nombreLista}"></option>
-                </div>
-              </select>
-            </div>
-            <div th:unless="${hayListas}" >
-              <a type="button" class="btn btn-secondary" href ="listas/ver/"> Crear una lista </a>
-            </div>
+              <textarea id="comentario" rows="3" cols="40" type="text" class="form-control" ></textarea>
           </div>
-
         </div>
         <div class="modal-footer">
-          <div th:if="${hayListas}">
-            <a type="button" class="btn btn-success" id="guardar" onclick="insertar()">Guardar</a>
-          </div>
-          <a type="button" class="btn btn-secondary" href="/" >Cancelar</a>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" >Cancelar</button>
+          <a type="button" class="btn btn-success" id="guardar" onclick="insertar()">Guardar</a>
         </div>
       </div>
     </div>
@@ -72,9 +63,8 @@
 
   <script th:inline="javascript">
     function insertar() {
-      var cancion = document.getElementById('seleccionada').innerHTML;
-      var lista = $('#agregarListas').find("option:selected").val();
-      document.getElementById("guardar").href = "/listas/ver/" + lista + "/agregar/" + cancion;
+      var comentario = document.getElementById('comentario').value;
+      document.getElementById("guardar").href += "/comentar/" + comentario.toString();
     }
   </script>
 
@@ -82,16 +72,15 @@
 
 </body>
 
-  <div th:insert="fragments/common :: scriptAudio"></div>
+<script>
+$('#comentar').on('show.bs.modal', function (event) {
+  var button = $(event.relatedTarget)
+  var id = button.data('publicacion')
+  document.getElementById("guardar").href = "/publicaciones/" + id.toString()
+})
+</script>
 
-  <script>
-  $('#agregar').on('show.bs.modal', function (event) {
-      var boton = $(event.relatedTarget)
-      var cancion = boton.data('cancion');
-      var modal = $(this)
-      modal.find('.modal-cancion').text(cancion)
-  })
-  </script>
+  <div th:insert="fragments/common :: scriptAudio"></div>
 
 
 </html>

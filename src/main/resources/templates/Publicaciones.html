@@ -4,7 +4,7 @@
 
 <head>
 
-  <title> Publicaciones </title>
+<title> Inicio </title>
 
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -18,4 +18,95 @@
 <body>
 	<!-- Barra de navegacion  -->
   <div th:insert="fragments/common :: navbar"></div>
+
+
+  <div th:if="${hayPublicaciones}">
+    <div class="card-deck" style="padding: 1rem;">
+      <tr th:each="publicacion : ${publicaciones}">
+        <div class="container offset-md-3 pt-5">
+        <div class="card" style=" min-width: 400px; max-width: 600px;">
+            <div class="card-body">
+              <h6 class="card-title" th:text="${publicacion.descripcion}"></h6>
+              <!-- El creo la publicacion, entonces la puede eliminar -->
+              <div th:if="${current.correo == publicacion.usuarioPublicacion.correo}">
+                <button class="btn btn-danger offset-lg-9" role="button" data-toggle="modal" data-target="#confirmar"
+                    th:attr="data-publicacion=${publicacion.idPublicacion}, data-accion=eliminar"> Eliminar </button>
+              </div>
+            </div>
+            <div class="card-footer bg-transparent">
+              <div class="container pl-5">
+                <button class="btn btn-info" role="button" data-toggle="modal" data-target="#confirmar"
+                    th:attr="data-publicacion=${publicacion.idPublicacion}, data-accion=compartir"> Compartir </button>
+                <button class="btn btn-info" role="button" data-toggle="modal" data-target="#comentar"
+                    th:attr="data-publicacion=${publicacion.idPublicacion}"> Comentar </button>
+                <button id="botonPlay" class="btn btn-success" role="button"
+                    th:attr="value=${publicacion.cancionPublicacion.archivo}" onclick="play(this.value)">Reproducir</button>
+                <button class="btn btn-info" role="button" data-toggle="modal" data-target="#comentarios">Ver comentarios</button>
+                </div>
+            </div>
+        </div>
+      </div>
+      </tr>
+    </div>
+  </div>
+  <div th:unless="${hayPublicaciones}">
+    <h3> No hay publicaciones </h3>
+  </div>
+
+  <!-- Popup para agregar un comentario -->
+  <div class="modal fade" tabindex="-1" role="dialog" id="comentar">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Escribe tu comentario</h5>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+              <textarea id="comentario" rows="3" cols="40" type="text" class="form-control" ></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" >Cancelar</button>
+          <a type="button" class="btn btn-success" id="guardar" onclick="insertar()">Guardar</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Popup para confirmar una accion (eliminar, compartir)-->
+  <div th:insert="fragments/common :: confirmar-popup"></div>
+
+  <!-- Se quiere guardar el comentario -->
+  <script th:inline="javascript">
+    function insertar() {
+      var comentario = document.getElementById('comentario').value;
+      document.getElementById("guardar").href += "/" + comentario.toString();
+    }
+  </script>
+
+  <div th:insert="fragments/common :: music-bar"></div>
+
 </body>
+<!-- Se abrio el popup para añadir un comentario -->
+<script>
+$('#comentar').on('show.bs.modal', function (event) {
+  var button = $(event.relatedTarget)
+  var id = button.data('publicacion')
+  document.getElementById("guardar").href = "/inicio/comentar/" + id.toString()
+})
+</script>
+
+<!-- Se abrio el popup para confimar si elimina o comparte -->
+<script>
+$('#confirmar').on('show.bs.modal', function (event) {
+  var button = $(event.relatedTarget)
+  var accion = button.data('accion')
+  var idPublicacion = button.data('publicacion')
+  document.getElementById("aceptarPopup").href = "/inicio/publicaciones/" + accion.toString() + "/" + idPublicacion.toString()
+})
+</script>
+
+  <div th:insert="fragments/common :: scriptAudio"></div>
+
+
+</html>

@@ -59,6 +59,6 @@ public class LogInController {
       if (actual.getAdministrador() != null) {
         return "redirect:/admin/inicio";
       }
-      return "redirect:/inicio";
+      return "redirect:/inicio/ver";
     }
 }

@@ -17,9 +17,9 @@ import com.ivrotef.slashmusic.controller.PublicacionCompartidaRepository;
 import com.ivrotef.slashmusic.model.PublicacionCompartidaID;
 import com.ivrotef.slashmusic.model.PublicacionCompartida;
 
-
+@Service 
 public class PublicacionCompartidaService {
-    
+
     @PersistenceContext
     EntityManager entityManager;
 
@@ -69,15 +69,15 @@ public class PublicacionCompartidaService {
         PublicacionCompartida p = repository.save(publicacionCompartida);
         return p;
     }
-  
+
       /* Elimina la publicacion compartida si se encuentra en la base de datos. */
-    public void eliminar (PublicacionCompartida publicacionCompartida) {  
+    public void eliminar (PublicacionCompartida publicacionCompartida) {
         Optional<PublicacionCompartida> p = repository.findById(publicacionCompartida.getPublicacionCompartidaID());
         if (p.isPresent()) {
           repository.deleteById(publicacionCompartida.getPublicacionCompartidaID());
         }
     }
-  
+
       /* Si la publicacion compartida se encuentra en la base de datos lo actualiza. */
     public PublicacionCompartida actualizar (PublicacionCompartida publicacionCompartida) throws SQLIntegrityConstraintViolationException {
         Optional<PublicacionCompartida> p1 = repository.findById(publicacionCompartida.getPublicacionCompartidaID());
