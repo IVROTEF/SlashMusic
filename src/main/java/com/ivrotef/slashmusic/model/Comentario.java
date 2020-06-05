@@ -29,8 +29,9 @@ public class Comentario {
   public Comentario(){
   }
 
-  public Comentario (ComentarioID comentarioID) {
+  public Comentario (ComentarioID comentarioID, Usuario usuarioComentario) {
     this.comentarioID = comentarioID;
+    this.usuarioComentario = usuarioComentario;
   }
 
   public ComentarioID getComentarioID () {

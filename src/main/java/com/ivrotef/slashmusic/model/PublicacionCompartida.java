@@ -35,8 +35,9 @@ public class PublicacionCompartida {
   public PublicacionCompartida(){
   }
 
-  public PublicacionCompartida (PublicacionCompartidaID publicacionCompartidaID) {
+  public PublicacionCompartida (PublicacionCompartidaID publicacionCompartidaID, Usuario usuarioPC) {
     this.publicacionCompartidaID = publicacionCompartidaID;
+    this.usuarioPC = usuarioPC;
   }
 
   public PublicacionCompartidaID getPublicacionCompartidaID () {

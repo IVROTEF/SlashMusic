@@ -11,10 +11,10 @@ public class PublicacionCompartidaID implements Serializable {
   
   private static final long serialVersionUID = 1L; 
 
-  @Column(name = "id_publicacion")
+  @Column(name = "id_publicacion_original")
   private int idPublicacion;
 
-  @Column(name = "id_compartir")
+  @Column(name = "id_publicacion_compartida")
   private int idCompartir;
 
   public PublicacionCompartidaID () {
